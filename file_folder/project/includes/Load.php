@@ -60,6 +60,31 @@ class Load{
 
         return 'Thư mục';
     }
+
+    public function getTimeModify($fileName, $format='d/m/Y H:i:s'){
+        $path = $this->getPath($fileName);
+
+        $time = filectime($path);
+
+        if (!empty($time)) {
+            $date = date($format, $time);
+            return $date;
+        }
+
+        return '';
+    }
+
+    public function getPermission($fileName){
+        $path = $this->getPath($fileName);
+
+        $result = fileperms($path);
+
+        $result = sprintf('%o', $result);
+
+        $result = substr($result, -4);
+
+        return $result;
+    }
 }
 
 

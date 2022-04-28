@@ -1,1 +1,1 @@
-Unicode Academy
+Unicode Academy Training

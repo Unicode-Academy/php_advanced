@@ -10,23 +10,36 @@ $dataScan = $load->scanDir();
             <th>Dung lượng</th>
             <th>Cập nhật cuối</th>
             <th>Quyền</th>
-            <th>Hành động</th>
+            <th class="text-end">Hành động</th>
         </tr>
     </thead>
     <tbody>
         <?php
             if (!empty($dataScan)):
                 foreach ($dataScan as $item):
+                    if ($item!=='.DS_Store'):
                     $path = $load->getPath($item);
         ?>
         <tr>
             <td class="text-center"><input type="checkbox" class="check-item" /></td>
             <td><a href="?path=<?php echo $path; ?>"><?php echo $load->getTypeIcon($item).' '.$item; ?></a></td>
             <td><?php echo $load->getSize($item, 'KB'); ?></td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
+            <td><?php echo $load->getTimeModify($item); ?></td>
+            <td><?php echo $load->getPermission($item); ?></td>
+            <td class="text-end">
+                <?php if ($load->isType($path)=='file'): ?>
+                    <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <?php endif; ?>
+                <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-trash" aria-hidden="true"></i>
+                <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-files-o" aria-hidden="true"></i>
+                <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-link" aria-hidden="true"></i>
+                </a>
+                <?php if ($load->isType($path)=='file'): ?>
+                    <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-download" aria-hidden="true"></i></a>
+                <?php endif; ?>
+            </td>
         </tr>
-        <?php endforeach; endif; ?>
+        <?php endif; endforeach; endif; ?>
     </tbody>
 </table>
