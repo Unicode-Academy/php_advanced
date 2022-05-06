@@ -85,6 +85,16 @@ class Load{
 
         return $result;
     }
+
+    public static function getParentDir(){
+        $parentDir = '';
+
+        if (!empty($_GET['path'])){
+            $parentDir = urldecode($_GET['path']);
+        }
+
+        return $parentDir;
+    }
 }
 
 
