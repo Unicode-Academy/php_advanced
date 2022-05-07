@@ -6,30 +6,40 @@ $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 
 $msg = null;
 
-if ($type=='file'){
+$parentDir = Load::getParentDir();
 
-    if (!empty($name)){
-        //Kiểm tra file đúng định dạng
+if ($type=='file' || $type=='folder'){
 
-        $pattern = '~^[\w\s]+\.[a-z]+$~i';
-        if (preg_match($pattern, $name)){
+    if ($type=='file'){
 
-            $parentDir = Load::getParentDir();
+        if (!empty($name)){
+            //Kiểm tra file đúng định dạng
 
-            Make::createFile($parentDir, $name);
+            $pattern = '~^[\w\s]+\.[a-z]+$~i';
+            if (preg_match($pattern, $name)){
 
-            redirect('?path='.$parentDir);
+                Make::createFile($parentDir, $name);
+
+            }else{
+                $msg = 'Định dạng file không đúng';
+            }
+        }else{
+            $msg = 'Tên file bắt buộc phải nhập';
+        }
+
+    }else{
+        if (!empty($name)){
+
+            Make::createFolder($parentDir, $name);
 
         }else{
-            $msg = 'Định dạng file không đúng';
+            $msg = 'Tên folder bắt buộc phải nhập';
         }
-    }else{
-        $msg = 'Tên file bắt buộc phải nhập';
     }
 
-}else{
-
 }
+
+redirect('?path='.$parentDir);
 
 if (!empty($msg)){
     ?>
