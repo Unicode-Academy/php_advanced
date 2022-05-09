@@ -4,6 +4,8 @@ $load = new Load();
 $parentDir = Load::getParentDir();
 
 $dataScan = $load->scanDir($parentDir);
+
+
 ?>
 <table id="dataTable">
     <thead>
@@ -18,7 +20,9 @@ $dataScan = $load->scanDir($parentDir);
     </thead>
     <tbody>
         <?php
+            $load->back(); //Quay lại trang trước
             if (!empty($dataScan)):
+
                 foreach ($dataScan as $item):
                     if ($item!=='.DS_Store'):
                     $path = $load->getPath($item);

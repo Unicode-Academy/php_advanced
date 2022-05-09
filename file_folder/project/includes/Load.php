@@ -95,6 +95,20 @@ class Load{
 
         return $parentDir;
     }
+
+    public function back(){
+
+        $parentDir = self::getParentDir();
+
+        if (!empty($parentDir)){
+            echo '<tr>
+                    <td></td>
+                    <td colspan="5">
+                        <a href="#" onclick="event.preventDefault(); window.history.back();">...</a>
+                    </td>
+                </tr>';
+        }
+    }
 }
 
 
