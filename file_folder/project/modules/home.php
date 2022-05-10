@@ -5,8 +5,17 @@ $parentDir = Load::getParentDir();
 
 $dataScan = $load->scanDir($parentDir);
 
+if ($_SERVER['REQUEST_METHOD']=='POST'){
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 
+    $old = filter_input(INPUT_POST, 'old', FILTER_SANITIZE_SPECIAL_CHARS);
+
+    Make::rename($parentDir, $old, $name);
+
+    redirect('?path=');
+}
 ?>
+<form action="" method="post" id="form-filemanager">
 <table id="dataTable">
     <thead>
         <tr>
@@ -33,6 +42,11 @@ $dataScan = $load->scanDir($parentDir);
                         $targetPath = '';
                     }
 
+                    $dataTypeArr = [
+                            'type' => $load->isType($path),
+                            'name' => $item
+                    ];
+
         ?>
         <tr>
             <td class="text-center"><input type="checkbox" class="check-item" /></td>
@@ -45,7 +59,7 @@ $dataScan = $load->scanDir($parentDir);
                     <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-eye" aria-hidden="true"></i></a>
                     <?php endif; ?>
                 <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-trash" aria-hidden="true"></i>
-                <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <a href="#" class="btn btn-primary btn-sm mx-1 edit-action" data-type='<?php echo json_encode($dataTypeArr); ?>'><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-files-o" aria-hidden="true"></i>
                 <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-link" aria-hidden="true"></i>
                 </a>
@@ -57,3 +71,6 @@ $dataScan = $load->scanDir($parentDir);
         <?php endif; endforeach; endif; ?>
     </tbody>
 </table>
+    <input type="hidden" name="name" value="" />
+    <input type="hidden" name="old" value="" />
+</form>

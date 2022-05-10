@@ -53,9 +53,12 @@ class Load{
 
         if ($this->isType($path)!=='folder'){
 
-            $size = filesize($path);
+            if (file_exists($path)){
+                $size = filesize($path);
 
-            return round($size/1024, 2).' '.$unit;
+                return round($size/1024, 2).' '.$unit;
+            }
+
         }
 
         return 'Thư mục';
@@ -64,12 +67,16 @@ class Load{
     public function getTimeModify($fileName, $format='d/m/Y H:i:s'){
         $path = $this->getPath($fileName);
 
-        $time = filectime($path);
+        if (file_exists($path)){
+            $time = filectime($path);
 
-        if (!empty($time)) {
-            $date = date($format, $time);
-            return $date;
+            if (!empty($time)) {
+                $date = date($format, $time);
+                return $date;
+            }
+
         }
+
 
         return '';
     }
@@ -77,13 +84,16 @@ class Load{
     public function getPermission($fileName){
         $path = $this->getPath($fileName);
 
-        $result = fileperms($path);
+        if (file_exists($path)){
+            $result = fileperms($path);
 
-        $result = sprintf('%o', $result);
+            $result = sprintf('%o', $result);
 
-        $result = substr($result, -4);
+            $result = substr($result, -4);
 
-        return $result;
+            return $result;
+        }
+
     }
 
     public static function getParentDir(){

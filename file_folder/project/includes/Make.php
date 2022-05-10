@@ -9,4 +9,10 @@ class Make{
         $path = _DATA_DIR.'/'.$parentDir.'/'.$folderName;
         mkdir($path);
     }
+
+    public static function rename($parentDir, $old, $name){
+        $oldPath = _DATA_DIR.'/'.$parentDir.'/'.$old;
+        $newPath = _DATA_DIR.'/'.$parentDir.'/'.$name;
+        rename($oldPath, $newPath);
+    }
 }
