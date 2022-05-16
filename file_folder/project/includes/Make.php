@@ -15,4 +15,31 @@ class Make{
         $newPath = _DATA_DIR.'/'.$parentDir.'/'.$name;
         rename($oldPath, $newPath);
     }
+
+    public static function deleteFile($parentDir, $filename){
+        $path = _DATA_DIR.'/'.$parentDir.'/'.$filename;
+        if (file_exists($path)){
+            unlink($path);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function deleteFolder($parentDir, $name){
+        $path = _DATA_DIR.'/'.$parentDir.'/'.$name;
+        if (is_dir($path)){
+            rmdir($path);
+            return true;
+        }
+
+        return false;
+    }
 }
+
+
+
+
+
+
+

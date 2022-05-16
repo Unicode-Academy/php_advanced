@@ -39,12 +39,12 @@ if ($type=='file' || $type=='folder'){
 
 }
 
-redirect('?path='.$parentDir);
-
 if (!empty($msg)){
     ?>
     <div class="alert alert-danger text-center">
         <?php echo $msg; ?>
     </div>
     <?php
+}else{
+    redirect('?path='.$parentDir);
 }
