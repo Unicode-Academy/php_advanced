@@ -113,9 +113,13 @@ class Load{
         if (!empty($parentDir)){
             echo '<tr>
                     <td></td>
-                    <td colspan="5">
+                    <td>
                         <a href="#" onclick="event.preventDefault(); window.history.back();">...</a>
                     </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>';
         }
     }

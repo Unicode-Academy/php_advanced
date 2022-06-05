@@ -36,10 +36,12 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
                     if ($item!=='.DS_Store'):
                     $path = $load->getPath($item);
 
+
                     if ($load->isType($path)=='folder'){
                         $targetPath = str_replace(_DATA_DIR.'/', '', $path);
                     }else{
-                        $targetPath = '';
+                        //$targetPath = '';
+                        $targetPath = str_replace(_DATA_DIR.'/', '', $path);
                     }
 
                     $dataTypeArr = [
@@ -61,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
                 <a href="?module=remove_item&type=action&path=<?php echo $parentDir; ?>&filename=<?php echo urlencode($item); ?>" onclick="return confirm('Bạn có chắc chắn?');" class="btn btn-primary btn-sm mx-1"><i class="fa fa-trash" aria-hidden="true"></i>
                 <a href="#" class="btn btn-primary btn-sm mx-1 edit-action" data-type='<?php echo json_encode($dataTypeArr); ?>'><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-files-o" aria-hidden="true"></i>
-                <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-link" aria-hidden="true"></i>
+                <a href="#" data-link="<?php echo getUrl(urlencode($targetPath)); ?>" class="btn btn-primary btn-sm mx-1 get-link"><i class="fa fa-link" aria-hidden="true"></i>
                 </a>
                 <?php if ($load->isType($path)=='file'): ?>
                     <a href="#" class="btn btn-primary btn-sm mx-1"><i class="fa fa-download" aria-hidden="true"></i></a>

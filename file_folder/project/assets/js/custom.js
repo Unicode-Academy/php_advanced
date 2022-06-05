@@ -27,4 +27,19 @@ $(document).ready(function() {
             alert('Vui lòng nhập tên');
         }
     });
+
+    //Xử lý lấy link
+    $('.get-link').on('click', function(e){
+        e.preventDefault();
+        let link = $(this).data('link');
+        window.prompt('Link', link);
+    });
 } );
+
+
+
+
+
+
+
+
