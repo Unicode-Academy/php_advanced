@@ -6,6 +6,7 @@ if (empty($_GET['type'])):
     <div class="container">
         <div class="row">
             <div class="col-8">
+                <?php if (empty($_GET['module'])): ?>
                 <a href="#" class="btn btn-outline-primary btn-sm"><i class="fa fa-check-square" aria-hidden="true"></i>
                     Chọn tất cả</a>
                 <a href="#" class="btn btn-outline-primary btn-sm"><i class="fa fa-window-close-o"
@@ -15,6 +16,7 @@ if (empty($_GET['type'])):
                     Xoá</a>
                 <a href="#" class="btn btn-outline-primary btn-sm"><i class="fa fa-files-o" aria-hidden="true"></i>
                     Copy</a>
+                <?php endif; ?>
             </div>
             <div class="col-4">
                 <p class="text-right">Copyright &copy; <?php echo date('Y'); ?> by Unicode Academy</p>

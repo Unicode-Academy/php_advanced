@@ -1,6 +1,6 @@
-#REGULAR EXPRESSION
+# REGULAR EXPRESSION
 
-##Regular Expression là gì?
+## Regular Expression là gì?
 
 Regular Expression (Biểu thức chính quy) được dùng để xử lý chuỗi nâng cao thông qua biểu thức riêng của nó.
 

@@ -3,6 +3,12 @@ class Load{
 
     private $parentPath = null;
 
+    public function __construct($parentPath=null){
+        if (!empty($parentPath)){
+            $this->parentPath = _DATA_DIR.'/'.$parentPath;
+        }
+    }
+
     public function scanDir($parentDir=''){
         if (empty($parentDir)){
             $path = _DATA_DIR;
@@ -122,6 +128,25 @@ class Load{
                     <td></td>
                 </tr>';
         }
+    }
+
+    public function getFilename($path){
+        return basename($path);
+    }
+
+    public function getFileType($fileName){
+        $path = $this->getPath($fileName);
+
+        if ($this->isType($path)!=='folder'){
+
+            if (file_exists($path)){
+
+                return mime_content_type($path);
+            }
+
+        }
+
+        return '';
     }
 }
 

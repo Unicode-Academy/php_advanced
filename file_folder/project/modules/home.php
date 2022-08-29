@@ -38,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
 
 
                     if ($load->isType($path)=='folder'){
-                        $targetPath = str_replace(_DATA_DIR.'/', '', $path);
+                        $targetPath = '?path='.urlencode(str_replace(_DATA_DIR.'/', '', $path));
                     }else{
-                        //$targetPath = '';
-                        $targetPath = str_replace(_DATA_DIR.'/', '', $path);
+
+                       $targetPath = '?module=view_file&path='.str_replace(_DATA_DIR.'/', '', $path);
                     }
 
                     $dataTypeArr = [
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
         ?>
         <tr>
             <td class="text-center"><input type="checkbox" class="check-item" /></td>
-            <td><a href="?path=<?php echo urlencode($targetPath); ?>"><?php echo $load->getTypeIcon($item).' '.$item; ?></a></td>
+            <td><a href="<?php echo $targetPath; ?>"><?php echo $load->getTypeIcon($item).' '.$item; ?></a></td>
             <td><?php echo $load->getSize($item, 'KB'); ?></td>
             <td><?php echo $load->getTimeModify($item); ?></td>
             <td><?php echo $load->getPermission($item); ?></td>
