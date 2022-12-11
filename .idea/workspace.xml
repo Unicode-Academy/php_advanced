@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6ceac1a3-b920-4680-b2fe-683e82506c55" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/file_folder/project/data/basic-invoice.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_folder/project/includes/Load.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/includes/Load.php" afterDir="false" />
     </list>
@@ -181,26 +186,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/xampp/htdocs/php_advanced/file_folder/project/data",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\php_advanced\file_folder\project\data" />
+      <recent name="$PROJECT_DIR$/file_folder/project/assets/js" />
+      <recent name="$PROJECT_DIR$/file_folder/project/assets/css" />
+      <recent name="$PROJECT_DIR$/oop/documents/images" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/file_folder/data/courses/infomation" />
       <recent name="$PROJECT_DIR$/file_folder/data" />
       <recent name="$PROJECT_DIR$/oop" />
       <recent name="$PROJECT_DIR$/regular_expression/practice/users/modules" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/file_folder/project/assets/js" />
-      <recent name="$PROJECT_DIR$/file_folder/project/assets/css" />
-      <recent name="$PROJECT_DIR$/oop/documents/images" />
     </key>
   </component>
   <component name="RunManager">
@@ -312,6 +324,7 @@
       <workItem from="1662391063042" duration="205000" />
       <workItem from="1662690187024" duration="746000" />
       <workItem from="1664442486711" duration="972000" />
+      <workItem from="1670747890539" duration="1199000" />
     </task>
     <servers />
   </component>
@@ -364,6 +377,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/file_folder/project/assets/js/custom.js">
