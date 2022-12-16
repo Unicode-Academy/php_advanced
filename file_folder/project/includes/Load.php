@@ -5,7 +5,7 @@ class Load{
 
     public function __construct($parentPath=null){
         if (!empty($parentPath)){
-            $this->parentPath = _DATA_DIR.'/'.$parentPath;
+            $this->parentPath = $parentPath!='.' ? _DATA_DIR.'/'.$parentPath:_DATA_DIR;
         }
     }
 

@@ -1,5 +1,6 @@
 <?php
 $parentDir = dirname(Load::getParentDir());
+
 $load = new Load($parentDir);
 $path = filter_input(
         INPUT_GET,
@@ -15,5 +16,20 @@ if (!empty($path)){
     echo '<p>File size: '.$load->getSize($filename, 'KB').'</p>';
 
     echo '<p>MIME-type: '.$load->getFileType($filename).'</p>';
+
+    echo '<ul class="list-unstyled d-flex gap-2">
+<li><a href="?module=download_file&path='.$load->getPath($filename).'"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download</a></li>
+<li><a target="_blank" href="'.$load->getPath($filename).'"><i class="fa fa-external-link" aria-hidden="true"></i> Open</a></li>
+<li><a href="#" onclick="event.preventDefault(); window.history.back();"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back</a></li>
+</ul>';
+
+    if (strpos($load->getFileType($filename), 'officedocument')!==false){
+        echo '<iframe style="width: 100%; height: 600px" src="https://docs.google.com/gview?url=http://remote.url.tld/path/to/document.doc&embedded=true"></iframe>';
+    }
+
+    if (strpos($load->getFileType($filename), 'text')!==false){
+        echo '<pre><code>';
+        echo file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/'.dirname($_SERVER['PHP_SELF']).'/'.$load->getPath($filename));
+        echo '</code></pre>';
+    }
 }
-?>
