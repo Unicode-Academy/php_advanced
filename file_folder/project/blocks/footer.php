@@ -72,5 +72,7 @@ $parentDir = Load::getParentDir();
 <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script type="text/javascript" src="assets/js/custom.js?ver=<?php echo rand(); ?>"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 </body>
 </html>

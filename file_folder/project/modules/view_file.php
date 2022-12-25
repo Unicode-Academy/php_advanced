@@ -23,13 +23,37 @@ if (!empty($path)){
 <li><a href="#" onclick="event.preventDefault(); window.history.back();"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back</a></li>
 </ul>';
 
-    if (strpos($load->getFileType($filename), 'officedocument')!==false){
+    if (strpos($load->getFileType($filename), 'officedocument')!==false || strpos($load->getFileType($filename), 'pdf')!==false){
         echo '<iframe style="width: 100%; height: 600px" src="https://docs.google.com/gview?url=http://remote.url.tld/path/to/document.doc&embedded=true"></iframe>';
     }
 
     if (strpos($load->getFileType($filename), 'text')!==false){
-        echo '<pre><code>';
-        echo file_get_contents('http://'.$_SERVER['HTTP_HOST'].'/'.dirname($_SERVER['PHP_SELF']).'/'.$load->getPath($filename));
+
+
+        $sourcePath = $load->getPath($filename);
+        $cachePath = './caches/'.md5(uniqid());
+        $check = false;
+        if (!empty($_COOKIE['view_file'])){
+            $file = json_decode($_COOKIE['view_file'], true);
+
+            if (!empty($file[$sourcePath])){
+                $check = true;
+                $cachePath = $file[$sourcePath];
+            }
+        }
+
+        if (!$check || !file_exists($cachePath)){
+            copy($sourcePath, $cachePath);
+        }
+
+        echo '<pre><code class="">';
+        $contentFile = file_get_contents($cachePath);
+        $contentFile = htmlentities($contentFile);
+        echo $contentFile;
         echo '</code></pre>';
+        $file = [
+            $sourcePath => $cachePath
+        ];
+        setcookie('view_file', json_encode($file), 0, '/');
     }
 }
