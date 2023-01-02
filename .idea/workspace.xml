@@ -5,17 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ceac1a3-b920-4680-b2fe-683e82506c55" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/file_folder/project/data/ex01.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_folder/project/data/ex14.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/file_folder/project/note.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_folder/project/data/Images/Screenshot_20221227_010842.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_folder/project/data/Screenshot_20221231_110256.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file_folder/project/data/custom.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_folder/project/blocks/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/blocks/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_folder/project/blocks/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/blocks/header.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_folder/project/data/file1.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/data/file1.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_folder/project/caches/085788d8b01e6742dcd81384e2facc19" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_folder/project/caches/2608d33601bdc91e17a51655185e90c4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_folder/project/caches/26a33299a2c71b6a7f2898287fd5205e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_folder/project/caches/4b1d1052c724abc0ee5ebd67d095a50d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_folder/project/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/config.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_folder/project/includes/Load.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/includes/Load.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_folder/project/modules/home.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/modules/home.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_folder/project/modules/view_file.php" beforeDir="false" afterPath="$PROJECT_DIR$/file_folder/project/modules/view_file.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/oop/ex04.php" beforeDir="false" afterPath="$PROJECT_DIR$/oop/ex04.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,9 +106,9 @@
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsFlowSettings">
+    <option name="otherServicesEnabled" value="false" />
+    <option name="typeCheckingEnabled" value="false" />
     <service-enabled>false</service-enabled>
-    <exe-path />
-    <annotation-enable>false</annotation-enable>
     <other-services-enabled>false</other-services-enabled>
   </component>
   <component name="JsGulpfileManager">
@@ -211,6 +212,7 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\php_advanced\file_folder\project\data" />
+      <recent name="C:\xampp\htdocs\php_advanced\file_folder\project\data\Images" />
       <recent name="$PROJECT_DIR$/file_folder/project/assets/js" />
       <recent name="$PROJECT_DIR$/file_folder/project/assets/css" />
       <recent name="$PROJECT_DIR$/oop/documents/images" />
@@ -335,7 +337,10 @@
       <workItem from="1670952994610" duration="3998000" />
       <workItem from="1671210860708" duration="213000" />
       <workItem from="1671964319977" duration="2229000" />
-      <workItem from="1671982307550" duration="6990000" />
+      <workItem from="1671982307550" duration="7352000" />
+      <workItem from="1671996327589" duration="79000" />
+      <workItem from="1672070699894" duration="6000" />
+      <workItem from="1672652573342" duration="2208000" />
     </task>
     <servers />
   </component>

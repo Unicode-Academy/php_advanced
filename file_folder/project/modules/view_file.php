@@ -23,13 +23,10 @@ if (!empty($path)){
 <li><a href="#" onclick="event.preventDefault(); window.history.back();"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Back</a></li>
 </ul>';
 
-    if (strpos($load->getFileType($filename), 'officedocument')!==false || strpos($load->getFileType($filename), 'pdf')!==false){
-        echo '<iframe style="width: 100%; height: 600px" src="https://docs.google.com/gview?url=http://remote.url.tld/path/to/document.doc&embedded=true"></iframe>';
-    }
+    if ($load->isFileType($filename, 'officedocument') || $load->isFileType($filename, 'pdf') || $load->isFileType($filename, 'image')){
 
-    if (strpos($load->getFileType($filename), 'text')!==false){
-
-
+        echo '<iframe style="width: 100%; height: 600px" src="https://docs.google.com/gview?url='.$load->getFilenameUrl($filename).'&embedded=true"></iframe>';
+    }elseif($load->isFileType($filename, 'text')){
         $sourcePath = $load->getPath($filename);
         $cachePath = './caches/'.md5(uniqid());
         $check = false;
@@ -55,5 +52,8 @@ if (!empty($path)){
             $sourcePath => $cachePath
         ];
         setcookie('view_file', json_encode($file), 0, '/');
+    }else{
+        echo '<p>Không có xem trước</p>';
     }
+
 }

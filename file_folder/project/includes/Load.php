@@ -149,6 +149,16 @@ class Load{
 
         return '';
     }
+
+    public function getFilenameUrl($filename){
+        $path = $this->getPath($filename);
+        $path = preg_replace('~^\.\/~', '', $path);
+        return _BASE_URL.'/'.$path;
+    }
+
+    public function isFileType($filename, $type){
+        return strpos($this->getFileType($filename), $type)!==false;
+    }
 }
 
 
