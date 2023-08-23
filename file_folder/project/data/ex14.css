@@ -1,0 +1,78 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+html{
+    height: 2000px;
+    /* scroll-behavior: smooth; */
+}
+
+a{
+    color: #333;
+    text-decoration: none;
+}
+
+ul, li{
+    list-style: none;
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header .header__inner{
+    text-align: center;
+    padding: 10px 0;
+}
+
+.header.menu-fixed nav.menu{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+nav.menu{
+    background: green;
+    transition: all 0.4s linear;
+}
+
+nav.menu ul{
+    display: flex;
+    gap: 10px;
+}
+
+nav.menu li a{
+    display: block;
+    color: #fff;
+    padding: 5px 20px;
+}
+
+nav.menu li.active a{
+    color: yellow
+}
+
+.backtotop{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 100;
+}
+
+.backtotop button{
+    background-color: red;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    display: none;
+}
+
+.backtotop button.show{
+    display: block;
+}
+
+section{
+    height: 100vh;
+}

@@ -1,0 +1,4 @@
+Giải pháp đọc file text
+
+Copy các file gốc thành 1 file khác => Lưu vào 1 folder cache
+Đọc file từ folder cache
