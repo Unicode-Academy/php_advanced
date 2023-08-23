@@ -1,0 +1,8 @@
+.header {
+  border-bottom: 1px solid #ccc;
+}
+
+.header img {
+  max-width: 150px;
+  height: auto;
+}
