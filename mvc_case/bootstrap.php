@@ -43,6 +43,9 @@ if (!empty($config['app']['service'])) {
     }
 }
 
+//Load Lib
+require_once 'core/Hash.php';
+
 //Load Service Provider Class
 require_once 'core/ServiceProvider.php';
 
