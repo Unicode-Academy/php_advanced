@@ -18,4 +18,13 @@ class User extends Model
         return 'id';
     }
 
+    public function getUsers()
+    {
+        return $this->db
+            ->table($this->tableFill())
+            ->select('users.*, groups.name as group_name')
+            ->orderBy('users.created_at', 'DESC')
+            ->join('groups', 'users.group_id=groups.id')
+            ->get();
+    }
 }

@@ -41,58 +41,38 @@
         </tr>
     </thead>
     <tbody>
+        @if ($users)
+        @foreach ($users as $user)
         <tr>
             <td>
-                <input type="checkbox">
+                <input type="checkbox" value="{{$user['id']}}">
             </td>
             <td>
-                Hoàng An
+                {{$user['name']}}
             </td>
             <td>
-                hoangan.web@gmail.com
+                {{$user['email']}}
             </td>
             <td>
-                Administrator
+                {{$user['group_name']}}
             </td>
             <td>
-                <span class="badge bg-success">Kích hoạt</span>
+                {! $user['status'] == 1 ? '<span class="badge bg-success">Kích hoạt</span>': '<span
+                    class="badge bg-danger">Chưa kích hoạt</span>' !}
             </td>
             <td>
-                02/09/2023 <br /> 05:00:00
+                {{getDateFormat($user['created_at'], "d/m/Y")}} <br />
+                {{getDateFormat($user['created_at'], "H:i:s")}}
             </td>
             <td>
-                <a href="#" class="btn btn-success btn-sm">Sửa</a>
+                <a href="{{_WEB_ROOT.'/admin/users/edit/'.$user['id']}}" class="btn btn-success btn-sm">Sửa</a>
             </td>
             <td>
-                <a href="#" class="btn btn-danger btn-sm">Xóa</a>
+                <a href="{{_WEB_ROOT.'/admin/users/delete/'.$user['id']}}" class="btn btn-danger btn-sm">Xóa</a>
             </td>
         </tr>
-        <tr>
-            <td>
-                <input type="checkbox">
-            </td>
-            <td>
-                Hoàng An
-            </td>
-            <td>
-                hoangan.web@gmail.com
-            </td>
-            <td>
-                Administrator
-            </td>
-            <td>
-                <span class="badge bg-success">Kích hoạt</span>
-            </td>
-            <td>
-                02/09/2023 <br /> 05:00:00
-            </td>
-            <td>
-                <a href="#" class="btn btn-success btn-sm">Sửa</a>
-            </td>
-            <td>
-                <a href="#" class="btn btn-danger btn-sm">Xóa</a>
-            </td>
-        </tr>
+        @endforeach
+        @endif
     </tbody>
 </table>
 <div class="row">
