@@ -18,13 +18,27 @@ class User extends Model
         return 'id';
     }
 
-    public function getUsers()
+    public function getUsers($filters = [], $keyword = '')
     {
-        return $this->db
+
+        $users = $this->db
             ->table($this->tableFill())
             ->select('users.*, groups.name as group_name')
             ->orderBy('users.created_at', 'DESC')
-            ->join('groups', 'users.group_id=groups.id')
-            ->get();
+            ->join('groups', 'users.group_id=groups.id');
+
+        if (!empty($filters)) {
+            foreach ($filters as $key => $value) {
+                $users->where($key, '=', $value);
+            }
+        }
+
+        if (!empty($keyword)) {
+            $users->whereLike('users.name', "%$keyword%");
+        }
+
+        $users = $users->get();
+        return $users;
+
     }
 }

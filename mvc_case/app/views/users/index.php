@@ -8,17 +8,31 @@
         <div class="col-3">
             <select name="status" class="form-select">
                 <option value="all">Tất cả trạng thái</option>
-                <option value="active">Kích hoạt</option>
-                <option value="inactive">Chưa kích hoạt</option>
+                <option value="active"
+                    {{isset($request->getFields()['status']) && $request->getFields()['status'] == 'active' ? 'selected': ''}}>
+                    Kích hoạt
+                </option>
+                <option value="inactive"
+                    {{isset($request->getFields()['status']) && $request->getFields()['status'] == 'inactive' ? 'selected': ''}}>
+                    Chưa kích
+                    hoạt</option>
             </select>
         </div>
         <div class="col-3">
             <select name="group_id" class="form-select">
                 <option value="0">Tất cả nhóm</option>
+                @if ($groups)
+                @foreach ($groups as $group)
+                <option value="{{$group['id']}}"
+                    {{isset($request->getFields()['group_id']) && $request->getFields()['group_id'] == $group['id'] ? 'selected': ''}}>
+                    {{$group['name']}}</option>
+                @endforeach
+                @endif
             </select>
         </div>
         <div class="col-4">
-            <input type="search" class="form-control" placeholder="Từ khóa..." />
+            <input type="search" name="keyword" class="form-control" placeholder="Từ khóa..."
+                value="{{$request->getFields()['keyword'] ?? ''}}" />
         </div>
         <div class="col-2 d-grid">
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
