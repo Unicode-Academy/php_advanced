@@ -34,7 +34,13 @@ class User extends Model
         }
 
         if (!empty($keyword)) {
-            $users->whereLike('users.name', "%$keyword%");
+
+            $users->where(function ($query) use ($keyword) {
+                $query
+                    ->where('users.name', 'like', "%$keyword%")
+                    ->orWhere('users.email', 'like', "%$keyword%");
+            });
+
         }
 
         $users = $users->get();
