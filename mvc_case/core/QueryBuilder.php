@@ -9,6 +9,8 @@ trait QueryBuilder
     public $limit = '';
     public $orderBy = '';
     public $innerJoin = '';
+    private $sqlPaginate = '';
+    private $resetQuery = true;
 
     public function table($tableName)
     {
@@ -107,16 +109,55 @@ trait QueryBuilder
         $sqlQuery = "SELECT $this->selectField FROM $this->tableName $this->innerJoin $this->where $this->orderBy $this->limit";
         $sqlQuery = trim($sqlQuery);
 
+        $this->sqlPaginate = "SELECT $this->selectField FROM $this->tableName $this->innerJoin $this->where";
+        $this->sqlPaginate = trim($this->sqlPaginate);
+
         $query = $this->query($sqlQuery);
 
         //Reset field
-        $this->resetQuery();
+        if ($this->resetQuery) {
+            $this->resetQuery();
+        }
 
         if (!empty($query)) {
 
             return $query->fetchAll(PDO::FETCH_ASSOC);
         }
         return false;
+    }
+
+    public function paginate($limit)
+    {
+
+        $request = new Request();
+        $fields = $request->getFields();
+        $page = !empty($fields['page']) ? $fields['page'] : 1;
+        $offset = ($page - 1) * $limit;
+        $this->resetQuery = false;
+        $result = $this->limit($limit, $offset)->get();
+        $paginateView = $this->getPaginateView($limit, $page);
+        $this->resetQuery();
+        $this->resetQuery = true;
+        return [
+            'data' => $result,
+            'link' => $paginateView,
+        ];
+    }
+
+    private function getPaginateView($limit, $page = 1)
+    {
+        $query = $this->query($this->sqlPaginate);
+        $totalRows = $query->rowCount();
+
+        $totalPage = ceil($totalRows / $limit);
+
+        $pageHtml = '';
+        for ($i = 1; $i <= $totalPage; $i++) {
+            $pageHtml .= '<li class="page-item ' . ($page == $i ? 'active' : null) . '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+        }
+
+        $html = '<nav class="d-flex justify-content-end"><ul class="pagination pagination-sm"><li class="page-item"><a class="page-link" href="#">Trước</a></li>' . $pageHtml . '<li class="page-item"><a class="page-link" href="#">Sau</a></li></ul></nav>';
+        return $html;
     }
 
     //Inner join
@@ -186,6 +227,7 @@ trait QueryBuilder
         $this->limit = '';
         $this->orderBy = '';
         $this->innerJoin = '';
+        $this->sqlPaginate = '';
     }
 
 }

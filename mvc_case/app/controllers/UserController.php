@@ -29,23 +29,28 @@ class UserController extends Controller
             // echo $group_id . '<br/>';
             // echo $keyword . '<br/>';
 
-            if ($status == 'active' || $status == 'inactive') {
+            if (isset($status) && ($status == 'active' || $status == 'inactive')) {
                 $filters['status'] = $status == 'active' ? 1 : 0;
             }
 
-            if ($group_id) {
+            if (isset($group_id)) {
                 $filters['group_id'] = $group_id;
             }
 
         }
 
-        $users = $this->userModel->getUsers($filters, $keyword ?? '');
+        $userPaginate = $this->userModel->getUsers($filters, $keyword ?? '');
+
+        $users = $userPaginate['data'];
+
+        $links = $userPaginate['link'];
 
         $groups = $this->groupModel->getGroups();
 
         $this->data['dataView']['users'] = $users;
         $this->data['dataView']['groups'] = $groups;
         $this->data['dataView']['request'] = $request;
+        $this->data['dataView']['links'] = $links;
 
         $this->render('layouts/layout', $this->data);
     }

@@ -43,7 +43,7 @@ class User extends Model
 
         }
 
-        $users = $users->get();
+        $users = $users->paginate(3);
         return $users;
 
     }
