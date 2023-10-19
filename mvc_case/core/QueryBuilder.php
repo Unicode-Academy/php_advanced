@@ -126,7 +126,7 @@ trait QueryBuilder
         return false;
     }
 
-    public function paginate($limit)
+    public function paginate($limit, $isQuery = true)
     {
 
         $request = new Request();
@@ -135,7 +135,7 @@ trait QueryBuilder
         $offset = ($page - 1) * $limit;
         $this->resetQuery = false;
         $result = $this->limit($limit, $offset)->get();
-        $paginateView = $this->getPaginateView($limit, $page);
+        $paginateView = $this->getPaginateView($limit, $page, $isQuery);
         $this->resetQuery();
         $this->resetQuery = true;
         return [
@@ -144,8 +144,25 @@ trait QueryBuilder
         ];
     }
 
-    private function getPaginateView($limit, $page = 1)
+    private function getPaginateLink($page, $isQuery)
     {
+
+        if (!empty($_SERVER['QUERY_STRING']) && $isQuery) {
+            $queryString = trim($_SERVER['QUERY_STRING']);
+            parse_str($queryString, $params);
+            $params['page'] = $page;
+        } else {
+            $params = ['page' => $page];
+        }
+
+        $link = http_build_query($params);
+        $link = strpos($link, '?') !== false ? $link : '?' . $link;
+        return $link;
+    }
+
+    private function getPaginateView($limit, $page = 1, $isQuery)
+    {
+
         $query = $this->query($this->sqlPaginate);
         $totalRows = $query->rowCount();
 
@@ -153,7 +170,7 @@ trait QueryBuilder
 
         $pageHtml = '';
         for ($i = 1; $i <= $totalPage; $i++) {
-            $pageHtml .= '<li class="page-item ' . ($page == $i ? 'active' : null) . '"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+            $pageHtml .= '<li class="page-item ' . ($page == $i ? 'active' : null) . '"><a class="page-link" href="' . $this->getPaginateLink($i, $isQuery) . '">' . $i . '</a></li>';
         }
 
         $html = '<nav class="d-flex justify-content-end"><ul class="pagination pagination-sm"><li class="page-item"><a class="page-link" href="#">Trước</a></li>' . $pageHtml . '<li class="page-item"><a class="page-link" href="#">Sau</a></li></ul></nav>';

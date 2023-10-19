@@ -25,15 +25,12 @@ class UserController extends Controller
 
         if (!empty($query)) {
             extract($query);
-            // echo $status . '<br/>';
-            // echo $group_id . '<br/>';
-            // echo $keyword . '<br/>';
-
+     
             if (isset($status) && ($status == 'active' || $status == 'inactive')) {
                 $filters['status'] = $status == 'active' ? 1 : 0;
             }
 
-            if (isset($group_id)) {
+            if (!empty($group_id)) {
                 $filters['group_id'] = $group_id;
             }
 
