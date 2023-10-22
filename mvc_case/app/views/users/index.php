@@ -94,6 +94,7 @@
         <button class="btn btn-danger disabled">Xóa đã chọn (0)</button>
     </div>
     <div class="col-6">
-        {! $links !}
+        <nav class="d-flex justify-content-end"> {! $links !}</nav>
+
     </div>
 </div>

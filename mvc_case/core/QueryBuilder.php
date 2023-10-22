@@ -135,46 +135,14 @@ trait QueryBuilder
         $offset = ($page - 1) * $limit;
         $this->resetQuery = false;
         $result = $this->limit($limit, $offset)->get();
-        $paginateView = $this->getPaginateView($limit, $page, $isQuery);
+        $query = $this->query($this->sqlPaginate);
+        $paginateView = Paginate::render($query, $limit, $page, $isQuery);
         $this->resetQuery();
         $this->resetQuery = true;
         return [
             'data' => $result,
             'link' => $paginateView,
         ];
-    }
-
-    private function getPaginateLink($page, $isQuery)
-    {
-
-        if (!empty($_SERVER['QUERY_STRING']) && $isQuery) {
-            $queryString = trim($_SERVER['QUERY_STRING']);
-            parse_str($queryString, $params);
-            $params['page'] = $page;
-        } else {
-            $params = ['page' => $page];
-        }
-
-        $link = http_build_query($params);
-        $link = strpos($link, '?') !== false ? $link : '?' . $link;
-        return $link;
-    }
-
-    private function getPaginateView($limit, $page = 1, $isQuery)
-    {
-
-        $query = $this->query($this->sqlPaginate);
-        $totalRows = $query->rowCount();
-
-        $totalPage = ceil($totalRows / $limit);
-
-        $pageHtml = '';
-        for ($i = 1; $i <= $totalPage; $i++) {
-            $pageHtml .= '<li class="page-item ' . ($page == $i ? 'active' : null) . '"><a class="page-link" href="' . $this->getPaginateLink($i, $isQuery) . '">' . $i . '</a></li>';
-        }
-
-        $html = '<nav class="d-flex justify-content-end"><ul class="pagination pagination-sm"><li class="page-item"><a class="page-link" href="#">Trước</a></li>' . $pageHtml . '<li class="page-item"><a class="page-link" href="#">Sau</a></li></ul></nav>';
-        return $html;
     }
 
     //Inner join
