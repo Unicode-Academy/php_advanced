@@ -18,7 +18,7 @@ class User extends Model
         return 'id';
     }
 
-    public function getUsers($filters = [], $keyword = '')
+    public function getUsers($filters = [], $keyword = '', $limit)
     {
 
         $users = $this->db
@@ -43,7 +43,7 @@ class User extends Model
 
         }
 
-        $users = $users->paginate(3);
+        $users = $users->paginate($limit);
         return $users;
 
     }
