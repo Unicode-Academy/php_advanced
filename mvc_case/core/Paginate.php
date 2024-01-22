@@ -29,27 +29,22 @@ class Paginate
         return $view;
     }
 
-    public static function render($query, $limit, $page, $isQuery)
+    public static function render($query, $limit, $page, $totalPage, $isQuery)
     {
-
-        $totalRows = $query->rowCount();
-
-        $totalPage = ceil($totalRows / $limit);
-
         $self = __CLASS__;
         $pageHtml = '';
 
         /*
         $begin = $page - 3;
         if ($begin <= 0) {
-            $begin = 1;
+        $begin = 1;
         }
 
         $end = $page + 3;
         if ($end > $totalPage) {
-            $end = $totalPage;
+        $end = $totalPage;
         }
-        */
+         */
         $begin = max(2, $page - 5);
         $end = min($page + 5, $totalPage);
 
@@ -61,11 +56,11 @@ class Paginate
 
 /*
 page = 1
-1 2 3 4 5 6 ... 20 
+1 2 3 4 5 6 ... 20
 
 page = 10
-1 ... 5 6 7 8 9 10 11 12 13 14 15 ... 20 
+1 ... 5 6 7 8 9 10 11 12 13 14 15 ... 20
 
 page = 19
-1 ... 14 15 16 17 18 19 20 
-*/
+1 ... 14 15 16 17 18 19 20
+ */

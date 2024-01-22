@@ -1,10 +1,10 @@
 <?php
-$config[ 'app' ] = [
+$config['app'] = [
     'service' => [],
     'routeMiddleware' => [],
     'globalMiddleware' => [],
     'boot' => [
         AppServiceProvider::class,
     ],
-    'page_limit' => 1
+    'page_limit' => 10
 ];
