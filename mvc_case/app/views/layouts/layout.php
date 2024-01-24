@@ -10,20 +10,21 @@
 </head>
 
 <body>
-    <?php $this->render('blocks/header');?>
+    <?php $this->render('blocks/header'); ?>
     <main class="py-3">
         <div class="container">
             <div class="row">
                 <div class="col-3">
-                    <?php $this->render('blocks/sidebar');?>
+                    <?php $this->render('blocks/sidebar'); ?>
                 </div>
                 <div class="col-9">
-                    <?php $this->render($body, $dataView);?>
+                    <?php $this->render($body, $dataView); ?>
                 </div>
             </div>
         </div>
     </main>
-    <?php $this->render('blocks/footer');?>
+    <?php $this->render('blocks/footer'); ?>
+    <script type="module" src="<?php echo _WEB_ROOT; ?>/public/assets/js/script.js"></script>
 </body>
 
 </html>

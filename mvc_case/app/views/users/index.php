@@ -25,7 +25,8 @@
                 @foreach ($groups as $group)
                 <option value="{{$group['id']}}"
                     {{isset($request->getFields()['group_id']) && $request->getFields()['group_id'] == $group['id'] ? 'selected': ''}}>
-                    {{$group['name']}}</option>
+                    {{$group['name']}}
+                </option>
                 @endforeach
                 @endif
             </select>
@@ -43,7 +44,7 @@
     <thead>
         <tr>
             <th width="5%">
-                <input type="checkbox" />
+                <input type="checkbox" class="check-all" />
             </th>
             <th>Tên</th>
             <th>Email</th>
@@ -59,7 +60,7 @@
         @foreach ($users as $user)
         <tr>
             <td>
-                <input type="checkbox" value="{{$user['id']}}">
+                <input type="checkbox" class="check-item" value="{{$user['id']}}">
             </td>
             <td>
                 {{$user['name']}}
@@ -91,7 +92,7 @@
 </table>
 <div class="row">
     <div class="col-6">
-        <button class="btn btn-danger disabled">Xóa đã chọn (0)</button>
+        <button class="btn btn-danger delete-selection disabled">Xóa đã chọn (<span>0</span>)</button>
     </div>
     <div class="col-6">
         <nav class="d-flex justify-content-end"> {! $links !}</nav>
