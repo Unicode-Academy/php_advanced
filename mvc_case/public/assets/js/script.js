@@ -1,5 +1,7 @@
 const checkAll = document.querySelector(".check-all");
 if (checkAll) {
+  let ids = [];
+  const idEl = document.querySelector(".ids");
   const deleteSelectionBtn = document.querySelector(".delete-selection");
   const renderDeleteBtn = (count) => {
     deleteSelectionBtn.children[0].innerText = count;
@@ -15,6 +17,13 @@ if (checkAll) {
     const status = e.target.checked;
     checkItems.forEach((item) => {
       item.checked = status;
+      if (status) {
+        if (!ids.includes(+item.value)) {
+          ids.push(+item.value);
+        }
+      } else {
+        ids = [];
+      }
     });
     if (status) {
       count = checkItems.length;
@@ -22,15 +31,24 @@ if (checkAll) {
       count = 0;
     }
     renderDeleteBtn(count);
+    idEl.value = ids.join();
   });
 
   checkItems.forEach((item) => {
     item.addEventListener("change", (e) => {
       const status = e.target.checked;
+
       if (status) {
         count++;
+        if (!ids.includes(+e.target.value)) {
+          ids.push(+e.target.value);
+        }
       } else {
         count--;
+        const index = ids.indexOf(+e.target.value);
+        if (index !== -1) {
+          ids.splice(index, 1);
+        }
       }
       if (checkItems.length === count) {
         checkAll.checked = true;
@@ -38,6 +56,30 @@ if (checkAll) {
         checkAll.checked = false;
       }
       renderDeleteBtn(count);
+      idEl.value = ids.join();
+    });
+  });
+
+  const deleteForm = document.querySelector(".deletes-form");
+  deleteForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        e.target.submit();
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+      }
     });
   });
 }
