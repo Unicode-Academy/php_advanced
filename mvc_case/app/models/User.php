@@ -40,11 +40,14 @@ class User extends Model
                     ->where('users.name', 'like', "%$keyword%")
                     ->orWhere('users.email', 'like', "%$keyword%");
             });
-
         }
 
         $users = $users->paginate($limit);
         return $users;
+    }
 
+    public function deletes($ids)
+    {
+        return $this->db->table($this->tableFill())->whereIn('id', $ids)->delete();
     }
 }

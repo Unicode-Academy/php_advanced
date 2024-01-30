@@ -1,13 +1,15 @@
 <?php
-class Response{
-    public function redirect($uri=''){
-        if (preg_match('~^(http|https)~is', $uri)){
+class Response
+{
+    public function redirect($uri = '')
+    {
+        if (preg_match('~^(http|https)~is', $uri)) {
             $url = $uri;
-        }else{
-            $url = _WEB_ROOT.'/'.$uri;
+        } else {
+            $url = _WEB_ROOT . $uri;
         }
 
-        header("Location: ".$url);
+        header("Location: " . $url);
         exit;
     }
 }

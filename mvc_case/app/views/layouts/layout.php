@@ -25,6 +25,19 @@
     </main>
     <?php $this->render('blocks/footer'); ?>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        <?php
+        if ($msg) :
+        ?>
+            Swal.fire({
+                icon: "<?php echo $msgType; ?>",
+                title: "<?php echo $msgType === 'success' ? 'Thành công' : "Đã có lỗi xảy ra..." ?>",
+                text: "<?php echo $msg ?>",
+            });
+        <?php
+        endif;
+        ?>
+    </script>
     <script type="module" src="<?php echo _WEB_ROOT; ?>/public/assets/js/script.js"></script>
 </body>
 

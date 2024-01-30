@@ -51,6 +51,8 @@ class UserController extends Controller
         $this->data['dataView']['groups'] = $groups;
         $this->data['dataView']['request'] = $request;
         $this->data['dataView']['links'] = $links;
+        $this->data['msg'] = Session::flash('msg');
+        $this->data['msgType'] = Session::flash('msg_type');
 
         $this->render('layouts/layout', $this->data);
     }
@@ -58,16 +60,21 @@ class UserController extends Controller
     public function deletes()
     {
         $request = new Request();
+        $response = new Response();
         if ($request->isPost()) {
             $body = $request->getFields();
-            if (!empty($body['ids'])) {
-                $ids = explode(',', $body['ids']);
-                echo '<pre>';
-                print_r($ids);
-                echo '</pre>';
+            if (empty($body['ids'])) {
+                //Gắn thông báo vào flash
+                Session::flash('msg', 'Vui lòng chọn người cần xóa');
+                Session::flash('msg_type', 'error');
+                return $response->redirect('/users');
             }
+            $ids = explode(',', $body['ids']);
+            $this->userModel->deletes($ids);
+            Session::flash('msg', 'Xóa người dùng thành công');
+            Session::flash('msg_type', 'success');
 
-            return;
+            return $response->redirect('/users');;
         }
         echo "Method not support";
     }

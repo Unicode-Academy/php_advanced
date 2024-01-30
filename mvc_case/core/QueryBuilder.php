@@ -38,6 +38,20 @@ trait QueryBuilder
         return $this;
     }
 
+    public function whereIn($field, $value = [])
+    {
+        if (empty($this->where)) {
+                $this->operator = ' WHERE ';
+            } else {
+                $this->operator = ' AND ';
+        }
+        $value = implode(',', $value);
+        $this->where .= "$this->operator $field IN ($value)";
+        $this->where = str_replace('( AND', 'AND (', $this->where);
+
+        return $this;
+    }
+
     public function orWhere($field, $compare, $value)
     {
         if ($field instanceof \Closure) {
@@ -191,6 +205,7 @@ trait QueryBuilder
     {
         $whereDelete = str_replace('WHERE', '', $this->where);
         $whereDelete = trim($whereDelete);
+        echo $whereDelete;
         $tableName = $this->tableName;
 
         $statusDelete = $this->deleteData($tableName, $whereDelete);
