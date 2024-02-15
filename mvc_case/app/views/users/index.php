@@ -1,7 +1,7 @@
 <h3>{{$pageTitle}}</h3>
 <hr>
 <div class="mb-3">
-    <a href="#" class="btn btn-primary">Thêm mới</a>
+    <a href="<?php echo _WEB_ROOT; ?>/users/create" class="btn btn-primary">Thêm mới</a>
 </div>
 <form class="mb-3" action="" method="get">
     <div class="row">

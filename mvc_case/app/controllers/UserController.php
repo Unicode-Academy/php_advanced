@@ -57,6 +57,31 @@ class UserController extends Controller
         $this->render('layouts/layout', $this->data);
     }
 
+    public function create()
+    {
+        $this->data['body'] = 'users/add';
+        $this->data['dataView']['pageTitle'] = 'Thêm người dùng';
+        $groups = $this->groupModel->getGroups();
+        $this->data['dataView']['groups'] = $groups;
+        $this->render('layouts/layout', $this->data);
+    }
+
+    public function store()
+    {
+        $request = new Request();
+        if (!$request->isPost()) {
+            echo 'Not Allow Method';
+            return;
+        }
+
+        $body = $request->getFields();
+        unset($body['confirm_password']);
+        $status = $this->userModel->addUser($body);
+        echo '<pre>';
+        print_r($status);
+        echo '</pre>';
+    }
+
     public function deletes()
     {
         $request = new Request();
