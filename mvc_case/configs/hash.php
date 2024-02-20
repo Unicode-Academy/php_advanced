@@ -1,4 +1,4 @@
 <?php
 $config['hash'] = [
-    'type' => 'bcrypts',
+    'type' => 'bcrypt',
 ];

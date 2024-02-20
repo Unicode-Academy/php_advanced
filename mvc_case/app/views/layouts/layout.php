@@ -29,11 +29,13 @@
         <?php
         if ($msg) :
         ?>
-            Swal.fire({
-                icon: "<?php echo $msgType; ?>",
-                title: "<?php echo $msgType === 'success' ? 'Thành công' : "Đã có lỗi xảy ra..." ?>",
-                text: "<?php echo $msg ?>",
-            });
+            setTimeout(() => {
+                Swal.fire({
+                    icon: "<?php echo $msgType; ?>",
+                    title: "<?php echo $msgType === 'success' ? 'Thành công' : "Đã có lỗi xảy ra..." ?>",
+                    text: "<?php echo $msg ?>",
+                });
+            }, 500)
         <?php
         endif;
         ?>
