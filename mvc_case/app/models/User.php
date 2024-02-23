@@ -55,4 +55,14 @@ class User extends Model
     {
         return $this->db->table($this->tableFill())->insert($data);
     }
+
+    public function getUser($id)
+    {
+        return $this->db->table($this->tableFill())->where('id', '=', $id)->first();
+    }
+
+    public function updateUser($data, $id)
+    {
+        return $this->db->table($this->tableFill())->where('id', '=', $id)->update($data);
+    }
 }

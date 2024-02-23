@@ -1,6 +1,8 @@
 <?php
 //UserController Controller
 
+use LDAP\Result;
+
 class UserController extends Controller
 {
 
@@ -121,6 +123,91 @@ class UserController extends Controller
         Session::flash('msg', 'Lỗi máy chủ. Vui lòng thử lại sau');
         Session::flash('msg_type', 'error');
         return (new Response())->redirect('/users/create');
+    }
+
+    public function edit($id)
+    {
+        $user = $this->userModel->getUser($id);
+        if (!$user) {
+            Session::flash('msg', 'Người dùng không tồn tại');
+            Session::flash('msg_type', 'error');
+            return (new Response())->redirect('/users');
+        }
+
+        $this->data['body'] = 'users/edit';
+        $this->data['dataView']['pageTitle'] = 'Cập nhật người dùng';
+        $groups = $this->groupModel->getGroups();
+        $this->data['dataView']['groups'] = $groups;
+        $this->data['dataView']['user'] = $user;
+        $this->data['dataView']['id'] = $id;
+        $this->data['msg'] = Session::flash('msg');
+        $this->data['msgType'] = Session::flash('msg_type');
+        $this->render('layouts/layout', $this->data);
+    }
+
+    public function update($id)
+    {
+        $request = new Request();
+        if (!$request->isPost()) {
+            echo 'Not Allow Method';
+            return;
+        }
+        $body = $request->getFields();
+        //Validate Form
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email|unique:users:email:id=' . $id,
+            //'password' => 'required|min:6',
+            //'confirm_password' => 'required|callback_checkSamePassword',
+            'status' => 'callback_checkStatus',
+            'group_id' => 'callback_checkGroup'
+        ];
+
+        $messages = [
+            'name.required' => 'Tên bắt buộc phải nhập',
+            'email.required' => 'Email bắt buộc phải nhập',
+            'email.email' => 'Email không đúng định dạng',
+            'email.unique' => 'Email đã tồn tại trên hệ thống',
+            //'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu phải từ :min ký tự',
+            'confirm_password.required' => 'Nhập lại mật khẩu không được để trống',
+            'confirm_password.callback_checkSamePassword' => 'Nhập lại mật khẩu không khớp',
+            'status.callback_checkStatus' => 'Trạng thái không hợp lệ',
+            'group_id.callback_checkGroup' => 'Nhóm không hợp lệ',
+        ];
+
+        if ($body['password']) {
+            $rules['password'] = ':min';
+            $rules['confirm_password'] = 'required|callback_checkSamePassword';
+        }
+
+        $request->rules($rules);
+        $request->message($messages);
+
+        if (!$request->validate()) {
+            Session::flash('msg', 'Vui lòng kiểm tra thông tin');
+            Session::flash('msg_type', 'error');
+            return (new Response())->redirect('/users/edit/' . $id);
+        }
+        //Xử lý update
+        $data = $body;
+        unset($data['confirm_password']);
+        unset($data['password']);
+        if (!empty($body['password'])) {
+            $data['password'] = Hash::make($body['password']);
+        }
+
+        $status = $this->userModel->updateUser($data, $id);
+
+        if ($status) {
+            Session::flash('msg', 'Cập nhật người dùng thành công');
+            Session::flash('msg_type', 'success');
+        } else {
+            Session::flash('msg', 'Lỗi máy chủ. Vui lòng thử lại sau');
+            Session::flash('msg_type', 'error');
+        }
+
+        return (new Response())->redirect('/users/edit/' . $id);
     }
 
     public function checkSamePassword($value)
