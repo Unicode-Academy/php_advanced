@@ -49,8 +49,10 @@ class Paginate
         $end = min($page + 5, $totalPage);
 
         $view = self::getView(compact('page', 'totalPage', 'self', 'isQuery', 'begin', 'end'));
-
-        return $view;
+        if ($totalPage > 1) {
+             return $view;
+        }
+       
     }
 }
 

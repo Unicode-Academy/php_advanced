@@ -6,5 +6,5 @@ $config['app'] = [
     'boot' => [
         AppServiceProvider::class,
     ],
-    'page_limit' => 10
+    'page_limit' => 1
 ];

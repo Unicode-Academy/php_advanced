@@ -8,12 +8,10 @@
         <div class="col-3">
             <select name="status" class="form-select">
                 <option value="all">Tất cả trạng thái</option>
-                <option value="active"
-                    {{isset($request->getFields()['status']) && $request->getFields()['status'] == 'active' ? 'selected': ''}}>
+                <option value="active" {{isset($request->getFields()['status']) && $request->getFields()['status'] == 'active' ? 'selected': ''}}>
                     Kích hoạt
                 </option>
-                <option value="inactive"
-                    {{isset($request->getFields()['status']) && $request->getFields()['status'] == 'inactive' ? 'selected': ''}}>
+                <option value="inactive" {{isset($request->getFields()['status']) && $request->getFields()['status'] == 'inactive' ? 'selected': ''}}>
                     Chưa kích
                     hoạt</option>
             </select>
@@ -23,8 +21,7 @@
                 <option value="0">Tất cả nhóm</option>
                 @if ($groups)
                 @foreach ($groups as $group)
-                <option value="{{$group['id']}}"
-                    {{isset($request->getFields()['group_id']) && $request->getFields()['group_id'] == $group['id'] ? 'selected': ''}}>
+                <option value="{{$group['id']}}" {{isset($request->getFields()['group_id']) && $request->getFields()['group_id'] == $group['id'] ? 'selected': ''}}>
                     {{$group['name']}}
                 </option>
                 @endforeach
@@ -32,8 +29,7 @@
             </select>
         </div>
         <div class="col-4">
-            <input type="search" name="keyword" class="form-control" placeholder="Từ khóa..."
-                value="{{$request->getFields()['keyword'] ?? ''}}" />
+            <input type="search" name="keyword" class="form-control" placeholder="Từ khóa..." value="{{$request->getFields()['keyword'] ?? ''}}" />
         </div>
         <div class="col-2 d-grid">
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
@@ -72,8 +68,7 @@
                 {{$user['group_name']}}
             </td>
             <td>
-                {! $user['status'] == 1 ? '<span class="badge bg-success">Kích hoạt</span>': '<span
-                    class="badge bg-danger">Chưa kích hoạt</span>' !}
+                {! $user['status'] == 1 ? '<span class="badge bg-success">Kích hoạt</span>': '<span class="badge bg-danger">Chưa kích hoạt</span>' !}
             </td>
             <td>
                 {{getDateFormat($user['created_at'], "d/m/Y")}} <br />
@@ -83,7 +78,9 @@
                 <a href="{{_WEB_ROOT.'/users/edit/'.$user['id']}}" class="btn btn-success btn-sm">Sửa</a>
             </td>
             <td>
-                <a href="{{_WEB_ROOT.'/users/delete/'.$user['id']}}" class="btn btn-danger btn-sm">Xóa</a>
+                <form class="deletes-form" action="{{_WEB_ROOT.'/users/delete/'.$user['id']}}" method="post">
+                    <button class="btn btn-danger btn-sm">Xóa</button>
+                </form>
             </td>
         </tr>
         @endforeach

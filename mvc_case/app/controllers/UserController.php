@@ -232,6 +232,26 @@ class UserController extends Controller
         ]);
     }
 
+    public function delete($id)
+    {
+        $request = new Request();
+        $response = new Response();
+        if ($request->isPost()) {
+            //Xử lý --> csrf
+            //model
+            $status = $this->userModel->deletes([$id]);
+            if ($status) {
+                Session::flash('msg', 'Cập nhật người dùng thành công');
+                Session::flash('msg_type', 'success');
+            } else {
+                Session::flash('msg', 'Lỗi máy chủ. Vui lòng thử lại sau');
+                Session::flash('msg_type', 'error');
+            }
+            return $response->redirect('/users');
+        }
+        echo "Method " . strtoupper($request->getMethod()) . " not support";
+    }
+
     public function deletes()
     {
         $request = new Request();
