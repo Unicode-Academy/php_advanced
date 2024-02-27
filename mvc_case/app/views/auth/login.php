@@ -1,5 +1,5 @@
 <h2 class="text-center">Đăng nhập hệ thống</h2>
-<form action="" method="post">
+<form action="{{_WEB_ROOT.'/auth/do-login'}}" method="post">
     <div class="mb-3">
         <label for="">Email</label>
         <input type="email" name="email" class="form-control" placeholder="Email..." />

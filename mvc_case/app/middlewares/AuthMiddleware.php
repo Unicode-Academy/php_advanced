@@ -10,10 +10,13 @@ class AuthMiddleware extends Middlewares
         $path = $request->getPath();
         $exclude = [
             '/auth/login',
-            '/auth/register'
+            '/auth/register',
+            '/auth/do-login'
         ];
         if (!in_array($path, $exclude)) {
-            $response->redirect('/auth/login');
+            if (!Session::data('user_login')) {
+                $response->redirect('/auth/login');
+            }
         }
     }
 }

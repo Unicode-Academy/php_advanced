@@ -17,6 +17,22 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    <?php
+        if ($msg) :
+        ?>
+    setTimeout(() => {
+        Swal.fire({
+            icon: "<?php echo $msgType; ?>",
+            title: "<?php echo $msgType === 'success' ? 'Thành công' : "Đã có lỗi xảy ra..." ?>",
+            text: "<?php echo $msg ?>",
+        });
+    }, 500)
+    <?php
+        endif;
+        ?>
+    </script>
 </body>
 
 </html>
