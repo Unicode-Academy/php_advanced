@@ -19,6 +19,17 @@ class Request
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
+    public function getPath()
+    {
+        if (!empty($_SERVER['PATH_INFO'])) {
+            $url = $_SERVER['PATH_INFO'];
+        } else {
+            $url = '/';
+        }
+
+        return $url;
+    }
+
     public function isPost()
     {
         if ($this->getMethod() == 'post') {
