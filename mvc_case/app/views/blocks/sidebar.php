@@ -6,7 +6,7 @@
     </ul>
     <hr>
     <ul class="nav flex-column">
-        <li>Chào bạn</li>
+        <li>Chào bạn: {{$auth['name'] ?? ''}}</li>
         <li> <a href="{{_WEB_ROOT}}/auth/logout">Đăng xuất</a></li>
     </ul>
 

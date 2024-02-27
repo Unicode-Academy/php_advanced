@@ -32,7 +32,7 @@ class AuthController extends Controller
                 Session::flash('msg_type', 'error');
             } else {
                 $user = $this->userModel->getUser($body['email'], 'email');
-                if (!$user) {
+                if (!$user || !$user['status']) {
                     Session::flash('msg', 'Email hoặc mật khẩu không chính xác');
                     Session::flash('msg_type', 'error');
                 } else {
