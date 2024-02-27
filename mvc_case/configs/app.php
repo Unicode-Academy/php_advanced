@@ -3,6 +3,7 @@ $config['app'] = [
     'service' => [],
     'routeMiddleware' => [
         '/*' => AuthMiddleware::class,
+        '/auth/*' => GuestMiddleware::class
     ],
     'globalMiddleware' => [],
     'boot' => [

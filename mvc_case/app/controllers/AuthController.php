@@ -53,6 +53,15 @@ class AuthController extends Controller
         echo "Method " . strtoupper($request->getMethod()) . " not support";
     }
 
+    public function logout()
+    {
+        $response = new Response();
+        Session::delete('user_login');
+        Session::flash('msg', 'Đăng xuất thành công');
+        Session::flash('msg_type', 'success');
+        return $response->redirect('/auth/login');
+    }
+
     public function register()
     {
         $this->data['body'] = 'auth/register';
