@@ -11,7 +11,9 @@ class AuthMiddleware extends Middlewares
         $exclude = [
             '/auth/login',
             '/auth/register',
-            '/auth/do-login'
+            '/auth/do-login',
+            '/auth/do-register',
+            '/auth/active-account',
         ];
 
         $auth = $this->checkAuth();

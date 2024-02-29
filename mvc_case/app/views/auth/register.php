@@ -1,5 +1,5 @@
 <h2 class="text-center">{{$pageTitle}}</h2>
-<form action="" method="post">
+<form action="{{_WEB_ROOT.'/auth/do-register'}}" method="post">
     <div class="mb-3">
         <label for="">Tên</label>
         <input type="text" name="name" class="form-control" placeholder="Tên..." />
