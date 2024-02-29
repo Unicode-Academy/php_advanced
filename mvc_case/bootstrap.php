@@ -46,6 +46,13 @@ if (!empty($config['app']['service'])) {
 //Load Lib
 require_once 'core/Hash.php';
 
+//Load PHP Mailer
+require_once 'core/mailer/Exception.php';
+require_once 'core/mailer/PHPMailer.php';
+require_once 'core/mailer/SMTP.php';
+
+require_once 'core/Mail.php';
+
 require_once 'core/Paginate.php';
 
 //Load Service Provider Class

@@ -64,6 +64,7 @@ class AuthController extends Controller
 
     public function register()
     {
+
         $this->data['body'] = 'auth/register';
         $this->data['dataView']['pageTitle'] = 'Đăng ký tài khoản';
         $this->data['msg'] = Session::flash('msg');
@@ -113,6 +114,32 @@ class AuthController extends Controller
         $body['group_id'] = 5;
         $status = $this->userModel->addUser($body);
         if ($status) {
+            $userId = $this->userModel->getLastUserId();
+
+            Session::data('user_active', $userId);
+            //Tạo active token
+            $activeToken = md5(uniqid()); //32 ký tự
+            //Update active token vào bảng user
+
+            $this->userModel->updateUser([
+                'active_token' => $activeToken,
+                'updated_at' => date('Y-m-d H:i:s')
+            ], $userId);
+
+            //Tạo link kích hoạt
+            $linkActive = _WEB_ROOT . '/auth/active/?token=' . $activeToken;
+
+            //Gửi email
+            $name = $body["name"];
+            $subject = "$name hãy kích hoạt tài khoản";
+            $content = <<<EOT
+                <p>Chào bạn: $name</p>
+                <p>Cảm ơn bạn đã đăng ký tài khoản trên website của chúng tôi</p>
+                <p>Để tiếp tục sử dụng. Vui lòng click vào link dưới đây để kích hoạt tài khoản</p>
+                <p>$linkActive</p>
+                <p>Unicode Academy</p>
+            EOT;
+            Mail::send($body['email'], $subject, $content);
 
             return (new Response())->redirect('/auth/active-account');
         }
@@ -124,6 +151,9 @@ class AuthController extends Controller
 
     public function showActive()
     {
+        if (!Session::data('user_active')) {
+            return (new Response())->redirect('/auth/register');
+        }
         $this->data['body'] = 'auth/active-notice';
         $this->data['dataView']['pageTitle'] = 'Kích hoạt tài khoản';
         $this->render('layouts/auth', $this->data);
