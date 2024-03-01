@@ -15,7 +15,8 @@ class AuthMiddleware extends Middlewares
             '/auth/do-login',
             '/auth/do-register',
             '/auth/active-account',
-            '/auth/active'
+            '/auth/active',
+            '/auth/resend-active'
         ];
 
         $auth = $this->checkAuth();
