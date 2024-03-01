@@ -8,12 +8,14 @@ class AuthMiddleware extends Middlewares
         $request = new Request();
         $response = new Response();
         $path = $request->getPath();
+        $path = rtrim(explode('?', $path)[0], '/');
         $exclude = [
             '/auth/login',
             '/auth/register',
             '/auth/do-login',
             '/auth/do-register',
             '/auth/active-account',
+            '/auth/active'
         ];
 
         $auth = $this->checkAuth();

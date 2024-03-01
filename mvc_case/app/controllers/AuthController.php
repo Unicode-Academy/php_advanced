@@ -158,4 +158,30 @@ class AuthController extends Controller
         $this->data['dataView']['pageTitle'] = 'Kích hoạt tài khoản';
         $this->render('layouts/auth', $this->data);
     }
+
+    public function active()
+    {
+        $request = new Request();
+        $query = $request->getFields();
+        if (!empty($query['token'])) {
+            $token = $query['token'];
+            $user = $this->userModel->getUser($token, 'active_token');
+            if (empty($user)) {
+                $this->data['dataView']['message'] = 'Liên kết không tồn tại hoặc đã hết hạn';
+                $this->data['dataView']['type'] = 'error';
+            } else {
+                $this->userModel->updateUser([
+                    'status' => 1,
+                    'active_token' => null,
+                    'updated_at' => date('Y-m-d H:i:s')
+                ], $user['id']);
+                $this->data['dataView']['message'] = 'Kích hoạt tài khoản thành công';
+                $this->data['dataView']['type'] = 'success';
+            }
+        }
+
+        $this->data['body'] = 'auth/active-result';
+        $this->data['dataView']['pageTitle'] = 'Kích hoạt tài khoản';
+        $this->render('layouts/auth', $this->data);
+    }
 }
