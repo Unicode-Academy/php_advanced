@@ -41,7 +41,7 @@ class AuthMiddleware extends Middlewares
             $user = $userModel->getUser($userLogin['id']);
 
             if ($user) {
-                if ($user['status']) {
+                if ($user['status'] && Session::id() == $user['session_id']) {
                     //Hoạt động
                     $auth = $user;
                 } else {

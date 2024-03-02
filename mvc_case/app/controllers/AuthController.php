@@ -43,6 +43,10 @@ class AuthController extends Controller
                         Session::flash('msg_type', 'error');
                     } else {
                         Session::data('user_login', $user);
+                        $this->userModel->updateUser([
+                            'session_id' => Session::id()
+                        ], $user['id']);
+
                         return $response->redirect('/');
                     }
                 }
