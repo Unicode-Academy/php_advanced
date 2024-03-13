@@ -292,6 +292,79 @@ class AuthController extends Controller
         }
         echo "Method " . strtoupper($request->getMethod()) . " not support";
     }
+
+    public function resetPassword()
+    {
+
+        $this->data['dataView']['pageTitle'] = 'Đặt lại mật khẩu';
+        $this->data['msg'] = Session::flash('msg');
+        $this->data['msgType'] = Session::flash('msg_type');
+        $this->data['body'] = 'auth/confirm-reset';
+        $request = new Request();
+        $query = $request->getFields();
+        if (!empty($query['token'])) {
+            $token = $query['token'];
+            $user = $this->userModel->getUser($token, 'reset_token');
+            if (!empty($user)) {
+                $this->data['body'] = 'auth/reset-password';
+                Session::data('reset_token', $token);
+                Session::data('user_id', $user['id']);
+            }
+        }
+
+        $this->render('layouts/auth', $this->data);
+    }
+
+    public function updatePassword()
+    {
+        $request = new Request();
+        //Validate Form
+        $rules = [
+            'password' => 'required|min:6',
+            'confirm_password' => 'required|callback_checkSamePassword',
+        ];
+
+        $messages = [
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu phải từ :min ký tự',
+            'confirm_password.required' => 'Nhập lại mật khẩu không được để trống',
+            'confirm_password.callback_checkSamePassword' => 'Nhập lại mật khẩu không khớp',
+        ];
+        $request->rules($rules);
+        $request->message($messages);
+
+        if (!$request->validate()) {
+            Session::flash('msg', 'Vui lòng kiểm tra thông tin');
+            Session::flash('msg_type', 'error');
+            return (new Response())->redirect('/auth/reset?token=' . Session::data('reset_token'));
+        }
+
+        $body = $request->getFields();
+
+        $password = Hash::make($body['password']);
+
+        $this->userModel->updateUser([
+            'reset_token' => null,
+            'password' => $password,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ], Session::data('user_id'));
+
+        Session::delete('user_id');
+        Session::delete('reset_token');
+        Session::flash('msg', 'Đặt lại mật khẩu thành công');
+        Session::flash('msg_type', 'success');
+        return (new Response())->redirect('/auth/login');
+    }
+
+    public function checkSamePassword($value)
+    {
+        $request = new Request();
+        $body = $request->getFields();
+        if ($body['password'] == $value) {
+            return true;
+        }
+        return false;
+    }
 }
 
 /*

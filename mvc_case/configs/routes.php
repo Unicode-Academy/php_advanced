@@ -8,3 +8,5 @@ $routes['auth/active-account'] = 'authcontroller/showActive';
 $routes['auth/resend-active'] = 'authcontroller/resendActive';
 $routes['auth/forgot-password'] = 'authcontroller/forgotPassword';
 $routes['auth/do-forgot-password'] = 'authcontroller/handleForgotPassword';
+$routes['auth/reset'] = 'authcontroller/resetPassword';
+$routes['auth/update-password'] = 'authcontroller/updatePassword';
