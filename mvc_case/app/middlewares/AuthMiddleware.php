@@ -16,13 +16,15 @@ class AuthMiddleware extends Middlewares
             '/auth/do-register',
             '/auth/active-account',
             '/auth/active',
-            '/auth/resend-active'
+            '/auth/resend-active',
+            '/auth/forgot-password',
+            '/auth/do-forgot-password',
         ];
 
         $auth = $this->checkAuth();
 
         View::share([
-            'auth' => $auth
+            'auth' => $auth,
         ]);
 
         if (!in_array($path, $exclude)) {

@@ -15,4 +15,7 @@
     <p class="text-center">
         <a href="{{_WEB_ROOT.'/auth/register'}}">Đăng ký tài khoản</a>
     </p>
+    <p class="text-center">
+        <a href="{{_WEB_ROOT.'/auth/forgot-password'}}">Quên mật khẩu?</a>
+    </p>
 </form>
