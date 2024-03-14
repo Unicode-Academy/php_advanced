@@ -2,7 +2,7 @@
 <form action="{{_WEB_ROOT.'/auth/do-forgot-password'}}" method="post">
     <div class="mb-3">
         <label for="">Email</label>
-        <input type="email" name="email" class="form-control" placeholder="Email..." />
+        <input type="email" name="email" class="form-control" placeholder="Email..." value="{{old('email')}}" />
     </div>
 
     <div class="d-grid">

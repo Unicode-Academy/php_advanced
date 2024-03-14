@@ -35,12 +35,14 @@ class AuthController extends Controller
                 if (!$user || !$user['status']) {
                     Session::flash('msg', 'Email hoặc mật khẩu không chính xác');
                     Session::flash('msg_type', 'error');
+                    $request->setOld($body);
                 } else {
                     $passwordHash = $user['password'];
                     $verifyStatus = Hash::check($body['password'], $passwordHash);
                     if (!$verifyStatus) {
                         Session::flash('msg', 'Email hoặc mật khẩu không chính xác');
                         Session::flash('msg_type', 'error');
+                        $request->setOld($body);
                     } else {
                         Session::data('user_login', $user);
                         $this->userModel->updateUser([
@@ -250,11 +252,13 @@ class AuthController extends Controller
             if (empty($body['email'])) {
                 Session::flash('msg', 'Vui lòng nhập email để lấy lại mật khẩu');
                 Session::flash('msg_type', 'error');
+
             } else {
                 $user = $this->userModel->getUser($body['email'], 'email');
                 if (!$user || !$user['status']) {
                     Session::flash('msg', 'Email không tồn tại trên hệ thống');
                     Session::flash('msg_type', 'error');
+                    $request->setOld($body);
                 } else {
                     $userId = $user['id'];
 

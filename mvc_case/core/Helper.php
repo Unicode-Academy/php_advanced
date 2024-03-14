@@ -1,6 +1,6 @@
 <?php
 $sessionKey = Session::isInvalid();
-$errors =  Session::flash($sessionKey . '_errors');
+$errors = Session::flash($sessionKey . '_errors');
 $old = Session::flash($sessionKey . '_old');
 
 if (!function_exists('form_error')) {
