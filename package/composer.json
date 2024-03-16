@@ -8,10 +8,15 @@
             "email": "contact@unicode.vn"
         }
     ],
+    "autoload": {
+        "files": ["includes/functions.php"]
+    },
     "require-dev": {
         "phpoffice/phpword": "^1.2"
     },
     "require": {
-        "swiftmailer/swiftmailer": "^6.3"
+        "swiftmailer/swiftmailer": "^6.3",
+        "html2text/html2text": "^4.3",
+        "pragmarx/random": "^0.2.2"
     }
 }
