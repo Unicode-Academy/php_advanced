@@ -1,0 +1,17 @@
+{
+    "name": "unicode/php_advanced",
+    "description": "Demo hoc composer",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Hoang An Unicode",
+            "email": "contact@unicode.vn"
+        }
+    ],
+    "require-dev": {
+        "phpoffice/phpword": "^1.2"
+    },
+    "require": {
+        "swiftmailer/swiftmailer": "^6.3"
+    }
+}
