@@ -12,7 +12,8 @@
         "files": ["includes/functions.php"],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "classmap": ["Database/"]
     },
     "require-dev": {
         "phpoffice/phpword": "^1.2"

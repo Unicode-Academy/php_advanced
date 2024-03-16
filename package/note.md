@@ -31,3 +31,5 @@
 - SubNameSpaces: Các namespace con (theo sau NameSpace đầu tiên - vendor)
 
 - ClassName: Bắt buộc phải có và phải có tên file PHP trùng tên ClassName ở thư mục tương ứng với namespace cuối cùng (ClassName.php), trong file đó sẽ định nghĩa nội dung của code của lớp.
+
+## Classmap Autoload
