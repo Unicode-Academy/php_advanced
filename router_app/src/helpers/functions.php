@@ -86,3 +86,15 @@ function csrf_token(): ?string
 
     return null;
 }
+
+//Import view
+function view($path, $data = [])
+{
+    extract($data);
+    ob_start();
+    $path = _VIEW_PATH . '/' . $path . '.php';
+    require $path;
+    $content = ob_get_contents();
+    ob_end_clean();
+    return $content;
+}

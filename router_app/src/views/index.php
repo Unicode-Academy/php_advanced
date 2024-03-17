@@ -1,0 +1,1 @@
+<h1>Trang chủ: <?php echo $users; ?></h1>
