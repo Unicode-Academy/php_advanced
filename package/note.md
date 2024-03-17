@@ -35,3 +35,16 @@
 ## Classmap Autoload
 
 ## Cài đặt Package theo phiên bản và cập nhật
+
+## Composer Update và Composer Install
+
+- Composer Update: Chạy các bản cập nhật trong file composer.json
+- Composer Install: Ưu tiên chạy trong file composer.lock, nếu không có chạy trong file composer.json
+
+Tips: Clone Repository --> Composer install
+
+Composer Update thường sử dụng ở môi trường dev
+
+composer install --no-dev --> Chỉ cài require
+
+composer install --> Cài cả require và require-dev
