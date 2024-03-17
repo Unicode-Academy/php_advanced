@@ -1,0 +1,19 @@
+{
+    "name": "unicode/router_app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": ["src/helpers/functions.php"]
+    },
+    "authors": [
+        {
+            "name": "Hoàng An Unicode",
+            "email": "contact@unicode.vnm"
+        }
+    ],
+    "require": {
+        "pecee/simple-router": "^5.4"
+    }
+}
