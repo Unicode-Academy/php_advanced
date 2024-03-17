@@ -21,6 +21,7 @@
     "require": {
         "swiftmailer/swiftmailer": "^6.3",
         "html2text/html2text": "^4.3",
-        "pragmarx/random": "^0.2.2"
+        "pragmarx/random": "^0.2.2",
+        "phpoffice/phpspreadsheet": "^1.17"
     }
 }
