@@ -98,3 +98,8 @@ function view($path, $data = [])
     ob_end_clean();
     return $content;
 }
+
+function env($name)
+{
+    return $_ENV[$name];
+}

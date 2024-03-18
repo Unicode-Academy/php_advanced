@@ -15,6 +15,7 @@
     ],
     "require": {
         "pecee/simple-router": "^5.4",
-        "requtize/query-builder": "dev-master"
+        "requtize/query-builder": "dev-master",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

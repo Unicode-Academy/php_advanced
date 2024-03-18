@@ -10,7 +10,6 @@ class HomeController
     {
         $userModel = new User();
         $users = $userModel->getUsers();
-
         return view('index', compact('users'));
     }
 }
