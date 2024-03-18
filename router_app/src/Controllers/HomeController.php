@@ -8,7 +8,8 @@ class HomeController
 {
     public function index()
     {
-        $users = User::all();
+        $userModel = new User();
+        $users = $userModel->getUsers();
 
         return view('index', compact('users'));
     }

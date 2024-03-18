@@ -14,6 +14,7 @@
         }
     ],
     "require": {
-        "pecee/simple-router": "^5.4"
+        "pecee/simple-router": "^5.4",
+        "requtize/query-builder": "dev-master"
     }
 }
