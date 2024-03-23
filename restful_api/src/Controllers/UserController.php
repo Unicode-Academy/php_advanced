@@ -7,6 +7,13 @@ class UserController
     public function index()
     {
         $data = ["User 1", "User 2"];
-        return response()->httpCode(201)->header("x-api-key: 123")->json($data);
+        // return successResponse(
+        //     data: $data,
+        //     status: 201
+        // );
+        return errorResponse(
+            status: 500,
+            message: 'Server Error',
+        );
     }
 }
