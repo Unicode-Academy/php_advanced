@@ -55,3 +55,183 @@ Cấu trúc dữ liệu để viết Endpoint
 
 - JSON
 - XML
+
+## Resource
+
+- Resource là dữ liệu mà chúng ta phải quản lý, có thể là: customers, products, posts, images, videos…
+
+- Resource cũng sẽ xuất hiện trong cách viết EndPoint, nên nếu đặt tên cho resource một cách khoa học, thì endpoint cũng trở nên dễ hiểu và dễ tiếp cận hơn
+
+| URL                                     | Resource |
+| --------------------------------------- | -------- |
+| https://api.unicode.vn/users            | users    |
+| https://api.unicode.vn/users/1/accounts | accounts |
+| https://api.unicode.vn/users/1/images   | images   |
+
+### Sử dụng danh từ để đặt tên cho resource
+
+| URL                            | Ý nghĩa                    |
+| ------------------------------ | -------------------------- |
+| https://api.unicode.vn/users   | Liệt kê tất cả users       |
+| https://api.unicode.vn/users/1 | Chi tiết user có ID bằng 1 |
+| https://api.unicode.vn/posts   | Liệt kê tất cả posts       |
+| https://api.unicode.vn/posts/1 | Chi tiết post có ID bằng 1 |
+
+### Sử dụng dấu / để thể hiện mối quan hệ phân cấp giữa các resources
+
+| URL                                   | Ý nghĩa                                     |
+| ------------------------------------- | ------------------------------------------- |
+| https://api.unicode.vn/users          | Liệt kê tất cả users                        |
+| https://api.unicode.vn/users/1        | Chi tiết user có ID bằng 1                  |
+| https://api.unicode.vn/users/1/images | Liệt kê tất cả images của user có ID bằng 1 |
+
+### Dùng dấu gạch ngang (-) để ngăn cách giữa các cụm từ
+
+### Sử dụng chữ thường cho toàn bộ Endpoint
+
+### Không sử dụng phần mở rộng để thiết kế Endpoint
+
+### Sử dụng Query Params để lọc kết quả
+
+| URL                                           | Đánh giá  |
+| --------------------------------------------- | --------- |
+| https://api.unicode.vn/users?country=vn       | Tốt       |
+| https://api.unicode.vn/users/vn               | Không tốt |
+| https://api.unicode.vn/users?page=1           | Tốt       |
+| https://api.unicode.vn/users/pages/1          | Không tốt |
+| https://api.unicode.vn/users/?order_by=latest | Tốt       |
+| https://api.unicode.vn/users/order_by?latest  | Không tốt |
+
+### Ngoại lệ
+
+API đăng nhập
+
+https://api.unicode.vn/auth/login
+
+https://api.unicode.vn/auth/register
+
+## Sử dụng HTTP Method để thể hiện CURD
+
+Không nên thể hiện các thao tác với resource bằng việc chỉ ra trên URL, thay vào đó bạn hãy sử dụng các HTTP method tương ứng
+
+![](./images/http-method.png)
+
+## Định dạng dữ liệu trong RESTful API
+
+- application/json
+- application/xml
+- application/x-wbe+xml
+- application/x-www-form-urlencoded
+- multipart/form-data
+
+## Response Status Code
+
+- 200: Trả về thành công cho những phương thức GET, PUT, PATCH hoặc
+  DELETE
+- 201: Trả về khi một Resource vừa được tạo thành công
+- 204: Trả về khi Response không có dữ liệu
+- 304: Client có thể sử dụng dữ liệu cache
+- 400: Request không hợp lệ
+- 401: Request cần có auth (Xác thực)
+- 403: Bị từ chối không cho phép
+- 404: Không tìm thấy resource từ URL
+- 405: Phương thức không cho phép với user hiện tại
+- 410: Resource không còn tồn tại, Version cũ đã không còn hỗ trợ
+- 415: Không hỗ trợ kiểu Resource này (Ví dụ: Thiếu Content-Type hoặc Content-Type bị sai)
+- 422: Dữ liệu không được xác thực
+- 429: Request bị từ chối do bị giới hạn
+
+## Sự khác nhau giữa 400 và 422
+
+### 400
+
+- Lỗi do client gửi yêu cầu không hợp lệ.
+- Lỗi có thể do cú pháp sai, thiếu thông tin bắt buộc hoặc dữ liệu không hợp lệ.
+
+Ví dụ:
+
+- Thiếu tham số trong URL.
+- Định dạng JSON không hợp lệ.
+- Giá trị không hợp lệ cho một trường.
+
+### 422
+
+- Lỗi do client gửi yêu cầu hợp lệ về cú pháp nhưng không thể xử lý được.
+- Lỗi thường xảy ra khi dữ liệu trong yêu cầu không đáp ứng các quy tắc nghiệp vụ của API.
+
+Ví dụ:
+
+- Gửi yêu cầu tạo tài khoản với mật khẩu quá ngắn.
+- Gửi yêu cầu thanh toán với số tiền âm.
+- Gửi giá trị cho một trường không được phép.
+
+Lưu ý:
+
+- Mã 422 được giới thiệu trong HTTP/1.1.
+- Một số API có thể sử dụng mã 400 thay cho 422.
+
+## Response Body và API Version
+
+### Response Body
+
+Cần thống nhất Response body trong các Endpoint
+
+```json
+{
+  "status": 200,
+  "message": "Success",
+  "data": [
+    {
+      "id": 1,
+      "name": "User 1",
+      "email": "user1@gmail.com",
+      "created_at": "2024-03-23 09:00:00"
+    },
+    {
+      "id": 2,
+      "name": "User 2",
+      "email": "user2@gmail.com",
+      "created_at": "2024-03-23 09:00:00"
+    },
+    {
+      "id": 3,
+      "name": "User 3",
+      "email": "user3@gmail.com",
+      "created_at": "2024-03-23 09:00:00"
+    }
+  ],
+  "errors": {}
+}
+```
+
+```json
+{
+  "status": 200,
+  "message": "Success",
+  "data": {
+    "id": 1,
+    "name": "User 1",
+    "email": "user1@gmail.com",
+    "created_at": "2024-03-23 09:00:00"
+  },
+  "errors": {}
+}
+```
+
+```json
+{
+  "status": 400,
+  "message": "Error",
+  "errors": {
+    "name": "Name is required"
+  }
+}
+```
+
+### API Version
+
+- Khi làm việc với API cần phải có phiên bản để không làm ảnh hưởng tới các hệ thống cũ
+- Có nhiều cách để tạo version cho API
+
+* Sử dụng URL
+* Sử dụng Header
