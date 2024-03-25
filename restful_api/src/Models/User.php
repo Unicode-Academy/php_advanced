@@ -6,8 +6,18 @@ use System\Core\Model;
 
 class User extends Model
 {
-    public static function all()
+    public function create($data = [])
     {
-        return 'All Users';
+        $this->db->table('users')->insert($data);
+        $id = $this->db->getLastId();
+        $user = $this->db->table('users')->where('id', $id)->first();
+        unset($user->password);
+        return $user;
+    }
+
+    public function existEmail($email)
+    {
+        $count = $this->db->table('users')->where('email', $email)->count();
+        return $count > 0;
     }
 }
