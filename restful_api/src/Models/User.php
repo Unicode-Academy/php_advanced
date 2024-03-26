@@ -41,6 +41,11 @@ class User extends Model
         return $users->count();
     }
 
+    public function getOne($id)
+    {
+        return $this->db->table('users')->select('id', 'name', 'email', 'status', 'created_at', 'updated_at')->where('id', $id)->first();
+    }
+
     public function create($data = [])
     {
         $this->db->table('users')->insert($data);

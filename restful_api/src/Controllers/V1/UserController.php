@@ -3,6 +3,7 @@
 namespace App\Controllers\V1;
 
 use App\Models\User;
+use Error;
 use Rakit\Validation\Validator;
 use Requtize\QueryBuilder\Exception\Exception;
 
@@ -44,7 +45,25 @@ class UserController
 
     public function find($id)
     {
-        return successResponse(data: [$id], status: 201);
+        try {
+            $user = (new User)->getOne($id);
+            if (!$user) {
+                throw new Error('User Not found');
+            }
+            return successResponse(data: $user);
+        } catch (Exception $e) {
+            return errorResponse(
+                status: 500,
+                message: 'Server Error',
+                errors: $e->getMessage()
+            );
+        } catch (Error $e) {
+            return errorResponse(
+                status: 404,
+                message: $e->getMessage(),
+            );
+        }
+
     }
 
     public function store()
