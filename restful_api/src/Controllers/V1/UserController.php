@@ -14,12 +14,24 @@ class UserController
         $order = input('order') ?? 'asc';
         $status = input('status');
         $query = input('query');
+        $page = input('page') ?? 1;
+        $limit = input('limit');
         $user = new User;
         try {
+            $offset = 0;
+            if ($limit) {
+                $offset = ($page - 1) * $limit;
+            }
             $users = $user->get(
-                compact('sort', 'order', 'status', 'query')
+                compact('sort', 'order', 'status', 'query', 'page', 'limit', 'offset')
             );
-            return successResponse(data: $users);
+            $count = $user->getCount(compact('sort', 'order', 'status', 'query', 'page'));
+
+            return successResponse(data: $users, meta: $limit ? [
+                'current_page' => (int) $page,
+                'total_rows' => (int) $count,
+                'total_pages' => ceil($count / $limit),
+            ] : []);
         } catch (Exception $e) {
             return errorResponse(
                 status: 500,
