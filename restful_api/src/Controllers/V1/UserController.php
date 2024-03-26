@@ -12,16 +12,19 @@ class UserController
     {
         $sort = input('sort') ?? 'id';
         $order = input('order') ?? 'asc';
+        $status = input('status');
+        $query = input('query');
         $user = new User;
         try {
             $users = $user->get(
-                compact('sort', 'order')
+                compact('sort', 'order', 'status', 'query')
             );
             return successResponse(data: $users);
         } catch (Exception $e) {
             return errorResponse(
                 status: 500,
-                message: 'Server Error'
+                message: 'Server Error',
+                errors: $e->getMessage()
             );
         }
 

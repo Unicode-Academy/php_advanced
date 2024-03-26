@@ -9,7 +9,17 @@ class User extends Model
     public function get($options = [])
     {
         extract($options);
-        return $this->db->table('users')->orderBy($sort, $order)->all();
+        $users = $this->db->select('id', 'name', 'email', 'status', 'created_at', 'updated_at')->table('users')->orderBy($sort, $order);
+        if ($status == 'true' || $status == 'false') {
+            $users->where('status', '=', $status == 'true' ? true : false);
+        }
+        if ($query) {
+            $users->where(function ($builder) use ($query) {
+                $builder->orWhere('name', 'like', "%$query%");
+                $builder->orWhere('email', 'like', "%$query%");
+            });
+        }
+        return $users->all();
     }
 
     public function create($data = [])
