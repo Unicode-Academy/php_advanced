@@ -4,14 +4,27 @@ namespace App\Controllers\V1;
 
 use App\Models\User;
 use Rakit\Validation\Validator;
+use Requtize\QueryBuilder\Exception\Exception;
 
 class UserController
 {
     public function index()
     {
+        $sort = input('sort') ?? 'id';
+        $order = input('order') ?? 'asc';
         $user = new User;
-        $users = $user->get();
-        return successResponse(data: $users);
+        try {
+            $users = $user->get(
+                compact('sort', 'order')
+            );
+            return successResponse(data: $users);
+        } catch (Exception $e) {
+            return errorResponse(
+                status: 500,
+                message: 'Server Error'
+            );
+        }
+
     }
 
     public function find($id)

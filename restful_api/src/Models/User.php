@@ -6,9 +6,10 @@ use System\Core\Model;
 
 class User extends Model
 {
-    public function get()
+    public function get($options = [])
     {
-        return $this->db->table('users')->orderBy('id', 'desc')->all();
+        extract($options);
+        return $this->db->table('users')->orderBy($sort, $order)->all();
     }
 
     public function create($data = [])
