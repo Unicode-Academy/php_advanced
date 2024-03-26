@@ -9,15 +9,9 @@ class UserController
 {
     public function index()
     {
-        $data = ["User 1", "User 2"];
-        // return successResponse(
-        //     data: $data,
-        //     status: 201
-        // );
-        return errorResponse(
-            status: 500,
-            message: 'Server Error',
-        );
+        $user = new User;
+        $users = $user->get();
+        return successResponse(data: $users);
     }
 
     public function find($id)
@@ -33,7 +27,7 @@ class UserController
             'email:email' => ':attribute phải là định dạng email',
             'min' => ':attribute phải từ :min ký tự',
         ]);
-        $validation = $validator->make($_POST, [
+        $validation = $validator->make(input()->all(), [
             'name' => 'required',
             'email' => [
                 'required',
@@ -48,7 +42,7 @@ class UserController
             ],
             'password' => 'required|min:6',
             'status' => [function ($value) {
-                if ($value == 'true' || $value == 'false') {
+                if ($value == 'true' || $value == 'false' || is_bool($value)) {
                     return true;
                 }
                 return ':attribute không hợp lệ';

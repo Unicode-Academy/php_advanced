@@ -6,6 +6,11 @@ use System\Core\Model;
 
 class User extends Model
 {
+    public function get()
+    {
+        return $this->db->table('users')->orderBy('id', 'desc')->all();
+    }
+
     public function create($data = [])
     {
         $this->db->table('users')->insert($data);

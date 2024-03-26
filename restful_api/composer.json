@@ -6,7 +6,9 @@
             "App\\": "src/",
             "System\\": "./"
         },
-        "files": ["src/helpers/functions.php", "src/routes/api.php", "src/helpers/response.php"]
+        "exclude-from-classmap": ["vendor\\requtize\\query-builder\\src\\QueryBuilder\\QueryBuilder\\Compiler.php"],
+        "files": ["src/helpers/functions.php", "src/routes/api.php", "src/helpers/response.php", "Core/Complier.php"]
+       
     },
     "authors": [
         {
