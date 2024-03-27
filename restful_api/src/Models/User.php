@@ -55,9 +55,17 @@ class User extends Model
         return $user;
     }
 
-    public function existEmail($email)
+    public function existEmail($email, $id = 0)
     {
-        $count = $this->db->table('users')->where('email', $email)->count();
+        $users = $this->db->table('users')->where('email', $email);
+        if ($id > 0) {
+            $users->where('id', '!=', $id);
+        }
+        $count = $users->count();
         return $count > 0;
+    }
+
+    public function update($id, $data = []) {
+        return $this->db->table('users')->where('id', $id)->update($data);
     }
 }

@@ -7,5 +7,7 @@ Route::group(['prefix' => 'api'], function () {
         Route::get('/users', 'UserController@index');
         Route::get('/users/{id}', 'UserController@find');
         Route::post('/users', 'UserController@store');
+        Route::patch('/users/{id}', 'UserController@update');
+        Route::put('/users/{id}', 'UserController@update');
     });
 });

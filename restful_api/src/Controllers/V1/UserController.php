@@ -121,4 +121,84 @@ class UserController
         $user = (new User)->create($data);
         return successResponse(data: $user, status: 201);
     }
+
+    public function update($id)
+    {
+        $method = request()->getMethod();
+
+        return $method === 'put' ? $this->updatePut($id) : $this->updatePatch($id);
+    }
+
+    private function updatePatch($id)
+    {
+        $validator = new Validator;
+        $validator->setMessages([
+            'required' => ':attribute bắt buộc phải nhập',
+            'email:email' => ':attribute phải là định dạng email',
+            'min' => ':attribute phải từ :min ký tự',
+        ]);
+        $validation = $validator->make(input()->all(), [
+            'name' => 'required',
+            'email' => [
+                'required',
+                'email',
+                function ($email) use ($id) {
+                    $user = new User;
+                    if ($user->existEmail($email, $id)) {
+                        return ":attribute đã tồn tại trên hệ thống";
+                    }
+                    return true;
+                },
+            ],
+            'status' => [function ($value) {
+                if ($value == 'true' || $value == 'false' || is_bool($value)) {
+                    return true;
+                }
+                return ':attribute không hợp lệ';
+            }],
+        ]);
+        $validation->setAliases([
+            'name' => 'Tên',
+            'email' => 'Email',
+            'password' => 'Mật khẩu',
+            'status' => 'Trạng thái',
+        ]);
+        $validation->validate();
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            return errorResponse(
+                status: 400,
+                message: 'Bad Request',
+                errors: $errors->firstOfAll()
+            );
+        }
+        $data = [
+            'name' => input('name'),
+            'email' => input('email'),
+            'status' => input('status') == 'true',
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        //Update
+        try {
+            $model = new User();
+            $status = $model->update($id, $data);
+            if ($status) {
+                $user = $model->getOne($id);
+                return successResponse(data: $user);
+            }
+            
+            throw new Error("Server Error");
+
+        } catch (Exeption $e) {
+            return errorResponse(500, "Server Error");
+        } catch (Error $e) {
+            return errorResponse(500, $e->getMessage());
+        }
+
+    }
+
+    private function updatePut($id)
+    {
+
+    }
 }

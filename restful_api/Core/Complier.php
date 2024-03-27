@@ -373,12 +373,15 @@ class Compiler
 
         foreach ($data as $key => $value) {
             if ($value instanceof Raw) {
-                $segment .= $this->quoteColumnName($key) . ' = ' . $value . ', ';
+                // $segment .= $this->quoteColumnName($key) . ' = ' . $value . ', ';
+                $segment .= $this->quoteColumnName($key) . ' = ?, ';
             } else {
-                $segment .= $this->quoteColumnName($key) . ' = ' . $key . ' , ';
+                // $segment .= $this->quoteColumnName($key) . ' = ' . $key . ' , ';
+                $segment .= $this->quoteColumnName($key) . ' = ?, ';
                 $bindings[] = $value;
             }
         }
+
 
         return [trim($segment, ', '), $bindings];
     }
