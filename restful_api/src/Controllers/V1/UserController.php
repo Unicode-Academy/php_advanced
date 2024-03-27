@@ -208,6 +208,87 @@ class UserController
 
     private function updatePut($id)
     {
+        /*
+        - Kiểm tra xem trường nào được gửi lên
+        - Xóa dữ liệu của các trường còn lại trên Database
+         */
+        $model = new User();
+
+        $validator = new Validator;
+        $validator->setMessages([
+            'required' => ':attribute bắt buộc phải nhập',
+            'email:email' => ':attribute phải là định dạng email',
+            'min' => ':attribute phải từ :min ký tự',
+        ]);
+        $rules = [];
+        $data = [
+            'name' => null,
+            'email' => null,
+            'status' => null,
+        ];
+
+        if (input('name')) {
+            $rules['name'] = 'min:2';
+            $data['name'] = input('name');
+        }
+
+        if (input('email')) {
+            $rules['email'] = [
+                'required',
+                'email',
+                function ($email) use ($id) {
+                    $user = new User;
+                    if ($user->existEmail($email, $id)) {
+                        return ":attribute đã tồn tại trên hệ thống";
+                    }
+                    return true;
+                },
+            ];
+            $data['email'] = input('email');
+        }
+
+        if (input('status') == 'true' || input('status') == 'false') {
+            $data['status'] = input('status') == 'true';
+        }
+
+        if (input('password')) {
+            $rules['password'] = 'min:6';
+            $data['password'] = password_hash(input('password'), PASSWORD_DEFAULT);
+        }
+
+        $validation = $validator->make(input()->all(), $rules);
+        $validation->setAliases([
+            'name' => 'Tên',
+            'email' => 'Email',
+            'password' => 'Mật khẩu',
+            'status' => 'Trạng thái',
+        ]);
+        $validation->validate();
+        if ($validation->fails()) {
+            $errors = $validation->errors();
+            return errorResponse(
+                status: 400,
+                message: 'Bad Request',
+                errors: $errors->firstOfAll()
+            );
+        }
+
+        //Update
+        try {
+            $model = new User();
+            $status = $model->update($id, $data);
+            if ($status) {
+                $user = $model->getOne($id);
+                return successResponse(data: $user);
+            }
+
+            throw new Error("Server Error");
+
+        } catch (Exeption $e) {
+            return errorResponse(500, "Server Error");
+        } catch (Error $e) {
+            return errorResponse(500, $e->getMessage());
+        }
 
     }
 }
