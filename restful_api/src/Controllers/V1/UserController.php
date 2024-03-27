@@ -137,7 +137,7 @@ class UserController
             'email:email' => ':attribute phải là định dạng email',
             'min' => ':attribute phải từ :min ký tự',
         ]);
-        $validation = $validator->make(input()->all(), [
+        $rules = [
             'name' => 'required',
             'email' => [
                 'required',
@@ -156,7 +156,14 @@ class UserController
                 }
                 return ':attribute không hợp lệ';
             }],
-        ]);
+        ];
+        $data = [];
+        if (input('password')) {
+            $rules['password'] = 'min:6';
+            $data['password'] = password_hash(input('password'), PASSWORD_DEFAULT);
+        }
+
+        $validation = $validator->make(input()->all(), $rules);
         $validation->setAliases([
             'name' => 'Tên',
             'email' => 'Email',
@@ -172,12 +179,14 @@ class UserController
                 errors: $errors->firstOfAll()
             );
         }
-        $data = [
+        $data = array_merge($data, [
             'name' => input('name'),
             'email' => input('email'),
-            'status' => input('status') == 'true',
             'updated_at' => date('Y-m-d H:i:s'),
-        ];
+        ]);
+        if (input('status') == 'true' || input('status') == 'false') {
+            $data['status'] = input('status') == 'true';
+        }
         //Update
         try {
             $model = new User();
@@ -186,7 +195,7 @@ class UserController
                 $user = $model->getOne($id);
                 return successResponse(data: $user);
             }
-            
+
             throw new Error("Server Error");
 
         } catch (Exeption $e) {
