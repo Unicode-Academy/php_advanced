@@ -37,7 +37,7 @@ class UserController
             return errorResponse(
                 status: 500,
                 message: 'Server Error',
-                errors: $e->getMessage()
+
             );
         }
 
@@ -55,7 +55,7 @@ class UserController
             return errorResponse(
                 status: 500,
                 message: 'Server Error',
-                errors: $e->getMessage()
+
             );
         } catch (Error $e) {
             return errorResponse(
@@ -288,6 +288,71 @@ class UserController
             return errorResponse(500, "Server Error");
         } catch (Error $e) {
             return errorResponse(500, $e->getMessage());
+        }
+
+    }
+
+    public function delete($id)
+    {
+        try {
+            $model = new User;
+            $user = $model->getOne($id);
+            if (!$user) {
+                throw new Error('User Not found');
+            }
+
+            $status = $model->delete($id);
+            if ($status) {
+                return successResponse(
+                    data: $user
+                );
+            }
+
+            throw new Error("Server Error");
+
+        } catch (Exception $e) {
+            return errorResponse(
+                status: 500,
+                message: 'Server Error',
+            );
+        } catch (Error $e) {
+            return errorResponse(
+                status: 404,
+                message: $e->getMessage(),
+            );
+        }
+    }
+
+    public function deletes()
+    {
+        /*
+        Header
+        Query Params
+        Body
+         */
+        $ids = input('ids');
+        if (!$ids || !is_array($ids)) {
+            return errorResponse(status: 400, message: "Bad Request");
+        }
+
+        $model = new User();
+        try {
+            $status = $model->deletes($ids);
+            if ($status) {
+                return successResponse(data: $ids);
+            }
+
+            throw new Error("Server Error");
+        } catch (Exception $e) {
+            return errorResponse(
+                status: 500,
+                message: 'Server Error',
+            );
+        } catch (Error $e) {
+            return errorResponse(
+                status: 500,
+                message: 'Server Error',
+            );
         }
 
     }

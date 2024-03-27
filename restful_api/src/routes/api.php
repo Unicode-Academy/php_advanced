@@ -9,5 +9,7 @@ Route::group(['prefix' => 'api'], function () {
         Route::post('/users', 'UserController@store');
         Route::patch('/users/{id}', 'UserController@update');
         Route::put('/users/{id}', 'UserController@update');
+        Route::delete('/users/{id}', 'UserController@delete');
+        Route::delete('/users', 'UserController@deletes');
     });
 });

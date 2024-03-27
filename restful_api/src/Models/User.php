@@ -65,7 +65,18 @@ class User extends Model
         return $count > 0;
     }
 
-    public function update($id, $data = []) {
+    public function update($id, $data = [])
+    {
         return $this->db->table('users')->where('id', $id)->update($data);
+    }
+
+    public function delete($id)
+    {
+        return $this->db->table('users')->where('id', $id)->delete();
+    }
+
+    public function deletes($ids)
+    {
+        return $this->db->table('users')->whereIn('id', $ids)->delete();
     }
 }
