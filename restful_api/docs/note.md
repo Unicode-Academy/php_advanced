@@ -235,3 +235,57 @@ Cần thống nhất Response body trong các Endpoint
 
 * Sử dụng URL
 * Sử dụng Header
+
+## Rate Limit
+
+Kỹ thuật giới hạn số lần request trong 1 đơn vị thời gian nhất định
+
+Ví dụ:
+
+- Mỗi người dùng chúng ta chỉ cho phép gửi 100request/s. Nếu vượt quá thì sẽ trả về response lỗi.
+- Mỗi người dùng chỉ cho phép nhập sai thẻ credit 3 lần trong 1 ngày
+- Mỗi địa chỉ IP chỉ có thể tạo được 2 account trong 1 ngày.
+
+Tác dụng của Rate Limit
+
+- Hạn chế tấn công DOS (Denial of Service) đến hệ thống
+- Hạn chế brute force password trong hệ thống (quyét kiểu vét cạn)
+- Hạn chế Brute force thông tin thẻ credit card (quyét kiểu vét cạn)
+- Bảo mật: Không cho phép nhập sai password quá nhiều lần
+- Doanh thu: Với mỗi plan sẽ có rate limit khác nhau. Nếu muốn dùng nhiều hơn thì cần mua lên plan đắt tiền hơn.
+
+Cách triển khai Rate Limit
+
+- Rate Limit theo cái gì?
+
+* IP --> Thường áp dụng cho các API Public
+* User --> Các API Private (Xác thực Email và Password)
+* API Key --> API Private (Xác thực bằng API Key)
+
+- Lưu trữ số lượng Request ở đâu?
+
+* Database
+* Bộ nhớ đệm trên Server: APC, Redis, In-Memory,...
+* File
+
+- Xây dựng logic
+
+* Xác định số lượng Request
+* Đơn vị thời gian: phút, giờ, ngày,...
+
+Ví dụ: Theo địa chỉ IP, 60 requests / phút
+
+Khi có Request, thực hiện các thao tác sau
+
+- Lấy địa chỉ Ip
+- Lấy số lượng request cũ với địa chỉ IP vừa lấy được, nếu chưa có trong kho lưu trữ --> Khởi tạo giá trị 0 và thời gian gửi request đầu tiên
+- Tăng số lượng request thêm 1
+- Cập nhật vào kho lưu trữ
+
+Trong middleware kiểm tra
+
+- Lấy được số lượng request của địa chỉ IP đang gửi Request
+- Nếu vượt quá giá trị cho phép --> Kiểm tra thời gian hiện tại --> So sánh với thời gian của request đầu tiên
+
+* Nếu thời gian hiện tại < thời gian quy định (1 phút) --> Block
+* Nếu thời gian hiện tại > thời gian quy định (1 phút) --> Reset số lượng request về 1 và cập nhật lại thời gian
