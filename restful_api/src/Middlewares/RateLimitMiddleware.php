@@ -39,12 +39,12 @@ class RateLimitMiddleware implements IMiddleware
         $stash = new \Stash\Pool(new \Stash\Driver\FileSystem());
         $adapter = new StashAdapter($stash);
 
-        $rateLimit = new RateLimit("limit_ip",  $this->requestNumber, $this->requestPer, $adapter); // 100 Requests / Hour
+        $rateLimit = new RateLimit("limit_ip", $this->requestNumber, $this->requestPer, $adapter); // 100 Requests / Hour
 
         $id = $_SERVER['REMOTE_ADDR']; // Use client IP as identity
         if (!$rateLimit->check($id)) {
             errorResponse(status: 429, message: "Rate Limit");
-        } 
+        }
     }
 
     private function addRequest()

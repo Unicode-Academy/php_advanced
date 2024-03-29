@@ -46,6 +46,10 @@ class User extends Model
         return $this->db->table('users')->select('id', 'name', 'email', 'status', 'created_at', 'updated_at')->where('id', $id)->first();
     }
 
+    public function findUserByKey($apiKey) {
+        return $this->db->table('users')->where('api_key', $apiKey)->first();
+    }
+
     public function create($data = [])
     {
         $this->db->table('users')->insert($data);
