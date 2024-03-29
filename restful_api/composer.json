@@ -20,6 +20,8 @@
         "pecee/simple-router": "^5.4",
         "requtize/query-builder": "dev-master",
         "vlucas/phpdotenv": "^5.6",
-        "rakit/validation": "^1.4"
+        "rakit/validation": "^1.4",
+        "palepurple/rate-limit": "^2.0",
+        "tedivm/stash": "^1.0"
     }
 }
