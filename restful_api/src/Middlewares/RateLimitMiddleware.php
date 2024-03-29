@@ -8,25 +8,31 @@ use Pecee\Http\Request;
 
 class RateLimitMiddleware implements IMiddleware
 {
-
+    private $requestNumber;
+    private $requestPer;
+    public function __construct()
+    {
+        $this->requestNumber = env('RATE_LIMIT_REQUEST');
+        $this->requestPer = env('RATE_LIMIT_PER');
+    }
     public function handle(Request $request): void
     {
-        $this->addRequest();
-        $this->updateRateLimit();
 
         $rateLimitModel = new RateLimit();
         $ip = request()->getIp();
         $rateLimit = $rateLimitModel->find($ip);
-        if ($rateLimit->request_number >= 10) {
-            $this->resetRateLimit();
+
+        if ($rateLimit && $rateLimit->request_number >= $this->requestNumber) {
+            $seconds = time() - strtotime($rateLimit->start_time);
+            if ($seconds >= $this->requestPer) {
+                $this->resetRateLimit();
+            } else {
+                errorResponse(status: 429, message: "Rate Limit");
+            }
+        } else {
+            $this->addRequest();
+            $this->updateRateLimit();
         }
-
-        echo $rateLimit->request_number;
-
-        // $isRate = true;
-        // if ($isRate) {
-        //     errorResponse(status: 429, message: "Rate Limit");
-        // }
     }
 
     private function addRequest()
