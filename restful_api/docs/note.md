@@ -289,3 +289,21 @@ Trong middleware kiểm tra
 
 * Nếu thời gian hiện tại < thời gian quy định (1 phút) --> Block
 * Nếu thời gian hiện tại > thời gian quy định (1 phút) --> Reset số lượng request về 1 và cập nhật lại thời gian
+
+Xây dựng Database
+
+Table rate_limit
+
+- id
+- ip_address
+- request_number
+- start_time
+- created_at
+- updated_at
+
+Table request_log
+
+- id
+- ip_address
+- created_at
+- updated_at
