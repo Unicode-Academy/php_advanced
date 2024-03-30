@@ -29,7 +29,9 @@ class UserController
             );
             $count = $user->getCount(compact('sort', 'order', 'status', 'query', 'page'));
 
-            return successResponse(data: $users, meta: $limit ? [
+            $userTransformer = new UserTransformer($users);
+
+            return successResponse(data: $userTransformer, meta: $limit ? [
                 'current_page' => (int) $page,
                 'total_rows' => (int) $count,
                 'total_pages' => ceil($count / $limit),
@@ -122,7 +124,7 @@ class UserController
             'updated_at' => date('Y-m-d H:i:s'),
         ];
         $user = (new User)->create($data);
-        return successResponse(data: $user, status: 201);
+        return successResponse(data: new UserTransformer($user), status: 201);
     }
 
     public function update($id)
@@ -196,7 +198,7 @@ class UserController
             $status = $model->update($id, $data);
             if ($status) {
                 $user = $model->getOne($id);
-                return successResponse(data: $user);
+                return successResponse(data: new UserTransformer($user));
             }
 
             throw new Error("Server Error");
@@ -282,7 +284,7 @@ class UserController
             $status = $model->update($id, $data);
             if ($status) {
                 $user = $model->getOne($id);
-                return successResponse(data: $user);
+                return successResponse(data: new UserTransformer($user));
             }
 
             throw new Error("Server Error");
@@ -307,7 +309,7 @@ class UserController
             $status = $model->delete($id);
             if ($status) {
                 return successResponse(
-                    data: $user
+                    data: new UserTransformer($user)
                 );
             }
 
