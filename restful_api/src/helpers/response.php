@@ -1,6 +1,11 @@
 <?php
+
+use System\Core\Transformer;
 function successResponse($status = 200, $data = [], $meta = [])
 {
+    if ($data instanceof Transformer) {
+        $data = $data->response();
+    }
     return response()->httpCode($status)->json([
         'status' => $status,
         'message' => 'Success',

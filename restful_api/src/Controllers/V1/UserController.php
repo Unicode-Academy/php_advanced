@@ -3,6 +3,7 @@
 namespace App\Controllers\V1;
 
 use App\Models\User;
+use App\Transformers\UserTransformer;
 use Error;
 use Rakit\Validation\Validator;
 use Requtize\QueryBuilder\Exception\Exception;
@@ -50,7 +51,9 @@ class UserController
             if (!$user) {
                 throw new Error('User Not found');
             }
-            return successResponse(data: $user);
+            $userTransformer = new UserTransformer($user);
+
+            return successResponse(data: $userTransformer);
         } catch (Exception $e) {
             return errorResponse(
                 status: 500,
