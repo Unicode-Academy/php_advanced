@@ -2,14 +2,23 @@
 
 namespace App\Controllers\V1;
 
-use App\Models\User;
-use App\Transformers\UserTransformer;
 use Error;
+use App\Models\User;
+use League\Fractal\Manager;
 use Rakit\Validation\Validator;
+use League\Fractal\Resource\Item;
+use App\Transformers\UserTransform;
+use App\Transformers\UserTransformer;
+use League\Fractal\Resource\Collection;
 use Requtize\QueryBuilder\Exception\Exception;
 
 class UserController
 {
+    private $fractal;
+    public function __construct()
+    {
+        $this->fractal = new Manager();
+    }
     public function index()
     {
         $sort = input('sort') ?? 'id';
@@ -29,9 +38,10 @@ class UserController
             );
             $count = $user->getCount(compact('sort', 'order', 'status', 'query', 'page'));
 
-            $userTransformer = new UserTransformer($users);
+            // $userTransformer = new UserTransformer($users);
+            $userTransformer = new Collection($users, new UserTransform);
 
-            return successResponse(data: $userTransformer, meta: $limit ? [
+            return successResponse(data: $this->fractal->createData($userTransformer), meta: $limit ? [
                 'current_page' => (int) $page,
                 'total_rows' => (int) $count,
                 'total_pages' => ceil($count / $limit),
@@ -53,9 +63,10 @@ class UserController
             if (!$user) {
                 throw new Error('User Not found');
             }
-            $userTransformer = new UserTransformer($user);
+            // $userTransformer = new UserTransformer($user);
+            $userTransformer = new Item($user, new UserTransform);
 
-            return successResponse(data: $userTransformer);
+            return successResponse(data: $this->fractal->createData($userTransformer));
         } catch (Exception $e) {
             return errorResponse(
                 status: 500,

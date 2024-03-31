@@ -307,3 +307,26 @@ Table request_log
 - ip_address
 - created_at
 - updated_at
+
+## Authentication - Authorization
+
+### Authentication
+
+Authentication là về việc xác thực thông tin đăng nhập của bạn như Tên người dùng / ID người dùng và mật khẩu để xác minh danh tính của bạn
+
+Authentication thường được thực hiện bởi tên người dùng và mật khẩu, và đôi khi kết hợp với các yếu tố xác thực, trong đó đề cập đến các cách khác nhau để được xác thực.
+
+## Authoriztion
+
+Authorization xảy ra sau khi hệ thống của bạn được authentication (xác thực) thành công, cuối cùng cho phép bạn toàn quyền truy cập các tài nguyên như thông tin, file, cơ sở dữ liệu, quỹ, địa điểm, hầu hết mọi thứ.
+
+Nói một cách đơn giản, authorization xác định khả năng của bạn để truy cập hệ thống và ở mức độ nào. Khi danh tính của bạn được hệ thống xác minh sau khi xác thực thành công, bạn sẽ được phép truy cập tài nguyên của hệ thống.
+
+| **Authentication**                                                                                                                                                                                  | **Authorization**                                                                                                                                       |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Authentication xác nhận danh tính của bạn để cấp quyền truy cập vào hệ thống                                                                                                                        | Authorization xác định xem bạn có được phép truy cập tài nguyên không                                                                                   |
+| Đây là quá trình xác nhận thông tin đăng nhập để có quyền truy cập của người dùng.                                                                                                                  | Đó là quá trình xác minh xem có cho phép truy cập hay không.                                                                                            |
+| Nó quyết định liệu người dùng có phải là những gì anh ta tuyên bố hay không.                                                                                                                        | Nó xác định những gì người dùng có thể và không thể truy cập.                                                                                           |
+| Authentication thường yêu cầu tên người dùng và mật khẩu.                                                                                                                                           | Các yếu tố xác thực cần thiết để authorization có thể khác nhau, tùy thuộc vào mức độ bảo mật.                                                          |
+| Authentication là bước đầu tiên của authorization vì vậy luôn luôn đến trước.                                                                                                                       | Authorization được thực hiện sau khi authentication thành công.                                                                                         |
+| Ví dụ, sinh viên của một trường đại học cụ thể được yêu cầu tự xác thực trước khi truy cập vào liên kết sinh viên của trang web chính thức của trường đại học. Điều này được gọi là authentication. | Ví dụ, authorization xác định chính xác thông tin nào sinh viên được phép truy cập trên trang web của trường đại học sau khi authentication thành công. |
