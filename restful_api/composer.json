@@ -23,6 +23,7 @@
         "rakit/validation": "^1.4",
         "palepurple/rate-limit": "^2.0",
         "tedivm/stash": "^1.0",
-        "league/fractal": "^0.20.1"
+        "league/fractal": "^0.20.1",
+        "firebase/php-jwt": "^6.10"
     }
 }

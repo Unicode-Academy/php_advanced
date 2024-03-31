@@ -41,12 +41,13 @@ class User extends Model
         return $users->count();
     }
 
-    public function getOne($id)
+    public function getOne($value, $type = 'id')
     {
-        return $this->db->table('users')->select('id', 'name', 'email', 'status', 'created_at', 'updated_at')->where('id', $id)->first();
+        return $this->db->table('users')->select('id', 'name', 'email', 'password', 'status', 'created_at', 'updated_at')->where($type, $value)->first();
     }
 
-    public function findUserByKey($apiKey) {
+    public function findUserByKey($apiKey)
+    {
         return $this->db->table('users')->where('api_key', $apiKey)->first();
     }
 
