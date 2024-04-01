@@ -3,6 +3,7 @@ namespace App\Controllers\V1;
 
 use App\Models\User;
 use Firebase\JWT\JWT;
+use System\Core\Auth;
 
 class AuthController
 {
@@ -36,5 +37,10 @@ class AuthController
         return successResponse(data: [
             'access_token' => $accessToken,
         ]);
+    }
+
+    public function profile()
+    {
+        return successResponse(data: Auth::user());
     }
 }

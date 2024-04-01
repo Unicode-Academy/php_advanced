@@ -1,5 +1,6 @@
 <?php
 
+use App\Middlewares\AuthMiddleware;
 use Pecee\SimpleRouter\SimpleRouter as Route;
 
 Route::group(['prefix' => 'api'], function () {
@@ -13,6 +14,9 @@ Route::group(['prefix' => 'api'], function () {
         Route::delete('/users', 'UserController@deletes');
 
         Route::post('/auth/login', 'AuthController@login');
+        Route::group(['middleware' => AuthMiddleware::class], function () {
+            Route::get('/auth/profile', 'AuthController@profile');
+        });
     });
 
 });

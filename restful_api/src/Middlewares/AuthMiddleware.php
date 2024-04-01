@@ -2,8 +2,11 @@
 namespace App\Middlewares;
 
 use App\Models\User;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\Http\Request;
+use System\Core\Auth;
 
 class AuthMiddleware implements IMiddleware
 {
@@ -30,6 +33,28 @@ class AuthMiddleware implements IMiddleware
         // } else {
         //     errorResponse(status: 401, message: 'Unauthorize', errors: "No provide API Key");
         // }
+        $authorization = $request->getHeader('Authorization');
+        if (!$authorization) {
+            errorResponse(status: 401, message: 'Unauthorize');
+        } else {
+            $token = trim(str_replace('Bearer', '', $authorization));
+            try {
+                $decoded = JWT::decode($token, new Key(env('JWT_SECRET'), 'HS256'));
+                $userId = $decoded->sub;
+                $userModel = new User;
+                $user = $userModel->getOne($userId);
+                if (!$user) {
+                    errorResponse(status: 404, message: 'User not found');
+                } else if (!$user->status) {
+                    errorResponse(status: 404, message: 'User Blocked');
+                } else {
+                    Auth::setUser($user);
+                }
 
+            } catch (\Exception $e) {
+                errorResponse(status: 401, message: 'Unauthorize');
+            }
+
+        }
     }
 }
