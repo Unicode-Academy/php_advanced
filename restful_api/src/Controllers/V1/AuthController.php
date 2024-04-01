@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers\V1;
 
+use App\Models\RefreshToken;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use System\Core\Auth;
@@ -34,8 +35,22 @@ class AuthController
             'iat' => time(),
         ];
         $accessToken = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
+        $refreshToken = JWT::encode([
+            'exp' => time() + env('JWT_REFRESH_EXPIRE'),
+            'sub' => $user->id,
+            'iat' => time(),
+        ], env('JWT_REFRESH_SECRET'), 'HS256');
+        (new RefreshToken())->create(
+            [
+                'user_id' => $user->id,
+                'refresh_token' => $refreshToken,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]
+        );
         return successResponse(data: [
             'access_token' => $accessToken,
+            'refresh_token' => $refreshToken,
         ]);
     }
 
