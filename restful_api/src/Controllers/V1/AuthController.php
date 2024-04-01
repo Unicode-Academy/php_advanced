@@ -4,6 +4,7 @@ namespace App\Controllers\V1;
 use App\Models\RefreshToken;
 use App\Models\User;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use System\Core\Auth;
 
 class AuthController
@@ -57,5 +58,38 @@ class AuthController
     public function profile()
     {
         return successResponse(data: Auth::user());
+    }
+
+    public function refresh()
+    {
+        $refreshToken = input('refresh_token');
+        if (!$refreshToken) {
+            return errorResponse(status: 401, message: "Unauthorize");
+        }
+
+        try {
+            $decoded = JWT::decode($refreshToken, new Key(env('JWT_REFRESH_SECRET'), 'HS256'));
+            $refreshTokenModel = new RefreshToken;
+            $token = $refreshTokenModel->find($refreshToken, 'refresh_token');
+            if (!$token) {
+                throw new \Exception("Token is valid");
+            }
+
+            $userId = $decoded->sub;
+
+            $payload = [
+                'sub' => $userId,
+                'exp' => time() + env('JWT_EXPIRE'),
+                'iat' => time(),
+            ];
+            $accessToken = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
+            return successResponse(data: [
+                'access_token' => $accessToken,
+                'refresh_token' => $refreshToken,
+            ]);
+
+        } catch (\Exception $e) {
+            return errorResponse(status: 401, message: 'Unauthorize', errors: $e->getMessage());
+        }
     }
 }

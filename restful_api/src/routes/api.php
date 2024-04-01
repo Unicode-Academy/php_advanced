@@ -14,6 +14,7 @@ Route::group(['prefix' => 'api'], function () {
         Route::delete('/users', 'UserController@deletes');
 
         Route::post('/auth/login', 'AuthController@login');
+        Route::post('/auth/refresh-token', 'AuthController@refresh');
         Route::group(['middleware' => AuthMiddleware::class], function () {
             Route::get('/auth/profile', 'AuthController@profile');
             Route::get('/my-courses', 'UserController@courses');
