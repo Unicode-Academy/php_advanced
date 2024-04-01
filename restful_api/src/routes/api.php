@@ -16,6 +16,7 @@ Route::group(['prefix' => 'api'], function () {
         Route::post('/auth/login', 'AuthController@login');
         Route::group(['middleware' => AuthMiddleware::class], function () {
             Route::get('/auth/profile', 'AuthController@profile');
+            Route::get('/my-courses', 'UserController@courses');
         });
     });
 

@@ -2,15 +2,16 @@
 
 namespace App\Controllers\V1;
 
-use Error;
 use App\Models\User;
-use League\Fractal\Manager;
-use Rakit\Validation\Validator;
-use League\Fractal\Resource\Item;
 use App\Transformers\UserTransform;
 use App\Transformers\UserTransformer;
+use Error;
+use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
+use Rakit\Validation\Validator;
 use Requtize\QueryBuilder\Exception\Exception;
+use System\Core\Auth;
 
 class UserController
 {
@@ -371,5 +372,16 @@ class UserController
             );
         }
 
+    }
+
+    public function courses()
+    {
+        //Lấy danh sách courses của 1 user
+        $userId = Auth::user()->id;
+        $userModel = new User;
+        $courses = $userModel->courses($userId);
+        return successResponse(
+            data: $courses
+        );
     }
 }

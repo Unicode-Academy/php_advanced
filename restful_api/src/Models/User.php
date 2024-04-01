@@ -84,4 +84,11 @@ class User extends Model
     {
         return $this->db->table('users')->whereIn('id', $ids)->delete();
     }
+
+    public function courses($userId)
+    {
+        return $this->db->query("SELECT * FROM courses INNER JOIN users_courses ON courses.id=users_courses.course_id WHERE users_courses.user_id=:user_id", [
+            'user_id' => $userId,
+        ]);
+    }
 }
