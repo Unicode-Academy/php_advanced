@@ -1,6 +1,7 @@
 <?php
 namespace App\Middlewares;
 
+use App\Models\BlacklistToken;
 use App\Models\User;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -40,6 +41,13 @@ class AuthMiddleware implements IMiddleware
             $token = trim(str_replace('Bearer', '', $authorization));
             try {
                 $decoded = JWT::decode($token, new Key(env('JWT_SECRET'), 'HS256'));
+
+                //Kiểm tra token có ở trong Blacklist hay không?
+                $blacklist = (new BlacklistToken)->find($token, 'token');
+                if ($blacklist) {
+                    throw new \Exception("Token is blacklist");
+                }
+
                 $userId = $decoded->sub;
                 $userModel = new User;
                 $user = $userModel->getOne($userId);
@@ -48,6 +56,8 @@ class AuthMiddleware implements IMiddleware
                 } else if (!$user->status) {
                     errorResponse(status: 404, message: 'User Blocked');
                 } else {
+                    $user->token = $token;
+                    $user->expire = date('Y-m-d H:i:s', $decoded->exp);
                     Auth::setUser($user);
                 }
 

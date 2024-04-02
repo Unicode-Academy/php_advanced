@@ -470,3 +470,24 @@ Ngoài ra, việc để thời gian hết hạn của JWT quá dài cũng có th
 - Thời gian sống dài, thường là 7 ngày
 - Không dùng để truy cập tài nguyên trên Server
 - Refresh lưu trên Server
+
+## Logout - Blacklist
+
+- Token tạo bằng JWT (Không lưu ở Database)
+- Không xóa được (Trừ phi hết hạn)
+
+Vấn đề: Token bị lộ --> Làm sao để thu hồi?
+
+Đăng xuất: Chỉ xóa token phía Client (Cookie, localStorage, sessionStorage,...)
+
+Giải pháp: Khi đăng xuất --> Thêm token vào Blacklist (Database, Cache, Redis,...)
+
+==> Cần phải viết API: /auth/logout (Gửi token lên Server)
+
+Authorization --> Kiểm tra xem Token có trong Blacklist hay không?
+
+Ngoại lệ: Token bị lộ trước khi logout --> Giải pháp: Hạ thời gian sống của Token xuống thấp
+
+Token trong Blacklist khi nào thì xóa?
+
+==> Khi nào Token trong Blacklist hết hạn thì xóa (Thêm thời gian hết hạn ở trong blacklist)

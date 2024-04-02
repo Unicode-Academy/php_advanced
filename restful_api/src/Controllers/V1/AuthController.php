@@ -1,10 +1,13 @@
 <?php
 namespace App\Controllers\V1;
 
+use App\Models\BlacklistToken;
 use App\Models\RefreshToken;
 use App\Models\User;
+use App\Transformers\UserTransformer;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Requtize\QueryBuilder\Exception\Exception;
 use System\Core\Auth;
 
 class AuthController
@@ -90,6 +93,27 @@ class AuthController
 
         } catch (\Exception $e) {
             return errorResponse(status: 401, message: 'Unauthorize', errors: $e->getMessage());
+        }
+    }
+
+    public function logout()
+    {
+        $token = Auth::user()->token;
+        $expire = Auth::user()->expire;
+        if ($token && $expire) {
+            $blacklist = new BlacklistToken;
+            try {
+                $blacklist->create([
+                    'token' => $token,
+                    'expire' => $expire,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+                $userTransformer = new UserTransformer(Auth::user());
+                return successResponse(data: $userTransformer);
+            } catch (Exception $e) {
+                return errorResponse(status: 401, message: "User logged out");
+            }
+
         }
     }
 }
