@@ -491,3 +491,19 @@ Ngoại lệ: Token bị lộ trước khi logout --> Giải pháp: Hạ thời 
 Token trong Blacklist khi nào thì xóa?
 
 ==> Khi nào Token trong Blacklist hết hạn thì xóa (Thêm thời gian hết hạn ở trong blacklist)
+
+## CORS
+
+Origin: scheme + domain + port
+
+Chỉ xảy ra khi gửi Request tới Server bằng trình duyệt (Front-End)
+
+Header cần thiết
+
+Access-Control-Allow-Origin
+Access-Control-Allow-Methods
+Access-Control-Allow-Headers
+Access-Control-Max-Age
+Access-Control-Allow-Credentials
+
+Request ==> Middleware (Request --> Response) ==> Middleware (Request --> Response) ==> Controller (Request --> Response)

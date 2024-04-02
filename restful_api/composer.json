@@ -7,7 +7,7 @@
             "System\\": "./"
         },
         "exclude-from-classmap": ["vendor\\requtize\\query-builder\\src\\QueryBuilder\\QueryBuilder\\Compiler.php", "vendor\\requtize\\query-builder\\src\\QueryBuilder\\Exception\\Exception.php"],
-        "files": ["src/helpers/functions.php", "src/routes/api.php", "src/helpers/response.php", "Core/Complier.php", "Core/QueryBuilderException.php"]
+        "files": ["src/helpers/functions.php", "src/routes/api.php", "src/helpers/response.php", "Core/Complier.php", "Core/QueryBuilderException.php", "src/helpers/cors.php"]
        
     },
     "authors": [
