@@ -507,3 +507,76 @@ Access-Control-Max-Age
 Access-Control-Allow-Credentials
 
 Request ==> Middleware (Request --> Response) ==> Middleware (Request --> Response) ==> Controller (Request --> Response)
+
+## API Document
+
+### 1. Swagger/OpenAPI:
+
+**Ưu điểm:**
+
+- Phổ biến nhất, được hỗ trợ bởi nhiều công cụ và ngôn ngữ lập trình.
+- Dễ dàng sử dụng, có nhiều tài liệu và hướng dẫn.
+- Hỗ trợ mô tả API chi tiết, bao gồm cả định dạng dữ liệu, ví dụ và mã.
+
+**Nhược điểm:**
+
+- Có thể hơi phức tạp cho các API đơn giản.
+- Yêu cầu kiến thức về định dạng YAML hoặc JSON.
+
+### 2. RAML:
+
+**Ưu điểm:**
+
+- Dễ đọc và viết hơn Swagger/OpenAPI.
+- Hỗ trợ mô tả API bằng ngôn ngữ tự nhiên.
+- Có thể được sử dụng để tạo tài liệu API và mã stub.
+
+**Nhược điểm:**
+
+- Ít phổ biến hơn Swagger/OpenAPI.
+- Ít công cụ và ngôn ngữ lập trình hỗ trợ.
+
+### 3. Postman:
+
+**Ưu điểm:**
+
+- Dễ sử dụng, có giao diện đồ họa trực quan.
+- Hỗ trợ nhiều tính năng, bao gồm test API, mock API và chia sẻ API.
+- Có thể tạo tài liệu API từ Postman collection.
+
+**Nhược điểm:**
+
+- Miễn phí cho các dự án nhỏ, nhưng yêu cầu trả phí cho các dự án lớn hơn.
+- Không hỗ trợ mô tả API chi tiết như Swagger/OpenAPI.
+
+### 4. API Blueprint:
+
+**Ưu điểm:**
+
+- Dễ đọc và viết, sử dụng cú pháp markdown.
+- Hỗ trợ mô tả API chi tiết, bao gồm cả định dạng dữ liệu, ví dụ và mã.
+- Có thể được sử dụng để tạo tài liệu API và mã stub.
+
+**Nhược điểm:**
+
+- Ít phổ biến hơn Swagger/OpenAPI.
+- Ít công cụ và ngôn ngữ lập trình hỗ trợ.
+
+### 5. Slate:
+
+**Ưu điểm:**
+
+- Hiện đại và dễ sử dụng, sử dụng giao diện đồ họa trực quan.
+- Hỗ trợ mô tả API chi tiết, bao gồm cả định dạng dữ liệu, ví dụ và mã.
+- Có thể cộng tác với nhiều người trong thời gian thực.
+
+**Nhược điểm:**
+
+- Mới ra mắt, có thể chưa có nhiều tính năng như các công cụ khác.
+- Miễn phí cho các dự án nhỏ, nhưng yêu cầu trả phí cho các dự án lớn hơn.
+
+### Lưu ý:
+
+- Lựa chọn Open Source phù hợp cho bạn phụ thuộc vào nhu cầu cụ thể của dự án.
+- Nên xem xét các yếu tố như độ phổ biến, tính dễ sử dụng, tính năng hỗ trợ và giá cả khi lựa chọn.
+- Ngoài các Open Source trên, bạn cũng có thể tham khảo thêm các công cụ khác như: ReadMe.io, Apiary, DocuSign và Stoplight.
