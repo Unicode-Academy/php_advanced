@@ -1,0 +1,13 @@
+<?php
+if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'serve') {
+    $host = !empty($_SERVER['argv'][2]) ? $_SERVER['argv'][2] : '127.0.0.1';
+    $port = !empty($_SERVER['argv'][2]) ? $_SERVER['argv'][3] : '8000';
+    system('cd public && php -S ' . $host . ':' . $port);
+}
+
+if (!empty($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'cache') {
+    system('cd src && mkdir caches');
+    echo "Create folder success";
+}
+
+//php artisan serve --host hoangan.test --port 8001 --> Cắt bằng Regex

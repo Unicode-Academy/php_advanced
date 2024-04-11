@@ -3,6 +3,10 @@
 use App\Middlewares\AuthMiddleware;
 use Pecee\SimpleRouter\SimpleRouter as Route;
 
+Route::get('/', function () {
+    return '<h1>API Reference</h1>';
+
+});
 Route::group(['prefix' => 'api'], function () {
     Route::group(['prefix' => 'v1', 'namespace' => '\App\Controllers\V1'], function () {
         Route::get('/users', 'UserController@index');
