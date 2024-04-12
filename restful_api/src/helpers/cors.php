@@ -1,7 +1,6 @@
 <?php
 $whiteList = [
-    'http://127.0.0.1:52251',
-    'http://localhost:52251',
+    'http://127.0.0.1:53869',
 ];
 
 if (!empty($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $whiteList)) {

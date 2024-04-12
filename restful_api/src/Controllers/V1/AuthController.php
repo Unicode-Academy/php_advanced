@@ -118,9 +118,9 @@ class AuthController
         ];
 
         $avatar = input()->file('avatar');
-
         $allowed = ['image/jpg', 'image/jpeg', 'image/png'];
-        if ($avatar) {
+
+        if ($avatar && $avatar->errors != 4) {
             if (in_array($avatar->getMime(), $allowed)) {
                 $destinationFilname = sprintf('%s.%s', uniqid(), $avatar->getExtension());
                 $status = $avatar->move(sprintf('./uploads/%s', $destinationFilname));
