@@ -43,7 +43,7 @@ class User extends Model
 
     public function getOne($value, $type = 'id')
     {
-        return $this->db->table('users')->select('id', 'name', 'email', 'password', 'status', 'created_at', 'updated_at')->where($type, $value)->first();
+        return $this->db->table('users')->select('id', 'name', 'email', 'password', 'status', 'avatar', 'created_at', 'updated_at')->where($type, $value)->first();
     }
 
     public function findUserByKey($apiKey)
