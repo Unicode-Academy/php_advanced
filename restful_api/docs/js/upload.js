@@ -28,6 +28,7 @@ const app = {
   </div>`,
   accountForm: `<div class="w-50 mx-auto ">
     <h1>Tài khoản</h1>
+    <p>Xin chào: <span class="profile-name"></span> <a href="#" class="logout">Đăng xuất</a></p>
     <form action="" class="account-form">
         <div class="mb-3">
         <label for="">Tên</label>
@@ -87,6 +88,12 @@ const app = {
         this.handleUpdateAccount(e.target);
       }
     });
+    root.addEventListener("click", (e) => {
+      if (e.target.classList.contains("logout")) {
+        e.preventDefault();
+        this.handleLogout();
+      }
+    });
   },
   handleLogin: async function (form) {
     const dataLogin = Object.fromEntries([...new FormData(form)]);
@@ -104,6 +111,23 @@ const app = {
     } else {
       this.notify("Email hoặc mật khẩu không chính xác", "error");
     }
+  },
+  handleLogout: async function () {
+    const { access_token: accessToken } = JSON.parse(
+      localStorage.getItem("tokens")
+    );
+    const response = await fetch(`${this.serverApi}/auth/logout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!response.ok) {
+      alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+      return;
+    }
+    localStorage.removeItem("tokens");
+    this.start();
   },
   handleUpdateAccount: async function (form) {
     const dataForm = new FormData(form);
@@ -144,9 +168,11 @@ const app = {
         data: { name, email, avatar },
       } = await response.json();
       const nameEl = root.querySelector(".account-form .name");
+      const profileNameEl = root.querySelector(".profile-name");
       const emailEl = root.querySelector(".account-form .email");
       nameEl.value = name;
       emailEl.value = email;
+      profileNameEl.innerText = name;
       const avatarEl = root.querySelector(".account-form .avatar");
       if (avatar) {
         avatarEl.innerHTML = `<img src="${avatar}" style="width: 100px;"/>`;
