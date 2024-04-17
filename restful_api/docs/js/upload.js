@@ -95,6 +95,28 @@ const app = {
       }
     });
   },
+  getNewAccessToken: async function () {
+    try {
+      const { refresh_token: refreshToken } = JSON.parse(
+        localStorage.getItem("tokens")
+      );
+      if (refreshToken) {
+        const response = await fetch(`${this.serverApi}/auth/refresh-token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+        if (!response.ok) {
+          throw new Error("Refresh Token Invalid");
+        }
+        return response.json();
+      }
+    } catch (e) {
+      return false;
+    }
+  },
   handleLogin: async function (form) {
     const dataLogin = Object.fromEntries([...new FormData(form)]);
     const response = await fetch(`${this.serverApi}/auth/login`, {
@@ -160,9 +182,18 @@ const app = {
         },
       });
       if (!response.ok) {
-        localStorage.removeItem("tokens");
-        this.start();
-        return;
+        //Gọi refresh token để cấp lại access mới
+        const newToken = await this.getNewAccessToken();
+
+        //Nếu refresh token không hợp lệ
+        if (!newToken) {
+          localStorage.removeItem("tokens");
+          this.start();
+          return;
+        }
+
+        localStorage.setItem("tokens", JSON.stringify(newToken.data));
+        this.getProfile();
       }
       const {
         data: { name, email, avatar },
@@ -192,8 +223,17 @@ const app = {
     this.render(html);
     this.addEvent();
     this.getProfile();
+    // this.getNewAccessToken();
   },
 };
 
 const root = document.querySelector("#root");
 app.start();
+
+/*
+Refresh Token
+
+Access Token hết hạn --> Gọi API Refresh Token --> Access Token mới 
+--> Lưu Access Token mới vào localStorage
+--> Gọi lại api bị miss
+*/
