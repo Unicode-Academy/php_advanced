@@ -59,3 +59,28 @@ Ví dụ: Khi sử dụng Facebook chúng ta đặt đối tượng được ph�
   --> Ẩn những menu, chức năng mà user không có quyền
 
 Xác thực ==> Phân quyền
+
+# Xây dựng Database phân quyền
+
+- Quản lý người dùng
+
+* Danh sách
+* Thêm
+* Sửa
+* Xóa
+* Phân quyền
+
+- Quản lý sản phẩm
+
+* Danh sách
+* Thêm
+* Sửa
+* Xóa
+* Export
+
+- Quản lý bài viết
+
+* Danh sách
+* Thêm
+* Sửa
+* Xóa
