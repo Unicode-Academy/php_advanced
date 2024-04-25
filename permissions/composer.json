@@ -1,0 +1,35 @@
+{
+    "name": "unicode/permissions",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "System\\": "./"
+        },
+        "exclude-from-classmap": ["vendor\\requtize\\query-builder\\src\\QueryBuilder\\QueryBuilder\\Compiler.php", "vendor\\requtize\\query-builder\\src\\QueryBuilder\\Exception\\Exception.php"],
+        "files": ["src/helpers/functions.php", "src/routes/api.php", "src/routes/web.php", "src/helpers/response.php", "Core/Complier.php", "Core/QueryBuilderException.php", "src/helpers/cors.php"]
+       
+    },
+    "authors": [
+        {
+            "name": "Hoàng An Unicode",
+            "email": "hoangan.web@gmail.com"
+        }
+    ],
+    "require": {
+        "pecee/simple-router": "^5.4",
+        "requtize/query-builder": "dev-master",
+        "vlucas/phpdotenv": "^5.6",
+        "rakit/validation": "^1.4",
+        "palepurple/rate-limit": "^2.0",
+        "tedivm/stash": "^1.0",
+        "league/fractal": "^0.20.1",
+        "firebase/php-jwt": "^6.10",
+        "philo/laravel-blade": "3.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+    }
+}
