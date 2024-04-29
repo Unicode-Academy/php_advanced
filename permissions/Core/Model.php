@@ -12,12 +12,12 @@ class Model
     protected $db;
     public function __construct()
     {
-        $dbHost = env('DB_HOST');
-        $dbName = env('DB_DATABASE');
-        $dbPort = env('DB_PORT');
-        $dbUser = env('DB_USERNAME');
-        $dbPassword = env('DB_PASSWORD');
-        $dbDriver = env('DB_DRIVER');
+        $dbHost = $_ENV['DB_HOST'];
+        $dbName = $_ENV['DB_DATABASE'];
+        $dbPort = $_ENV['DB_PORT'];
+        $dbUser = $_ENV['DB_USERNAME'];
+        $dbPassword = $_ENV['DB_PASSWORD'];
+        $dbDriver = $_ENV['DB_DRIVER'];
         $dns = "$dbDriver:host=$dbHost;dbname=$dbName;port=$dbPort";
         $pdo = new PDO($dns, $dbUser, $dbPassword);
         $conn = new Connection(new PdoBridge($pdo));
