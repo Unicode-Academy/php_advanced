@@ -15,4 +15,18 @@ class UserController
         $users = $this->userModel->getUsers();
         return view('users.index', compact('pageTitle', 'users'));
     }
+
+    public function add()
+    {
+        $pageTitle = 'Thêm người dùng';
+        return view('users.add', compact('pageTitle'));
+    }
+
+    public function handleAdd()
+    {
+        $data = input()->all();
+        $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+        $this->userModel->addUser($data);
+        return redirect('/users');
+    }
 }

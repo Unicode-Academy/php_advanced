@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Quản lý người dùng</h1>
+<a href="{{url('users.add')}}" class="btn btn-primary my-2">Thêm mới</a>
 <table class="table table-bordered">
     <thead>
         <tr>
