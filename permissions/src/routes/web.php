@@ -19,3 +19,11 @@ Route::group(['prefix' => 'products'], function () {
     Route::post('/edit/{id}', 'ProductController@update');
     Route::post('/delete/{id}', 'ProductController@delete')->name('products.delete');
 });
+Route::group(['prefix' => 'posts'], function () {
+    Route::get('/', 'PostController@index')->name('posts.index');
+    Route::get('/add', 'PostController@add')->name('posts.add');
+    Route::post('/add', 'PostController@handleAdd');
+    Route::get('/edit/{id}', 'PostController@edit')->name('posts.edit');
+    Route::post('/edit/{id}', 'PostController@update');
+    Route::post('/delete/{id}', 'PostController@delete')->name('posts.delete');
+});
