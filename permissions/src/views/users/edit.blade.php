@@ -23,6 +23,6 @@
             <option value="1" {{$user->status == 1 ? 'selected': ''}}>Kích hoạt</option>
         </select>
     </div>
-    <button class="btn btn-primary">Thêm mới</button>
+    <button class="btn btn-primary">Cập nhật</button>
 </form>
 @endsection

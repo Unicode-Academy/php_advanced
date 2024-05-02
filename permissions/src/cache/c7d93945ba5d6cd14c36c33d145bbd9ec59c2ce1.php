@@ -1,6 +1,6 @@
 <ul class="nav flex-column">
-    <li class="nav-item"><a class="nav-link" href="#">Tổng quản</a></li>
-    <li class="nav-item"><a class="nav-link" href="#">Người dùng</a></li>
-    <li class="nav-item"><a class="nav-link" href="#">Sản phẩm</a></li>
-    <li class="nav-item"><a class="nav-link" href="#">Bài viết</a></li>
+    <li class="nav-item"><a class="nav-link" href="<?php echo e(url('home')); ?>">Tổng quan</a></li>
+    <li class="nav-item"><a class="nav-link" href="<?php echo e(url('users.index')); ?>">Người dùng</a></li>
+    <li class="nav-item"><a class="nav-link" href="<?php echo e(url('products.index')); ?>">Sản phẩm</a></li>
+    <li class="nav-item"><a class="nav-link" href="<?php echo e(url('posts.index')); ?>">Bài viết</a></li>
 </ul>
