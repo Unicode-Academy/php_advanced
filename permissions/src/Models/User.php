@@ -15,4 +15,18 @@ class User extends Model
     {
         return $this->db->table('users')->insert($data);
     }
+
+    public function updateUser($id, $data)
+    {
+        return $this->db->table('users')->where('id', $id)->update($data);
+    }
+
+    public function findUser($id)
+    {
+        return $this->db->table('users')->where('id', $id)->first();
+    }
+
+    public function deleteUser($id) {
+        return $this->db->table('users')->where('id', $id)->delete();
+    }
 }

@@ -22,8 +22,13 @@
             <td>{{$user->email}}</td>
             <td>{!! $user->status ? '<span class="badge bg-success">Kích hoạt</span>':'<span
                     class="badge bg-danger">Chưa kích hoạt</span>' !!}</td>
-            <td><a href="#" class="btn btn-warning btn-sm">Sửa</a></td>
-            <td><a href="#" class="btn btn-danger btn-sm">Xóa</a></td>
+            <td><a href="{{url('users.edit', ['id' => $user->id])}}" class="btn btn-warning btn-sm">Sửa</a></td>
+            <td>
+                <form method="post" onsubmit="return confirm('Bạn có chắc chắn?')"
+                    action="{{url('users.delete', ['id' => $user->id])}}">
+                    <button class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            </td>
         </tr>
         @endforeach
     </tbody>
