@@ -35,7 +35,8 @@ class UserController
         $pageTitle = 'Cập nhật người dùng';
         $user = $this->userModel->findUser($id);
         if (!$user) {
-            throw new \Error('User not found');
+            $error = new \Error('User not found', 403);
+            throw $error;
         }
         return view('users.edit', compact('pageTitle', 'user'));
     }

@@ -7,9 +7,11 @@ define('_CACHE_PATH', dirname(__DIR__) . '/src/cache');
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
+use System\Core\CustomException;
 use Pecee\SimpleRouter\SimpleRouter as Route;
 
 Route::setDefaultNamespace('\App\Controllers');
 
-// Start the routing
+new CustomException;
+
 Route::start();
