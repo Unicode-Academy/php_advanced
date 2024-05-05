@@ -27,3 +27,7 @@ Route::group(['prefix' => 'posts'], function () {
     Route::post('/edit/{id}', 'PostController@update');
     Route::post('/delete/{id}', 'PostController@delete')->name('posts.delete');
 });
+
+Route::group(['prefix' => 'permissions'], function () {
+    Route::get('/', 'PermissionController@index')->name('permissions.index');
+});
