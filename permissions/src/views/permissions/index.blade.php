@@ -2,6 +2,7 @@
 
 @section('content')
 <h1>Vai trò</h1>
+<a href="{{url('permissions.add')}}" class="btn btn-primary my-2">Thêm vai trò</a>
 <table class="table table-bordered">
     <thead>
         <tr>
