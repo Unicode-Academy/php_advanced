@@ -18,7 +18,7 @@
             <td>{{$key + 1}}</td>
             <td>{{$role->name}}</td>
             <td>
-                <a href="#" class="btn btn-warning">Sửa</a>
+                <a href="{{url('permissions.edit', ['id' => $role->id])}}" class="btn btn-warning">Sửa</a>
             </td>
             <td>
                 <a href="#" class="btn btn-danger">Xóa</a>

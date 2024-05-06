@@ -25,4 +25,22 @@ class Role extends Model
             'permission_id' => $permissionId,
         ]);
     }
+    public function deletePermissions($roleId)
+    {
+        return $this->db->table('roles_permissions')->where('role_id', $roleId)->delete();
+    }
+    public function getRole($id)
+    {
+        return $this->db->table('roles')->where('id', $id)->first();
+    }
+
+    public function getPermissions($roleId)
+    {
+        return $this->db->query("SELECT permissions.* FROM permissions INNER JOIN roles_permissions ON permissions.id=roles_permissions.permission_id WHERE roles_permissions.role_id=?", [$roleId]);
+    }
+
+    public function updateRole($id, $data = [])
+    {
+        return $this->db->table('roles')->where('id', $id)->update($data);
+    }
 }

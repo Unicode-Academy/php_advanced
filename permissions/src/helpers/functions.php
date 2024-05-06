@@ -99,3 +99,13 @@ function view($path, $data = [])
 // {
 //     return $_ENV[$name];
 // }
+
+function isPermission($permissions, $value)
+{
+    foreach ($permissions as $permission) {
+        if ($permission->value == $value) {
+            return true;
+        }
+    }
+    return false;
+}

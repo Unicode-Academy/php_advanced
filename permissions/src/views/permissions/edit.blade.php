@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Thêm vai trò</h1>
+<h1>Cập nhật vai trò</h1>
 <form action="" method="post">
     <div class="mb-3">
         <label for="">Tên vai trò</label>
-        <input type="text" name="name" class="form-control" placeholder="Tên vai trò..." required />
+        <input type="text" name="name" class="form-control" placeholder="Tên vai trò..." value="{{$role->name}}"
+            required />
     </div>
     <p>Danh sách quyền</p>
     <table class="table table-bordered">
@@ -24,8 +25,9 @@
                         @foreach ($module->actions as $action)
                         <div class="col-3">
                             <label>
-                                <input type="checkbox" name="permissions[]"
-                                    value="{{$module->name.'.'.$action->name}}" /> {{$action->title}}
+                                <input type="checkbox" name="permissions[]" value="{{$module->name.'.'.$action->name}}"
+                                    {{isPermission($role->permissions, $module->name.'.'.$action->name) ? 'checked': ''}} />
+                                {{$action->title}}
                             </label>
                         </div>
                         @endforeach
