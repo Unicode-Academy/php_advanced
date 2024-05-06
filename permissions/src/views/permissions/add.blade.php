@@ -5,7 +5,7 @@
 <form action="" method="post">
     <div class="mb-3">
         <label for="">Tên vai trò</label>
-        <input type="text" name="name" class="form-control" placeholder="Tên vai trò..." />
+        <input type="text" name="name" class="form-control" placeholder="Tên vai trò..." require />
     </div>
     <p>Danh sách quyền</p>
     <table class="table table-bordered">
@@ -24,7 +24,8 @@
                         @foreach ($module->actions as $action)
                         <div class="col-3">
                             <label>
-                                <input type="checkbox" name="permissions[]" /> {{$action->title}}
+                                <input type="checkbox" name="permissions[]"
+                                    value="{{$module->name.'.'.$action->name}}" /> {{$action->title}}
                             </label>
                         </div>
                         @endforeach
@@ -34,5 +35,6 @@
             @endforeach
         </tbody>
     </table>
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
 </form>
 @endsection

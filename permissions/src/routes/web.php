@@ -31,4 +31,5 @@ Route::group(['prefix' => 'posts'], function () {
 Route::group(['prefix' => 'permissions'], function () {
     Route::get('/', 'PermissionController@index')->name('permissions.index');
     Route::get('/add', 'PermissionController@add')->name('permissions.add');
+    Route::post('/add', 'PermissionController@handleAdd');
 });
