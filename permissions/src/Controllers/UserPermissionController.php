@@ -14,6 +14,7 @@ class UserPermissionController
     {
         $users = input('users');
         $roles = input('roles');
+
         if ($users) {
             foreach ($users as $userId) {
                 if ($roles) {
@@ -24,5 +25,14 @@ class UserPermissionController
             }
         }
         return redirect('/permissions');
+    }
+
+    public function getDataRoles($userId)
+    {
+        $roles = $this->userModel->getRoles($userId);
+        foreach ($roles as $key => $role) {
+            $roles[$key] = $role->role_id;
+        }
+        return response()->json(['roles' => $roles]);
     }
 }

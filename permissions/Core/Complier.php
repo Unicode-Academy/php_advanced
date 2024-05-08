@@ -382,7 +382,6 @@ class Compiler
             }
         }
 
-
         return [trim($segment, ', '), $bindings];
     }
 
@@ -489,4 +488,5 @@ class Compiler
             $bindings,
         ];
     }
+
 }

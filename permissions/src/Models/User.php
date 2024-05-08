@@ -38,4 +38,10 @@ class User extends Model
             'role_id' => $roleId,
         ]);
     }
+
+    public function getRoles($userId)
+    {
+        return $this->db->table('users_roles')->where('user_id', $userId)->all();
+    }
+
 }
