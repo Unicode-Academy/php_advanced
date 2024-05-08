@@ -17,6 +17,7 @@ class UserPermissionController
 
         if ($users) {
             foreach ($users as $userId) {
+                $this->userModel->deleteUserRole($userId);
                 if ($roles) {
                     foreach ($roles as $roleId) {
                         $this->userModel->addUserRole($userId, $roleId);

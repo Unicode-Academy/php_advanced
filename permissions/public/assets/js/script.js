@@ -7,7 +7,7 @@ if (usersSelectEl.length) {
       fetch(`/permissions/data/roles/${userId[0]}`)
         .then((res) => res.json())
         .then(({ roles }) => {
-          $('input[type="checkbox"]').each(function () {
+          $('#users-modal input[type="checkbox"]').each(function () {
             const value = +$(this).val();
             if (roles.includes(value)) {
               $(this).attr("checked", true);
@@ -17,7 +17,13 @@ if (usersSelectEl.length) {
           });
         });
     } else {
-      $('input[type="checkbox"]').attr("checked", false);
+      $('#users-modal input[type="checkbox"]').attr("checked", false);
     }
   });
 }
+
+const userModalEl = document.getElementById("users-modal");
+userModalEl.addEventListener("hidden.bs.modal", () => {
+  $('#users-modal input[type="checkbox"]').attr("checked", false);
+  usersSelectEl.val("").trigger("change");
+});

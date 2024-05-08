@@ -44,4 +44,9 @@ class User extends Model
         return $this->db->table('users_roles')->where('user_id', $userId)->all();
     }
 
+    public function deleteUserRole($userId)
+    {
+        $this->db->table('users_roles')->where('user_id', $userId)->delete();
+    }
+
 }
