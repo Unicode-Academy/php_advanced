@@ -21,7 +21,10 @@
                 <a href="{{url('permissions.edit', ['id' => $role->id])}}" class="btn btn-warning">Sửa</a>
             </td>
             <td>
-                <a href="#" class="btn btn-danger">Xóa</a>
+                <form method="post" action="{{url('permissions.delete', ['id' => $role->id])}}"
+                    onsubmit="return confirm('Bạn có chắc chắn?')">
+                    <button class="btn btn-danger">Xóa</button>
+                </form>
             </td>
         </tr>
         @endforeach

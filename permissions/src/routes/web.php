@@ -34,4 +34,5 @@ Route::group(['prefix' => 'permissions'], function () {
     Route::post('/add', 'PermissionController@handleAdd');
     Route::get('/edit/{id}', 'PermissionController@edit')->name('permissions.edit');
     Route::post('/edit/{id}', 'PermissionController@update');
+    Route::post('/delete/{id}', 'PermissionController@delete')->name('permissions.delete');
 });

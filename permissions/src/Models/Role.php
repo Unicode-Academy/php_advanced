@@ -43,4 +43,9 @@ class Role extends Model
     {
         return $this->db->table('roles')->where('id', $id)->update($data);
     }
+
+    public function deleteRole($id)
+    {
+        return $this->db->table('roles')->where('id', $id)->delete();
+    }
 }

@@ -19,7 +19,10 @@
                 <a href="<?php echo e(url('permissions.edit', ['id' => $role->id])); ?>" class="btn btn-warning">Sửa</a>
             </td>
             <td>
-                <a href="#" class="btn btn-danger">Xóa</a>
+                <form method="post" action="<?php echo e(url('permissions.delete', ['id' => $role->id])); ?>"
+                    onsubmit="return confirm('Bạn có chắc chắn?')">
+                    <button class="btn btn-danger">Xóa</button>
+                </form>
             </td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

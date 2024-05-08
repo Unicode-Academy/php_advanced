@@ -112,4 +112,10 @@ class PermissionController
         }
         return $modules;
     }
+
+    public function delete($id)
+    {
+        $this->roleModel->deleteRole($id);
+        return redirect('/permissions');
+    }
 }
