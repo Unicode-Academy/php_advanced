@@ -5,6 +5,7 @@ use App\Models\Action;
 use App\Models\Module;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 
 class PermissionController
 {
@@ -15,13 +16,15 @@ class PermissionController
         $this->moduleModel = new Module;
         $this->actionModel = new Action;
         $this->permissionModel = new Permission;
+        $this->userModel = new User;
     }
     public function index()
     {
         $pageTitle = 'Phân quyền';
         $roles = $this->roleModel->getRoles();
+        $users = $this->userModel->getUsers();
 
-        return view('permissions.index', compact('pageTitle', 'roles'));
+        return view('permissions.index', compact('pageTitle', 'roles', 'users'));
     }
 
     public function add()
@@ -93,6 +96,12 @@ class PermissionController
         return redirect('/permissions/edit/' . $id);
     }
 
+    public function delete($id)
+    {
+        $this->roleModel->deleteRole($id);
+        return redirect('/permissions');
+    }
+
     private function getModules()
     {
         $modules = $this->moduleModel->getModules();
@@ -113,9 +122,4 @@ class PermissionController
         return $modules;
     }
 
-    public function delete($id)
-    {
-        $this->roleModel->deleteRole($id);
-        return redirect('/permissions');
-    }
 }

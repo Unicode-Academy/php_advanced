@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Vai trò</h1>
+<h1>Phân quyền</h1>
 <a href="{{url('permissions.add')}}" class="btn btn-primary my-2">Thêm vai trò</a>
+<a href="#users-modal" data-bs-toggle="modal" class="btn btn-primary my-2">Gán quyền</a>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -30,4 +31,5 @@
         @endforeach
     </tbody>
 </table>
+@include('permissions.users')
 @endsection

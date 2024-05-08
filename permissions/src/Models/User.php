@@ -26,7 +26,16 @@ class User extends Model
         return $this->db->table('users')->where('id', $id)->first();
     }
 
-    public function deleteUser($id) {
+    public function deleteUser($id)
+    {
         return $this->db->table('users')->where('id', $id)->delete();
+    }
+
+    public function addUserRole($userId, $roleId)
+    {
+        return $this->db->table('users_roles')->insert([
+            'user_id' => $userId,
+            'role_id' => $roleId,
+        ]);
     }
 }
