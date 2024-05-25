@@ -19,9 +19,41 @@
                         <label for="">Vai trò</label>
                         @foreach ($roles as $role)
                         <label class="mb-3 d-block">
-                            <input type="checkbox" name="roles[]" value="{{$role->id}}" /> {{$role->name}}
+                            <input type="checkbox" class="role-item" name="roles[]" value="{{$role->id}}" />
+                            {{$role->name}}
                         </label>
                         @endforeach
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Thêm quyền</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="30%">Chức năng</th>
+                                    <th>Quyền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($modules as $module)
+                                <tr>
+                                    <td>{{$module->title}}</td>
+                                    <td>
+                                        <div class="row">
+                                            @foreach ($module->actions as $action)
+                                            <div class="col-3">
+                                                <label>
+                                                    <input class="permission-item" type="checkbox" name="permissions[]"
+                                                        value="{{$module->name.'.'.$action->name}}" />
+                                                    {{$action->title}}
+                                                </label>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -7,7 +7,7 @@ if (usersSelectEl.length) {
       fetch(`/permissions/data/roles/${userId[0]}`)
         .then((res) => res.json())
         .then(({ roles }) => {
-          $('#users-modal input[type="checkbox"]').each(function () {
+          $('#users-modal input[type="checkbox"].role-item').each(function () {
             const value = +$(this).val();
             if (roles.includes(value)) {
               $(this).attr("checked", true);
@@ -15,6 +15,22 @@ if (usersSelectEl.length) {
               $(this).attr("checked", false);
             }
           });
+        });
+      //Gọi tới Server để trả về permissions
+      fetch(`/permissions/data/permissions/${userId[0]}`)
+        .then((res) => res.json())
+        .then(({ permissions }) => {
+          $('#users-modal input[type="checkbox"].permission-item').each(
+            function () {
+              const value = $(this).val();
+
+              if (permissions.includes(value)) {
+                $(this).attr("checked", true);
+              } else {
+                $(this).attr("checked", false);
+              }
+            }
+          );
         });
     } else {
       $('#users-modal input[type="checkbox"]').attr("checked", false);

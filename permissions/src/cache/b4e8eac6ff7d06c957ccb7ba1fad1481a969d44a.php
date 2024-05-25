@@ -19,10 +19,43 @@
                         <label for="">Vai trò</label>
                         <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <label class="mb-3 d-block">
-                            <input type="checkbox" name="roles[]" value="<?php echo e($role->id); ?>" /> <?php echo e($role->name); ?>
+                            <input type="checkbox" class="role-item" name="roles[]" value="<?php echo e($role->id); ?>" />
+                            <?php echo e($role->name); ?>
 
                         </label>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Thêm quyền</label>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="30%">Chức năng</th>
+                                    <th>Quyền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $__currentLoopData = $modules; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $module): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td><?php echo e($module->title); ?></td>
+                                    <td>
+                                        <div class="row">
+                                            <?php $__currentLoopData = $module->actions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $action): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="col-3">
+                                                <label>
+                                                    <input class="permission-item" type="checkbox" name="permissions[]"
+                                                        value="<?php echo e($module->name.'.'.$action->name); ?>" />
+                                                    <?php echo e($action->title); ?>
+
+                                                </label>
+                                            </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="modal-footer">

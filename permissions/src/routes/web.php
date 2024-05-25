@@ -38,4 +38,5 @@ Route::group(['prefix' => 'permissions'], function () {
 
     Route::post('/update-user-role', 'UserPermissionController@updateUserRole')->name('permissions.user_role');
     Route::get('/data/roles/{id}', 'UserPermissionController@getDataRoles')->name('permissions.data.roles');
+    Route::get('/data/permissions/{id}', 'UserPermissionController@getDataPermissions')->name('permissions.data.permissions');
 });

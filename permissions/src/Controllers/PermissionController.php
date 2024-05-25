@@ -23,8 +23,9 @@ class PermissionController
         $pageTitle = 'Phân quyền';
         $roles = $this->roleModel->getRoles();
         $users = $this->userModel->getUsers();
+        $modules = $this->getModules();
 
-        return view('permissions.index', compact('pageTitle', 'roles', 'users'));
+        return view('permissions.index', compact('pageTitle', 'roles', 'users', 'modules'));
     }
 
     public function add()

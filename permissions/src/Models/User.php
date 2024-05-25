@@ -49,4 +49,7 @@ class User extends Model
         $this->db->table('users_roles')->where('user_id', $userId)->delete();
     }
 
+    public function getPermissions($userId) {
+        return $this->db->table('users_permissions')->where('user_id', $userId)->all();
+    }
 }
