@@ -14,19 +14,18 @@ class UserPermissionController
         $this->permissionModel = new Permission;
 
     }
-    public function updateUserRole()
+    public function updateUserRolePermission()
     {
         $users = input('users');
         $roles = input('roles');
+        $permissions = input('permissions');
 
         if ($users) {
             foreach ($users as $userId) {
                 $this->userModel->deleteUserRole($userId);
-                if ($roles) {
-                    foreach ($roles as $roleId) {
-                        $this->userModel->addUserRole($userId, $roleId);
-                    }
-                }
+                $this->userModel->deleteUserPermission($userId);
+                $this->updateUserRole($userId, $roles);
+                $this->updateUserPermission($userId, $permissions);
             }
         }
         return redirect('/permissions');
@@ -49,5 +48,31 @@ class UserPermissionController
             $permissions[$key] = $permissionData->value;
         }
         return response()->json(['permissions' => $permissions]);
+    }
+
+    private function updateUserRole($userId, $roles)
+    {
+        if ($roles) {
+            foreach ($roles as $roleId) {
+                $this->userModel->addUserRole($userId, $roleId);
+            }
+        }
+    }
+
+    private function updateUserPermission($userId, $permissions)
+    {
+        if ($permissions) {
+            foreach ($permissions as $value) {
+                $permission = $this->permissionModel->getPermission($value, 'value');
+                if (!$permission) {
+                    $permissionId = $this->permissionModel->addPermission([
+                        'value' => $value,
+                    ]);
+                } else {
+                    $permissionId = $permission->id;
+                }
+                $this->userModel->addUserPermission($userId, $permissionId);
+            }
+        }
     }
 }

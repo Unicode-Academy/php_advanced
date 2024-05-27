@@ -36,7 +36,8 @@ Route::group(['prefix' => 'permissions'], function () {
     Route::post('/edit/{id}', 'PermissionController@update');
     Route::post('/delete/{id}', 'PermissionController@delete')->name('permissions.delete');
 
-    Route::post('/update-user-role', 'UserPermissionController@updateUserRole')->name('permissions.user_role');
+    Route::post('/update-user-role', 'UserPermissionController@updateUserRolePermission')->name('permissions.user_role_permission');
+
     Route::get('/data/roles/{id}', 'UserPermissionController@getDataRoles')->name('permissions.data.roles');
     Route::get('/data/permissions/{id}', 'UserPermissionController@getDataPermissions')->name('permissions.data.permissions');
 });

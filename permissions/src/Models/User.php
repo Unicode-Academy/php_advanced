@@ -39,6 +39,14 @@ class User extends Model
         ]);
     }
 
+    public function addUserPermission($userId, $permissionId)
+    {
+        return $this->db->table('users_permissions')->insert([
+            'user_id' => $userId,
+            'permission_id' => $permissionId,
+        ]);
+    }
+
     public function getRoles($userId)
     {
         return $this->db->table('users_roles')->where('user_id', $userId)->all();
@@ -49,7 +57,13 @@ class User extends Model
         $this->db->table('users_roles')->where('user_id', $userId)->delete();
     }
 
-    public function getPermissions($userId) {
+    public function deleteUserPermission($userId)
+    {
+        $this->db->table('users_permissions')->where('user_id', $userId)->delete();
+    }
+
+    public function getPermissions($userId)
+    {
         return $this->db->table('users_permissions')->where('user_id', $userId)->all();
     }
 }
