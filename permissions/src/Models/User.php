@@ -31,20 +31,29 @@ class User extends Model
         return $this->db->table('users')->where('id', $id)->delete();
     }
 
-    public function addUserRole($userId, $roleId)
+    public function addUsersRoles($data)
     {
-        return $this->db->table('users_roles')->insert([
-            'user_id' => $userId,
-            'role_id' => $roleId,
-        ]);
+        $values = '?,?';
+
+        //Insert Multiple
+        // insert into table (fielda, fieldb, ... ) values (?,?...), (?,?...)....
+
+        $sql = "INSERT INTO users_roles(user_id, role_id) VALUES ";
+        $sql .= str_repeat("($values), ", count($data) - 1) . "($values)";
+
+        $dataBinding = array_merge(...$data);
+        return $this->db->exec($sql, $dataBinding);
     }
 
-    public function addUserPermission($userId, $permissionId)
+    public function addUsersPermissions($data)
     {
-        return $this->db->table('users_permissions')->insert([
-            'user_id' => $userId,
-            'permission_id' => $permissionId,
-        ]);
+        $values = '?,?';
+
+        $sql = "INSERT INTO users_permissions(user_id, permission_id) VALUES ";
+        $sql .= str_repeat("($values), ", count($data) - 1) . "($values)";
+
+        $dataBinding = array_merge(...$data);
+        return $this->db->exec($sql, $dataBinding);
     }
 
     public function getRoles($userId)
@@ -52,14 +61,14 @@ class User extends Model
         return $this->db->table('users_roles')->where('user_id', $userId)->all();
     }
 
-    public function deleteUserRole($userId)
+    public function deleteUserRole($userIds)
     {
-        $this->db->table('users_roles')->where('user_id', $userId)->delete();
+        $this->db->table('users_roles')->whereIn('user_id', $userIds)->delete();
     }
 
-    public function deleteUserPermission($userId)
+    public function deleteUserPermission($userIds)
     {
-        $this->db->table('users_permissions')->where('user_id', $userId)->delete();
+        $this->db->table('users_permissions')->whereIn('user_id', $userIds)->delete();
     }
 
     public function getPermissions($userId)

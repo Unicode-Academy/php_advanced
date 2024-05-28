@@ -20,14 +20,9 @@ class UserPermissionController
         $roles = input('roles');
         $permissions = input('permissions');
 
-        if ($users) {
-            foreach ($users as $userId) {
-                $this->userModel->deleteUserRole($userId);
-                $this->userModel->deleteUserPermission($userId);
-                $this->updateUserRole($userId, $roles);
-                $this->updateUserPermission($userId, $permissions);
-            }
-        }
+        $this->updateUsersRoles($users, $roles);
+
+        $this->updateUsersPermissions($users, $permissions);
         return redirect('/permissions');
     }
 
@@ -50,18 +45,29 @@ class UserPermissionController
         return response()->json(['permissions' => $permissions]);
     }
 
-    private function updateUserRole($userId, $roles)
+    private function updateUsersRoles($users, $roles)
     {
-        if ($roles) {
-            foreach ($roles as $roleId) {
-                $this->userModel->addUserRole($userId, $roleId);
+        $data = [];
+        foreach ($users as $user) {
+            foreach ($roles as $role) {
+                $data[] = [
+                    $user,
+                    $role,
+                ];
             }
+
+        }
+
+        $this->userModel->deleteUserRole($users);
+        if ($data) {
+            $this->userModel->addUsersRoles($data);
         }
     }
 
-    private function updateUserPermission($userId, $permissions)
+    private function updateUsersPermissions($users, $permissions)
     {
-        if ($permissions) {
+        $data = [];
+        foreach ($users as $user) {
             foreach ($permissions as $value) {
                 $permission = $this->permissionModel->getPermission($value, 'value');
                 if (!$permission) {
@@ -71,8 +77,17 @@ class UserPermissionController
                 } else {
                     $permissionId = $permission->id;
                 }
-                $this->userModel->addUserPermission($userId, $permissionId);
+
+                $data[] = [
+                    $user,
+                    $permissionId,
+                ];
             }
         }
+        $this->userModel->deleteUserPermission($users);
+        if ($data) {
+            $this->userModel->addUsersPermissions($data);
+        }
+
     }
 }
