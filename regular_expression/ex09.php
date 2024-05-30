@@ -5,6 +5,6 @@ $pattern = '<img(\s+[a-z-]+\s*=\s*"[^"]*")*\ssrc="([^"]+)"(\s+[a-z-]+\s*=\s*"[^"
 
 $check = preg_match($pattern, $subject, $matches);
 
-if (!empty($matches[2])){
-    echo 'Link ảnh: '.$matches[2];
+if (!empty($matches[2])) {
+    echo 'Link ảnh: ' . $matches[2];
 }

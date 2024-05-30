@@ -21,9 +21,9 @@ class User extends Model
         return $this->db->table('users')->where('id', $id)->update($data);
     }
 
-    public function findUser($id)
+    public function findUser($value, $type = 'id')
     {
-        return $this->db->table('users')->where('id', $id)->first();
+        return $this->db->table('users')->where($type, $value)->first();
     }
 
     public function deleteUser($id)
