@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers\Auth;
 
 use App\Models\User;
@@ -15,7 +16,9 @@ class LoginController
     {
         $pageTitle = 'Đăng nhập hệ thống';
 
-        return view('auth.login', compact('pageTitle'));
+        $msg = Session::flash('msg');
+
+        return view('auth.login', compact('pageTitle', 'msg'));
     }
 
     public function handleLogin()
@@ -24,16 +27,25 @@ class LoginController
         $password = input('password');
         //Lấy thông tin user theo email
         $user = $this->userModel->findUser($email, 'email');
+        $msgFailed = 'Tài khoản hoặc mật khẩu không đúng';
         if (!$user) {
-            return;
+            Session::flash('msg', $msgFailed);
+            return redirect(url('auth.login'));
         }
         $passwordHash = $user->password;
         $status = password_verify($password, $passwordHash);
         if (!$status) {
-            return;
+            Session::flash('msg', $msgFailed);
+            return redirect(url('auth.login'));
         }
 
         Session::data('user_login', $user);
         return redirect('/');
+    }
+
+    public function logout()
+    {
+        Session::delete('user_login');
+        return redirect(url('auth.login'));
     }
 }

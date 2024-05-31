@@ -44,9 +44,9 @@ Route::group(['middleware' => AuthMiddleware::class], function () {
         Route::get('/data/roles/{id}', 'UserPermissionController@getDataRoles')->name('permissions.data.roles');
         Route::get('/data/permissions/{id}', 'UserPermissionController@getDataPermissions')->name('permissions.data.permissions');
     });
-
 });
 Route::group(['prefix' => 'auth'], function () {
     Route::get('/login', 'Auth\LoginController@login')->name('auth.login');
     Route::post('/login', 'Auth\LoginController@handleLogin');
+    Route::post('/logout', 'Auth\LoginController@logout')->name('auth.logout');
 });

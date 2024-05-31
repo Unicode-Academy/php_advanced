@@ -1,8 +1,12 @@
 @extends('layouts.auth')
 @section('content')
 <div class="w-50 mx-auto">
+    <h2 class="text-center">Đăng nhập</h2>
+    @if ($msg)
+    <div class="alert alert-danger text-center">{{$msg}}</div>
+    @endif
     <form action="" method="post">
-        <h2 class="text-center">Đăng nhập</h2>
+
         <div class="mb-3">
             <label for="">Email</label>
             <input type="email" name="email" class="form-control" placeholder="Email..." required>
