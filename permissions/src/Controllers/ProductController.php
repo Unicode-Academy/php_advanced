@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\Product;
@@ -11,6 +12,7 @@ class ProductController
     }
     public function index()
     {
+
         $pageTitle = 'Quản lý sản phẩm';
         $products = $this->productModel->getProducts();
         return view('products.index', compact('pageTitle', 'products'));

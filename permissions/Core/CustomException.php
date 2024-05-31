@@ -1,22 +1,24 @@
 <?php
+
 namespace System\Core;
 
 class CustomException
 {
     public function __construct()
     {
+
         set_exception_handler([$this, 'getException']);
     }
 
     public function getException($exception)
     {
+
         $code = $exception->getCode();
         if ($code == 404) {
             $this->loadView($code, $exception);
         } elseif ($code == 403) {
             $this->loadView($code, $exception);
-        }
-         else {
+        } else {
             $this->loadView('errors', $exception);
         }
     }

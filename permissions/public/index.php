@@ -15,5 +15,4 @@ Route::setDefaultNamespace('\App\Controllers');
 
 new CustomException;
 
-
 Route::start();
