@@ -28,6 +28,7 @@ class LoginController
         //Lấy thông tin user theo email
         $user = $this->userModel->findUser($email, 'email');
         $msgFailed = 'Tài khoản hoặc mật khẩu không đúng';
+        $msgActive = "Tài khoản đang bị khóa. Vui lòng kích hoạt";
         if (!$user) {
             Session::flash('msg', $msgFailed);
             return redirect(url('auth.login'));
@@ -36,6 +37,11 @@ class LoginController
         $status = password_verify($password, $passwordHash);
         if (!$status) {
             Session::flash('msg', $msgFailed);
+            return redirect(url('auth.login'));
+        }
+
+        if (!$user->status) {
+            Session::flash('msg', $msgActive);
             return redirect(url('auth.login'));
         }
 

@@ -1,9 +1,11 @@
 <?php
 
 use App\Middlewares\AuthMiddleware;
+use App\Middlewares\PermissionMiddleware;
 use Pecee\SimpleRouter\SimpleRouter as Route;
+use App\Middlewares\CheckUserActiveMiddleware;
 
-Route::group(['middleware' => AuthMiddleware::class], function () {
+Route::group(['middleware' => [AuthMiddleware::class, CheckUserActiveMiddleware::class, PermissionMiddleware::class]], function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::group(['prefix' => 'users'], function () {

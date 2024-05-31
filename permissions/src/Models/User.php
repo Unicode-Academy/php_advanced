@@ -75,4 +75,9 @@ class User extends Model
     {
         return $this->db->table('users_permissions')->where('user_id', $userId)->all();
     }
+
+    public function getPermissionsAll($userId)
+    {
+        return $this->db->query("SELECT permissions.value FROM users JOIN users_roles ON users.id = users_roles.user_id JOIN roles_permissions ON users_roles.role_id=roles_permissions.role_id JOIN permissions ON roles_permissions.permission_id=permissions.id WHERE users.id = ?", [$userId]);
+    }
 }

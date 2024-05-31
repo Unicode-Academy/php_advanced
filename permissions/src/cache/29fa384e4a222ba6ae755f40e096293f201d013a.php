@@ -1,5 +1,5 @@
 <h1>Forbidden</h1>
 <p>
-    Bạn không có quyền truy cập trang này
+    <?php echo e($exception->getMessage()); ?>
+
 </p>
-<p>Message: <?php echo e($exception->getMessage()); ?></p>

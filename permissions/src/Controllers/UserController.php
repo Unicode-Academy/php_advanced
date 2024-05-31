@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\User;
@@ -13,6 +14,7 @@ class UserController
     {
         $pageTitle = 'Quản lý người dùng';
         $users = $this->userModel->getUsers();
+
         return view('users.index', compact('pageTitle', 'users'));
     }
 
