@@ -115,3 +115,9 @@ function auth()
 {
     return Auth::class;
 }
+
+function can($permission)
+{
+    $permissionList = request()->permissions;
+    return in_array($permission, $permissionList);
+}

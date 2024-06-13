@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+
 <h1>Phân quyền</h1>
 <a href="<?php echo e(url('permissions.add')); ?>" class="btn btn-primary my-2">Thêm vai trò</a>
 <a href="#users-modal" data-bs-toggle="modal" class="btn btn-primary my-2">Gán quyền</a>
@@ -20,8 +21,7 @@
                 <a href="<?php echo e(url('permissions.edit', ['id' => $role->id])); ?>" class="btn btn-warning">Sửa</a>
             </td>
             <td>
-                <form method="post" action="<?php echo e(url('permissions.delete', ['id' => $role->id])); ?>"
-                    onsubmit="return confirm('Bạn có chắc chắn?')">
+                <form method="post" action="<?php echo e(url('permissions.delete', ['id' => $role->id])); ?>" onsubmit="return confirm('Bạn có chắc chắn?')">
                     <button class="btn btn-danger">Xóa</button>
                 </form>
             </td>
