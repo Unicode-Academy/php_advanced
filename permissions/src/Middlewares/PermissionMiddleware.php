@@ -15,6 +15,10 @@ class PermissionMiddleware implements IMiddleware
         'index' => 'read',
         'edit' => 'update',
     ];
+    private $ignore = [
+        'permissions.user_role_permission',
+        'permissions.data.permissions'
+    ];
     public function handle(Request $request): void
     {
         $request->permissions = $this->getPermissions(Auth::user());
@@ -41,6 +45,9 @@ class PermissionMiddleware implements IMiddleware
     private function getModuleAction()
     {
         $routeName = $this->getRouteName();
+        if (!$routeName || in_array($routeName, $this->ignore)) {
+            return false;
+        }
         $routeNameArr = explode('.', $routeName);
         $module = reset($routeNameArr);
         $action = $this->getActionName();
@@ -50,7 +57,11 @@ class PermissionMiddleware implements IMiddleware
 
     private function checkPermission($request, $permissionsData)
     {
-        ['module' => $module, 'action' => $action] = $this->getModuleAction($request);
+        $moduleAction = $this->getModuleAction($request);
+        if (!$moduleAction) {
+            return false;
+        }
+        ['module' => $module, 'action' => $action] = $moduleAction;
         $currentUrl = $request->getUrl();
         $currentPath = $currentUrl->getPath();
         return $currentPath !== '/' && !in_array($module . '.' . $action, $permissionsData);

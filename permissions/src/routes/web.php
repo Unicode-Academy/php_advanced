@@ -43,7 +43,7 @@ Route::group(['middleware' => [AuthMiddleware::class, CheckUserActiveMiddleware:
 
         Route::post('/update-user-role', 'UserPermissionController@updateUserRolePermission')->name('permissions.user_role_permission');
 
-        Route::get('/data/roles/{id}', 'UserPermissionController@getDataRoles')->name('permissions.data.roles');
+        Route::get('/data/roles/{id}', 'UserPermissionController@getDataRoles')->name('permissions.data.roles')->name('permissions.read');
         Route::get('/data/permissions/{id}', 'UserPermissionController@getDataPermissions')->name('permissions.data.permissions');
     });
 });

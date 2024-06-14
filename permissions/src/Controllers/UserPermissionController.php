@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Controllers;
 
-use App\Models\Permission;
+use Error;
 use App\Models\User;
+use App\Models\Permission;
 
 class UserPermissionController
 {
@@ -12,10 +14,13 @@ class UserPermissionController
     {
         $this->userModel = new User;
         $this->permissionModel = new Permission;
-
     }
     public function updateUserRolePermission()
     {
+        if (!can('permissions.assign')) {
+            throw new Error('Bạn không có quyền truy cập trang này', 403);
+        }
+
         $users = input('users');
         $roles = input('roles');
         $permissions = input('permissions');
@@ -55,7 +60,6 @@ class UserPermissionController
                     $role,
                 ];
             }
-
         }
 
         $this->userModel->deleteUserRole($users);
@@ -88,6 +92,5 @@ class UserPermissionController
         if ($data) {
             $this->userModel->addUsersPermissions($data);
         }
-
     }
 }
