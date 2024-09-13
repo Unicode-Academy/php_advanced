@@ -28,12 +28,16 @@ class PermissionMiddleware implements IMiddleware
         }
     }
 
+
     private function getPermissions($user)
     {
         $userModel = new User;
-        $permissions = $userModel->getPermissionsAll($user->id);
+        $permissionsFromRoles = $userModel->getPermissionsFromRoles($user->id);
+        $permissiosFromUser = $userModel->getPermissionsFromUser($user->id);
+        $pemissions = array_merge($permissionsFromRoles, $permissiosFromUser);
         $permissionsData = [];
-        foreach ($permissions as $item) {
+    
+        foreach ($pemissions as $item) {
             if (!in_array($item->value, $permissionsData)) {
                 $permissionsData[] = $item->value;
             }
