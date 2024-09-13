@@ -8,7 +8,7 @@ class User extends Model
 {
     public function getUsers()
     {
-        return $this->db->table('users')->orderBy('id', 'DESC')->all();
+        return $this->db->table('users')->orderBy('id', 'DESC')->where('is_root', '=',0)->all();
     }
 
     public function addUser($data)

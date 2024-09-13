@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use System\Core\Auth;
 use App\Models\Action;
 use App\Models\Module;
 use Pecee\Http\Request;
@@ -23,7 +24,8 @@ class PermissionController
     public function index()
     {
         $pageTitle = 'Phân quyền';
-        $roles = $this->roleModel->getRoles();
+        $isRoot = Auth::user()->is_root;
+        $roles = $this->roleModel->getRoles($isRoot);
         $users = $this->userModel->getUsers();
         $modules = $this->getModules();
 

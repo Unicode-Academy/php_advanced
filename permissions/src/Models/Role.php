@@ -6,10 +6,13 @@ use System\Core\Model;
 
 class Role extends Model
 {
-    public function getRoles()
+    public function getRoles($isRoot = false)
     {
-        $roles = $this->db->table('roles')->orderBy('name', 'ASC')->all();
-        return $roles;
+        $roles = $this->db->table('roles')->orderBy('name', 'ASC');
+        if (!$isRoot) {
+            $roles->where('is_super', '=', 0);
+        }
+        return $roles->all();
     }
 
     public function addRole($data)

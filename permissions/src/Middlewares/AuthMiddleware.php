@@ -12,7 +12,7 @@ class AuthMiddleware implements IMiddleware
     public function handle(Request $request): void
     {
         $user = Session::data('user_login');
-
+        
         if (!$user) {
             redirect(url('auth.login'));
         }

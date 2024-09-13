@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Error;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Permission;
 
@@ -13,6 +14,7 @@ class UserPermissionController
     public function __construct()
     {
         $this->userModel = new User;
+        $this->roleModel = new Role;
         $this->permissionModel = new Permission;
     }
     public function updateUserRolePermission()
@@ -54,12 +56,21 @@ class UserPermissionController
     {
         $data = [];
         foreach ($users as $user) {
-            foreach ($roles as $role) {
-                $data[] = [
-                    $user,
-                    $role,
-                ];
+            $userInstance = $this->userModel->findUser($user, 'id');
+            if ($userInstance->is_root == 1) {
+                continue;
             }
+                foreach ($roles as $role) {
+                    $roleInstance = $this->roleModel->getRole($role);
+                    if ($roleInstance->is_supper == 1) {
+                        continue;
+                    }
+                    $data[] = [
+                        $user,
+                        $role,
+                    ];
+                }
+            
         }
 
         $this->userModel->deleteUserRole($users);
@@ -72,6 +83,11 @@ class UserPermissionController
     {
         $data = [];
         foreach ($users as $user) {
+            $userInstance = $this->userModel->findUser($user, 'id');
+            if ($user->is_root == 1) {
+                continue;
+            }
+
             foreach ($permissions as $value) {
                 $permission = $this->permissionModel->getPermission($value, 'value');
                 if (!$permission) {
