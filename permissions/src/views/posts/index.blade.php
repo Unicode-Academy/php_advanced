@@ -10,7 +10,7 @@
             <tr>
                 <th width="5%">STT</th>
                 <th>Tiêu đề</th>
-                @if (auth()::user()->is_root == 1)
+                @if (auth()::user()->is_root == 1 || can('posts.read_all'))
                     <th>Người đăng</th>
                 @endif
                 @if (can('posts.update'))
@@ -26,8 +26,8 @@
                 <tr>
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $post->title }}</td>
-                    @if (auth()::user()->is_root == 1)
-                        <td>{{ $post->user_id }}</td>
+                    @if (auth()::user()->is_root == 1 || can('posts.read_all'))
+                        <td>{{ $post->user_name }}</td>
                     @endif
                     @if (can('posts.update'))
                         <td><a href="{{ url('posts.edit', ['id' => $post->id]) }}" class="btn btn-warning btn-sm">Sửa</a></td>

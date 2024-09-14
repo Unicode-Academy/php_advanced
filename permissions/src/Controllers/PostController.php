@@ -14,7 +14,7 @@ class PostController
     {
         $pageTitle = 'Quản lý bài viết';
         $user = Auth::user();
-        $posts = $this->postModel->getPosts($user->is_root == 0 ? $user->id : null);
+        $posts = $this->postModel->getPosts($user->is_root == 0 && !in_array('posts.read_all', request()->permissions) ? $user->id : null);
         return view('posts.index', compact('pageTitle', 'posts'));
     }
 

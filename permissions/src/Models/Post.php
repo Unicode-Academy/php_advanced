@@ -7,11 +7,17 @@ class Post extends Model
 {
     public function getPosts($userId = null)
     {
-        $posts = $this->db->table('posts')->orderBy('id', 'DESC');
+        // $posts = $this->db->table('posts')->orderBy('id', 'DESC');
+        // if ($userId) {
+        //     $posts->where('user_id', '=', $userId);
+        // }
+        // return $posts->all();
+        $sql = "SELECT posts.*, users.name AS user_name FROM posts INNER JOIN users ON posts.user_id = users.id";
         if ($userId) {
-            $posts->where('user_id', '=', $userId);
+            $sql.=" WHERE posts.user_id = $userId";
         }
-        return $posts->all();
+        $sql.=" ORDER BY id DESC";
+        return $this->db->query($sql);
     }
 
     public function addPost($data)

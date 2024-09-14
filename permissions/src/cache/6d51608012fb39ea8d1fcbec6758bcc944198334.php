@@ -8,7 +8,7 @@
             <tr>
                 <th width="5%">STT</th>
                 <th>Tiêu đề</th>
-                <?php if(auth()::user()->is_root == 1): ?>
+                <?php if(auth()::user()->is_root == 1 || can('posts.read_all')): ?>
                     <th>Người đăng</th>
                 <?php endif; ?>
                 <?php if(can('posts.update')): ?>
@@ -24,8 +24,8 @@
                 <tr>
                     <td><?php echo e($key + 1); ?></td>
                     <td><?php echo e($post->title); ?></td>
-                    <?php if(auth()::user()->is_root == 1): ?>
-                        <td><?php echo e($post->user_id); ?></td>
+                    <?php if(auth()::user()->is_root == 1 || can('posts.read_all')): ?>
+                        <td><?php echo e($post->user_name); ?></td>
                     <?php endif; ?>
                     <?php if(can('posts.update')): ?>
                         <td><a href="<?php echo e(url('posts.edit', ['id' => $post->id])); ?>" class="btn btn-warning btn-sm">Sửa</a></td>
