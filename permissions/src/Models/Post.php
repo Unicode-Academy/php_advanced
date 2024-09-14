@@ -5,9 +5,13 @@ use System\Core\Model;
 
 class Post extends Model
 {
-    public function getPosts()
+    public function getPosts($userId = null)
     {
-        return $this->db->table('posts')->orderBy('id', 'DESC')->all();
+        $posts = $this->db->table('posts')->orderBy('id', 'DESC');
+        if ($userId) {
+            $posts->where('user_id', '=', $userId);
+        }
+        return $posts->all();
     }
 
     public function addPost($data)

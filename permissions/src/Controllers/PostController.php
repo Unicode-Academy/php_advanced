@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\Post;
+use System\Core\Auth;
 
 class PostController
 {
@@ -12,7 +13,8 @@ class PostController
     public function index()
     {
         $pageTitle = 'Quản lý bài viết';
-        $posts = $this->postModel->getPosts();
+        $user = Auth::user();
+        $posts = $this->postModel->getPosts($user->is_root == 0 ? $user->id : null);
         return view('posts.index', compact('pageTitle', 'posts'));
     }
 
@@ -25,6 +27,7 @@ class PostController
     public function handleAdd()
     {
         $data = input()->all();
+        $data['user_id'] = Auth::user()->id;
         $this->postModel->addPost($data);
         return redirect('/posts');
     }
@@ -36,20 +39,37 @@ class PostController
         if (!$post) {
             throw new \Error('Post not found');
         }
+        if (Auth::user()->is_root == 0 && $post->user_id !== Auth::user()->id) {
+            throw new \Error('Permission denied');
+        }
         return view('posts.edit', compact('pageTitle', 'post'));
     }
 
     public function update($id)
     {
         $data = input()->all();
-
+        $post = $this->postModel->findPost($id);
+        if (!$post) {
+            throw new \Error('Post not found');
+        }
+        if (Auth::user()->is_root == 0 && $post->user_id !== Auth::user()->id) {
+            throw new \Error('Permission denied');
+        }
         $this->postModel->updatePost($id, $data);
         return redirect('/posts/edit/' . $id);
     }
 
     public function delete($id)
     {
+        $post = $this->postModel->findPost($id);
+        if (!$post) {
+            throw new \Error('Post not found');
+        }
+        if (Auth::user()->is_root == 0 && $post->user_id !== Auth::user()->id) {
+            throw new \Error('Permission denied');
+        }
         $this->postModel->deletePost($id);
+
         return redirect('/posts');
     }
 }
