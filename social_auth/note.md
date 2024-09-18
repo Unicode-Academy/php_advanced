@@ -191,3 +191,17 @@ curl_close($ch);
 
 $user_info = json_decode($response, true);
 ```
+
+## Hoàn thiện ứng dụng đăng nhập thông qua mạng xã hội
+
+Các bước thực hiện
+
+1. Kiểm tra provider có tồn tại trong bảng providers không?
+
+- Tồn tại ==> Trả về id của provider
+- Không tồn tại ==> Insert provider và trả về id của provider
+
+2. Kiểm tra email của user và provider_id trong bảng users
+
+- Tồn tại ==> Thực hiện đăng nhập (Lưu session)
+- Không tồn tại ==> Insert user vào bảng users ==> Lưu session
