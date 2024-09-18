@@ -1,8 +1,10 @@
 <?php
 require_once './vendor/autoload.php';
+require_once './database.php';
 use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+$db = new Database();
 session_start();
 
 if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
@@ -50,8 +52,47 @@ if (isset($_GET['code'])) {
         curl_close($ch);
 
         $user = json_decode($response, true);
-        echo '<pre>';
-        print_r($user);
-        echo '</pre>';
+        if (!empty($user['name']) && !empty($user['email'])) {
+            $name = $user['name'];
+            $email = $user['email'];
+            //Kiểm tra provider
+            $sql = "SELECT id FROM providers WHERE name=?";
+            $statement = $db->getPdo()->prepare($sql);
+            $statement->execute(['github']);
+            $provider = $statement->fetch();
+            if (!$provider) {
+                $sql = "INSERT INTO providers (name) VALUES (?)";
+                $statement = $db->getPdo()->prepare($sql);
+                $statement->execute(['github']);
+                $providerId = $db->getPdo()->lastInsertId();
+            } else {
+                $providerId = $provider['id'];
+            }
+
+            //Kiểm tra user
+            $sql = "SELECT * FROM users WHERE email=? AND provider_id=?";
+            $statement = $db->getPdo()->prepare($sql);
+            $statement->execute([$email, $providerId]);
+            $user = $statement->fetch();
+            if (!$user) {
+                $sql = "INSERT INTO users (name, email, provider_id) VALUES (?, ?, ?)";
+                $statement = $db->getPdo()->prepare($sql);
+                $statement->execute([$name, $email, $providerId]);
+                $userId = $db->getPdo()->lastInsertId();
+                $sql = "SELECT * FROM users WHERE id=?";
+                $statement = $db->getPdo()->prepare($sql);
+                $statement->execute([$userId]);
+                $user = $statement->fetch();
+            }
+            $_SESSION['user_info'] = $user;
+            header("Location: profile.php");
+            exit;
+        } else {
+            if (empty($user['name'])) {
+                echo 'Vui lòng cập nhật tên ở tài khoản github';
+            } else {
+                echo 'Vui không cập nhật email ở tài khoản github';
+            }
+        }
     }
 }
