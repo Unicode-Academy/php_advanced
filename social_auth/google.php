@@ -1,7 +1,11 @@
-<?php 
+<?php
+require_once './vendor/autoload.php';
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 $google_auth_url = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query([
-    'client_id' => '733332492650-7r58a68tuf1f79l03g93rmjkorh6nu15.apps.googleusercontent.com',
-    'redirect_uri' => 'http://localhost:8000/google_callback.php',
+    'client_id' => $_ENV['GOOGLE_CLIENT_ID'],
+    'redirect_uri' => $_ENV['GOOGLE_CALLBACK_URL'],
     'response_type' => 'code',
     'scope' => 'email profile',
     'access_type' => 'offline',

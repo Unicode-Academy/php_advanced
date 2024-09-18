@@ -99,3 +99,95 @@ $user_info = json_decode($response, true);
 // Xử lý thông tin người dùng
 print_r($user_info);
 ```
+
+## Triển khai với Github
+
+1. Chuẩn bị ứng dụng trên Github Developer
+
+Yêu cầu:
+
+- Lấy được Client ID, Client Secret
+- Thiết lập Callback URL
+
+2. Yêu cầu người dùng ủy quyền
+
+```php
+// Bắt đầu phiên làm việc
+session_start();
+
+// URL xác thực của GitHub với các tham số cần thiết
+$githubAuthUrl = 'https://github.com/login/oauth/authorize?' . http_build_query([
+    'client_id'     => 'YOUR_GITHUB_CLIENT_ID',
+    'redirect_uri'  => 'http://yourdomain.com/callback.php',  // URL callback
+    'scope'         => 'user',  // Phạm vi quyền truy cập
+    'state'         => bin2hex(random_bytes(16)),  // Tham số state để chống tấn công CSRF
+]);
+
+// Lưu state vào session để kiểm tra sau
+$_SESSION['oauth2state'] = $githubAuthUrl['state'];
+
+// Chuyển hướng người dùng tới GitHub để xác thực
+header('Location: ' . $githubAuthUrl);
+exit;
+```
+
+3. Nhận mã ủy quyền
+
+```php
+session_start();
+
+// Kiểm tra tham số state
+if (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+    unset($_SESSION['oauth2state']);
+    exit('State không khớp, có thể là cuộc tấn công CSRF');
+}
+
+// Kiểm tra nếu mã ủy quyền tồn tại
+if (isset($_GET['code'])) {
+    $code = $_GET['code'];
+}
+```
+
+4. Lấy Access Token từ mã ủy quyền
+
+```php
+$tokenUrl = 'https://github.com/login/oauth/access_token';
+$body = [
+    'client_id'     => 'YOUR_GITHUB_CLIENT_ID',
+    'client_secret' => 'YOUR_GITHUB_CLIENT_SECRET',
+    'code'          => $code,  // Mã ủy quyền nhận được từ GitHub
+    'redirect_uri'  => 'http://yourdomain.com/callback.php',
+    'state'         => $_SESSION['oauth2state'],
+];
+
+// Gửi yêu cầu POST để đổi mã lấy access token
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $tokenUrl);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($body));
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json']);  // Định dạng nhận JSON
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
+$token_info = json_decode($response, true);
+```
+
+5. Lấy thông tin người dùng từ Access Token
+
+```php
+$userInfoUrl = 'https://api.github.com/user';
+
+// Sử dụng access token để yêu cầu thông tin người dùng
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $userInfoUrl);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: token ' . $accessToken,
+    'User-Agent: MyApp'  // GitHub yêu cầu User-Agent trong Header
+]);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+curl_close($ch);
+
+$user_info = json_decode($response, true);
+```
