@@ -205,3 +205,10 @@ Các bước thực hiện
 
 - Tồn tại ==> Thực hiện đăng nhập (Lưu session)
 - Không tồn tại ==> Insert user vào bảng users ==> Lưu session
+
+## Giải pháp xây dựng API đăng nhập qua mạng xã hội
+
+- Front-End gửi yêu cầu đăng nhập thông qua mạng xã hội ==> Call API từ phía client lên server
+- Server trả về URL cần chuyển hướng ==> Front-end tiến hành chuyển hướng
+- Trả về Callback URL ==> Khai báo URL ở phía Front-End
+- Gửi thông tin trả về (Query String) lên SERVER ==> Server xử lý để trả về thông tin user tương ứng với mạng xã hội ==> Tự xử lý đăng nhập và trả về cho Front-end (Trả về JWT của web hoặc lưu JWT vào cookie)
