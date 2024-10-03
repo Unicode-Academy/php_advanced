@@ -49,9 +49,27 @@ function setJobStatus($status, $id)
     // $status = $statement->execute(['status' => $status, 'id' => $id]);
 }
 
+function addJobToRetry($jobData)
+{
+    global $client;
+    $client->rPush('retry_queue', json_encode($jobData));
+}
+
+function getRetryJobFromQueue()
+{
+    global $client;
+    return $client->lPop('retry_queue');
+}
+
 
 function sendMail($to, $subject, $message)
 {
+    $count = file_get_contents('./logs/data.txt') || 0;
+    if ($count == 0) {
+        file_put_contents('./logs/data.txt', 1);
+        a();
+    }
+
     $data = "Send mail to $to with subject $subject and message $message";
     file_put_contents('./logs/sendMail.txt', $data);
 }
