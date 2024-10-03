@@ -13,6 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'message' => 'Chào mừng đến với Unicode'
         ]
     ];
-    addJobToQueue(json_encode($jobData));
+    addJobToQueue($jobData);
     echo 'Đăng ký thành công';
 }
