@@ -2,6 +2,12 @@
 require_once 'functions.php';
 echo "Queue Starting...\n";
 while (true) {
+    //Xử lý delay queue
+    $tasks = getJobListDelayed();
+    foreach ($tasks as $task) {
+        addJobToQueue(json_decode($task, true));
+        deleteJobDelayed($task);
+    }
     $job = getJobFromQueue();
     if ($job) {
         echo "Queue Processing...\n";

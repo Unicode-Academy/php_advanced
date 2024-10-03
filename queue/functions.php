@@ -4,13 +4,16 @@ require_once 'vendor/autoload.php';
 use Predis\Client;
 // require_once 'connect.php';
 $client = new Client();
-function addJobToQueue($jobData)
+function addJobToQueue($jobData, $delay = 0)
 {
     global $client;
     // global $conn;
     // $sql = "INSERT INTO jobs(job_data) VALUES (?)";
     // $statement = $conn->prepare($sql);
     // $statement->execute([$jobData]);
+    if ($delay > 0) {
+        return $client->zAdd('delayed_queue', time() + $delay, json_encode($jobData));
+    }
     $client->rPush('task_queue', json_encode($jobData));
 }
 
@@ -24,6 +27,18 @@ function getJobFromQueue()
     // $data = $statement->fetch(PDO::FETCH_ASSOC);
     // return $data;
     return $client->lPop('task_queue');
+}
+
+function getJobListDelayed()
+{
+    global $client;
+    return $client->zRangeByScore('delayed_queue', 0, time());
+}
+
+function deleteJobDelayed($task)
+{
+    global $client;
+    return $client->zRem('delayed_queue', $task);
 }
 
 function setJobStatus($status, $id)
