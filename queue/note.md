@@ -231,3 +231,15 @@ Sau khi thử lại nhiều lần mà vẫn thất bại, hệ thống có thể
 - Xây dựng cơ chế phát hiện lỗi ==> Thêm job bị lỗi vào hàng đợi retry_queue
 - Xây dựng Worker để đọc các job trong retry_queue ==> Thêm job vào delayed_queue
 - Xây dựng Worker đọc delayed_queue và thêm vào queue chính để thực thi
+
+## Triển khai hệ thống Queue trong thực tế
+
+- Khi add job vào queue, cần thể hiện job đó có những thông tin:
+
+* Tên file, tên hàm, class xử lý công việc
+* Dữ liệu mà job đó sẽ sử dụng
+
+- Khi chạy worker:
+
+* Lấy được tên file, hàm, class xử lý ==> Chạy nó
+* Truyền các dữ liệu trong job vào file, hàm, class khi thực thi

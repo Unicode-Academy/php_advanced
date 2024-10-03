@@ -1,0 +1,17 @@
+{
+  "name": "unicode/build_queue",
+  "autoload": {
+    "psr-4": {
+      "UnicodeQueue\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Hoàng An F8",
+      "email": "hoangan.web@gmail.com"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "^5.6"
+  }
+}
