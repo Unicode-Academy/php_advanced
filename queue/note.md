@@ -183,3 +183,51 @@ Trong một số hệ thống, khi một công việc gặp lỗi (như lỗi k�
 - Tạo 1 hàng đợi (delayed_queue) ==> Thêm các job vào trong hàng đợi đó kèm theo thời gian trong tương lai
 - Tạo 1 worker để đọc các job delay trong delayed_queue (Điều kiện: Thời gian hiện tại >= thời gian trong delayed_queue) ==> Thêm các job lấy được vào queue chính (task_queue)
 - Worker chính sẽ được thực hiện
+
+## Queue Retry
+
+Queue Retry là một cơ chế trong hệ thống hàng đợi (queue) giúp xử lý lại các công việc (jobs) đã thất bại trong quá trình thực thi. Khi một công việc gặp lỗi (do lỗi hệ thống, lỗi mạng, hoặc lỗi logic), thay vì bỏ qua hoặc thất bại ngay lập tức, công việc sẽ được chuyển vào retry queue và thử lại sau một khoảng thời gian nhất định.
+
+### Tác dụng
+
+1. Tăng cường độ tin cậy của hệ thống:
+
+Một công việc có thể thất bại tạm thời do nhiều lý do không liên quan trực tiếp đến công việc, chẳng hạn như mất kết nối mạng, lỗi của dịch vụ phụ trợ (API, database), v.v. Retry queue cho phép công việc được thử lại sau khi các lỗi tạm thời này có thể đã được khắc phục, giúp hệ thống hoạt động ổn định hơn.
+
+2. Giảm tải cho hệ thống khi lỗi xảy ra:
+
+Thay vì retry ngay lập tức (có thể làm hệ thống bị quá tải nếu nhiều công việc gặp lỗi cùng lúc), retry queue cho phép trì hoãn việc thử lại, giảm áp lực lên tài nguyên hệ thống. Retry có thể được thực hiện với khoảng cách thời gian khác nhau, đảm bảo hệ thống có đủ thời gian phục hồi.
+
+3. Tối ưu hóa việc xử lý công việc lỗi:
+
+Retry queue thường được sử dụng kèm với các chiến lược retry như exponential backoff (thời gian chờ giữa các lần retry tăng dần) hoặc fixed retry (cố định số lần thử lại), giúp tối ưu việc xử lý công việc lỗi và tránh việc quá nhiều retry không cần thiết.
+
+4. Cải thiện trải nghiệm người dùng:
+
+Ví dụ, khi người dùng thực hiện hành động như thanh toán hoặc gửi email mà gặp lỗi tạm thời, retry queue đảm bảo công việc sẽ được thử lại và hoàn tất sau đó, giảm thiểu sự cố gián đoạn hoặc yêu cầu người dùng thực hiện lại thao tác.
+
+### Cách hoạt động
+
+1. Thêm công việc lỗi vào retry queue:
+
+Khi một công việc thất bại trong quá trình xử lý, nó sẽ không bị bỏ qua hoàn toàn mà được thêm vào retry queue để thử lại sau.
+
+2. Retry với chiến lược cố định hoặc tăng dần:
+
+Công việc trong retry queue sẽ được thử lại theo các chiến lược khác nhau:
+Exponential Backoff: Thời gian retry sẽ tăng dần sau mỗi lần thất bại, ví dụ lần đầu retry sau 1 phút, lần tiếp theo sau 2 phút, 4 phút, v.v.
+Fixed Interval: Công việc sẽ được retry sau một khoảng thời gian cố định, ví dụ sau mỗi 5 phút.
+
+3. Số lần retry giới hạn:
+
+Hệ thống thường sẽ giới hạn số lần retry để tránh công việc bị thử lại mãi mãi. Sau khi vượt qua số lần retry tối đa, công việc có thể bị hủy bỏ hoặc được xử lý bởi một hệ thống giám sát khác.
+
+4. Thông báo khi retry thất bại:
+
+Sau khi thử lại nhiều lần mà vẫn thất bại, hệ thống có thể gửi thông báo đến người quản trị hoặc hệ thống giám sát để có hành động can thiệp thủ công.
+
+### Ý tưởng triển khai
+
+- Xây dựng cơ chế phát hiện lỗi ==> Thêm job bị lỗi vào hàng đợi retry_queue
+- Xây dựng Worker để đọc các job trong retry_queue ==> Thêm job vào delayed_queue
+- Xây dựng Worker đọc delayed_queue và thêm vào queue chính để thực thi
