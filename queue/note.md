@@ -150,3 +150,36 @@ function sendEmail($to, $message) {
 // Ví dụ xử lý hàng đợi
 processQueue();
 ```
+
+## Queue Delay
+
+Delay trong hàng đợi (queue) là quá trình trì hoãn việc xử lý một công việc (job) trong một khoảng thời gian nhất định sau khi công việc được thêm vào hàng đợi. Thay vì xử lý ngay lập tức, hệ thống sẽ đợi cho đến khi thời gian delay kết thúc rồi mới thực thi công việc.
+
+### Tác dụng
+
+1. Giãn cách xử lý công việc:
+
+Khi bạn muốn xử lý công việc vào một thời điểm sau, chẳng hạn như gửi email xác nhận sau khi người dùng đăng ký tài khoản nhưng muốn gửi sau 5 phút thay vì ngay lập tức, delay sẽ giúp thực hiện điều đó.
+
+2. Giảm tải cho hệ thống:
+
+Nếu có quá nhiều công việc cần xử lý cùng lúc, delay giúp giãn tải cho hệ thống bằng cách xử lý dần dần sau một thời gian nhất định. Điều này ngăn hệ thống bị quá tải trong thời gian cao điểm.
+
+3. Xử lý các công việc định kỳ:
+
+Delay có thể được sử dụng để thực hiện các tác vụ định kỳ hoặc lặp lại trong tương lai, ví dụ như gửi email nhắc nhở sau 7 ngày kể từ ngày đăng ký, hoặc thực hiện kiểm tra lại sau một khoảng thời gian.
+
+4. Thời gian chờ cho các hệ thống phụ trợ:
+
+Trong nhiều trường hợp, bạn có thể cần chờ các hệ thống phụ trợ (ví dụ: API của bên thứ ba, database) hoàn thành trước khi xử lý công việc. Sử dụng delay để đảm bảo rằng các tài nguyên đó đã sẵn sàng trước khi công việc được xử lý.
+
+5. Retry sau khi lỗi:
+
+Trong một số hệ thống, khi một công việc gặp lỗi (như lỗi kết nối mạng), việc retry ngay lập tức có thể không hiệu quả. Delay giúp bạn thiết lập khoảng thời gian chờ trước khi thử lại, giảm thiểu khả năng gặp lại lỗi ngay sau đó.
+
+### Ý tưởng triển khai
+
+- Xác định thời gian delay của job ==> Tính thời gian trong tương lai: time() + delay
+- Tạo 1 hàng đợi (delayed_queue) ==> Thêm các job vào trong hàng đợi đó kèm theo thời gian trong tương lai
+- Tạo 1 worker để đọc các job delay trong delayed_queue (Điều kiện: Thời gian hiện tại >= thời gian trong delayed_queue) ==> Thêm các job lấy được vào queue chính (task_queue)
+- Worker chính sẽ được thực hiện
