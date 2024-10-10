@@ -243,3 +243,16 @@ Sau khi thử lại nhiều lần mà vẫn thất bại, hệ thống có thể
 
 * Lấy được tên file, hàm, class xử lý ==> Chạy nó
 * Truyền các dữ liệu trong job vào file, hàm, class khi thực thi
+
+Phân tích luồng
+
+- Tại vị trí muốn thêm job vào queue ==> Gọi hàm dispatch và truyền vào instance của job
+- Job được tạo từ folder Jobs (Class) kế thừa từ class Queue
+
+* Thông tin dữ liệu
+* Logic xử lý
+
+- Nội dung hàm dispatch
+
+* Lấy được thông tin của job
+* Thêm job vào kho lưu trữ hàng đợi: database, redis

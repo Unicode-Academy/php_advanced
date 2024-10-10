@@ -1,2 +1,2 @@
 <?php
-//Chứa các hàm
+function dispatch($job) {}
