@@ -2,6 +2,8 @@
 
 namespace UnicodeQueue\Core;
 
+use Error;
+use UnicodeQueue\Core\Drivers\DB;
 use UnicodeQueue\Core\Drivers\Redis;
 
 class Queue
@@ -13,8 +15,15 @@ class Queue
     }
     public function addJob($name, $data = [])
     {
-        if ($this->driver == "redis") {
-            $this->addJobRedis($name, $data);
+        switch ($this->driver) {
+            case 'redis':
+                $this->addJobRedis($name, $data);
+                break;
+            case 'database':
+                $this->addJobDb($name, $data);
+                break;
+            default:
+                throw new Error('Queue driver not found');
         }
     }
 
@@ -25,5 +34,15 @@ class Queue
             'data' => $data
         ];
         Redis::rPush('task_queue', json_encode($jobData));
+    }
+
+    private function addJobDb($name, $data = [])
+    {
+        $jobData = json_encode([
+            'job' => $name,
+            'data' => $data
+        ]);
+        $sql = "INSERT INTO jobs(job_data, created_at, updated_at) VALUES (?, NOW(), NOW())";
+        DB::query($sql, [$jobData]);
     }
 }
